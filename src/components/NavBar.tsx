@@ -1,7 +1,7 @@
 import { Container, Nav, Navbar } from "react-bootstrap"
 import { LinkContainer } from "react-router-bootstrap"
 import '../App.css'
-
+ /*  className="nav-bar-xl-margin"*/ 
 const NavBar = () => {
     return(
         <Navbar data-bs-theme="dark"fixed="top" className="light-green-navbar" expand="lg">
@@ -12,12 +12,12 @@ const NavBar = () => {
                 </LinkContainer>
               </Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="nav-bar-xl-margin">
-                  <LinkContainer to="/observations">
+              <Navbar.Collapse id="basic-navbar-nav" className="navbar-right-align">
+                <Nav>
+                  <LinkContainer to="/observations" className="nav-bar-link">
                     <Nav.Link>Observations</Nav.Link>
                   </LinkContainer>
-                  <LinkContainer to="/map">
+                  <LinkContainer to="/map" className="nav-bar-link">
                     <Nav.Link>Map</Nav.Link>
                   </LinkContainer>
                 </Nav>

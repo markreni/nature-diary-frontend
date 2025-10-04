@@ -1,11 +1,12 @@
 .light-green-navbar {
   background-color: #90ee90 !important; /* Light green */
+  height: 50px;
 }
 
 .nav-bar-logo {
   font-family: "Fascinate Inline", system-ui;
   font-weight: 5px;
-  font-size: 25px;
+  font-size: 27px;
   font-style: normal;
 }
 
@@ -19,15 +20,38 @@
   align-items: center;
 }
 
+.navbar-right-align {
+    justify-content: flex-end !important;
+    background-color: #90ee90 !important;
+    border-radius: 0px 0px 15px 15px;
+}
+
 @media (max-width: 991.98px) { /* Bootstrap's lg breakpoint */
   .nav-bar-add-link {
+    margin-left: 0px;
     display: block;
-    padding: 16px;
     border-radius: 0 0 16px 16px;
+    color: #7c2a6e !important;
+    font-weight: 600;
+  }
+  .light-green-navbar {
+    background-color: #90ee90 !important; /* Light green */
+    height: 70px;
+  }
+  .nav-bar-link {
+    color: #6fc96c !important;
+    font-weight: 600;
+    margin-left: 24px;
+  }
+  .nav-bar-link:hover {
+    color: #52ad66 !important;
+    box-shadow: 0 4px 16px rgba(144, 238, 144, 0.25);
+    text-decoration: none;
+
   }
 }
 
-.nav-bar-custom-link .nav-link {
+.nav-bar-add-link .nav-link {
   background-color: #90ee90;
   color: #2a7c3e !important;
   border-radius: 10px;
@@ -39,8 +63,8 @@
   margin-left: 0;
 }
 
-.nav-bar-custom-link .nav-link:hover,
-.nav-bar-custom-link .nav-link:focus {
+.nav-bar-add-link .nav-link:hover,
+.nav-bar-add-link .nav-link:focus {
   color: #053b12 !important;
   box-shadow: 0 4px 16px rgba(144, 238, 144, 0.25);
   text-decoration: none;
@@ -49,7 +73,7 @@
 }
 
 .routes-margin {
-  margin-top: 60px;
+  margin-top: 70px;
   margin-bottom: 32px;
   padding-left: 16px;
   padding-right: 16px;
