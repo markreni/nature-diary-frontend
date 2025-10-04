@@ -1,7 +1,6 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Row, Col } from 'react-bootstrap';
-import GreenButton from '../styleVariants';
 
 const AdditionForm = () => {
   return (
@@ -18,7 +17,9 @@ const AdditionForm = () => {
         </Row>
         <Row>
             <Col> 
-                <GreenButton text="Submit"/>    
+               <Button>    
+                Submit
+                </Button>
             </Col>
         </Row>
         

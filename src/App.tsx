@@ -24,7 +24,7 @@ const App = () => {
       <div>
         <NavBar />
 
-          <div>
+          <div className="routes-margin">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/observations" element={<Observations observations={observations}/>} />

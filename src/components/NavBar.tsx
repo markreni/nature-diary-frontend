@@ -1,21 +1,27 @@
 import { Container, Nav, Navbar } from "react-bootstrap"
 import { LinkContainer } from "react-router-bootstrap"
+import '../App.css'
 
 const NavBar = () => {
     return(
-        <Navbar data-bs-theme="dark"fixed="top" className="bg-body-tertiary mb-3" expand="lg">
+        <Navbar data-bs-theme="dark"fixed="top" className="light-green-navbar" expand="lg">
             <Container>
-              <Navbar.Brand>
+              <Navbar.Brand className="nav-bar-logo">  
                 <LinkContainer to="/">
                   <Nav.Link>NatureDiary</Nav.Link>
                 </LinkContainer>
               </Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="me-auto">
+                <Nav className="nav-bar-xl-margin">
                   <LinkContainer to="/observations">
                     <Nav.Link>Observations</Nav.Link>
                   </LinkContainer>
+                  <LinkContainer to="/map">
+                    <Nav.Link>Map</Nav.Link>
+                  </LinkContainer>
+                </Nav>
+                <Nav className="nav-bar-add-link">
                   <LinkContainer to="/add">
                     <Nav.Link>Add observation</Nav.Link>
                   </LinkContainer>
