@@ -1,0 +1,30 @@
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import { Row, Col } from 'react-bootstrap';
+import GreenButton from '../styleVariants';
+
+const AdditionForm = () => {
+  return (
+    <div>
+      <h2>Add new observation</h2>
+      <Form>
+        <Row>
+            <Col> 
+                <Form.Group>
+                    <Form.Label>Add common name</Form.Label>
+                    <Form.Control type="text" name="species" />
+                </Form.Group>
+            </Col>
+        </Row>
+        <Row>
+            <Col> 
+                <GreenButton text="Submit"/>    
+            </Col>
+        </Row>
+        
+    </Form>
+    </div>
+  )
+}
+
+export default AdditionForm
