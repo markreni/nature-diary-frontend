@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import Home from './pages/Home.tsx'
+import { getObservations, createObservation } from './services/requests.ts'
 import AdditionForm from './pages/AdditionForm.tsx'
 import QuestionForm from './pages/QuestionForm.tsx'
 import Observations from './pages/Observations.tsx'
 import NavBar from './components/NavBar.tsx'
-import observation_data from './observations.js'
 import ThemeProvider from 'react-bootstrap/ThemeProvider'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   Routes,
   Route,
@@ -15,10 +16,44 @@ import {
   //useNavigate,
   //useMatch
 } from "react-router-dom"
+//import type { ObservationType } from './types/types.ts'
 
 
 const App = () => {
-  const [observations, setObservations] = useState(observation_data)
+  //const [observations, setObservations] = useState(observation_data)
+  const queryClient = useQueryClient()
+
+  /*
+  const newObservationMutation = useMutation({
+    mutationFn: createObservation,
+    onSuccess: (newObservation) => {
+      const observations: ObservationType[] = queryClient.getQueryData('observations')!
+      queryClient.setQueryData('observations', observations.concat(newObservation))
+  
+    },
+    onError: () => {
+    
+    },
+    onSettled: () => {
+   
+    }
+  })
+    
+
+   const addObservation = async (content: ObservationType) => {
+    newObservationMutation.mutate(content)
+  }
+    */
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['observations'],
+    queryFn: getObservations
+  })
+
+  if (isLoading) return <div>Loading...</div>
+  if(error) return <div>anecdote service not available due to problems in server</div>
+  
+  const observations = data!
 
   return (
     <ThemeProvider>  
