@@ -11,7 +11,7 @@
 }
 
 .nav-bar-xl-margin {
-  margin-left: 150px; /* or any value you want */
+  margin-left: 150px;
 }
 
 .nav-bar-add-link {
@@ -35,7 +35,7 @@
     font-weight: 600;
   }
   .light-green-navbar {
-    background-color: #90ee90 !important; /* Light green */
+    background-color: #90ee90 !important;
     height: 70px;
   }
   .nav-bar-link {

@@ -1,7 +1,7 @@
 import { Container, Nav, Navbar } from "react-bootstrap"
 import { LinkContainer } from "react-router-bootstrap"
-import '../App.css'
- /*  className="nav-bar-xl-margin"*/ 
+import '../assets/styles/global.css'
+
 const NavBar = () => {
     return(
         <Navbar data-bs-theme="dark"fixed="top" className="light-green-navbar" expand="lg">

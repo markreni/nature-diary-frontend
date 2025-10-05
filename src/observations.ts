@@ -1,4 +1,4 @@
-import type { Observation } from './types'
+import type { Observation } from './types/types'
 
 const observations: Observation[] = [
   {
@@ -11,6 +11,14 @@ const observations: Observation[] = [
   },
   {
     id: 3,
+    common_name: 'Elephant'
+  },
+  {
+    id: 4,
+    common_name: 'Elephant'
+  },
+  {
+    id: 5,
     common_name: 'Elephant'
   },
 ]
