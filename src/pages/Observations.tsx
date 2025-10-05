@@ -1,22 +1,14 @@
-import { Card, Col, Row } from 'react-bootstrap';
-import type { Observation } from '../types/types';
+import { Col, Row } from 'react-bootstrap';
+import type { Observation_type } from '../types/types';
+import Observation from '../components/Observation';
 
-type ObservationsProps = {
-    observations: Observation[];
-};
-
-const Observations = ({ observations }: ObservationsProps) => {
+const Observations = ({ observations }: { observations: Observation_type[] }) => {
     return(
         <div>
-            <Row xs={1} sm={2} md={3} lg={4} className="g-4">
+            <Row xs={1} sm={2} md={3} lg={4} className="g-3">
                 {observations.map(obs => (
                     <Col key={obs.id}>
-                        <Card>
-                            <Card.Body>
-                                <Card.Title>{obs.common_name}</Card.Title>
-                                {/* Add more fields as needed */}
-                            </Card.Body>
-                        </Card>
+                        <Observation obs={obs} />
                     </Col>
                 ))}
             </Row>

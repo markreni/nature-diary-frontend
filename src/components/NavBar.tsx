@@ -22,7 +22,7 @@ const NavBar = () => {
                   </LinkContainer>
                 </Nav>
                 <Nav className="nav-bar-add-link">
-                  <LinkContainer to="/add">
+                  <LinkContainer to="/questions">
                     <Nav.Link>Add observation</Nav.Link>
                   </LinkContainer>
                 </Nav>

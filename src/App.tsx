@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Home from './pages/Home.tsx'
 import AdditionForm from './pages/AdditionForm.tsx'
+import QuestionForm from './pages/QuestionForm.tsx'
 import Observations from './pages/Observations.tsx'
 import NavBar from './components/NavBar.tsx'
 import observation_data from './observations.js'
@@ -28,6 +29,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/observations" element={<Observations observations={observations}/>} />
+              <Route path="/questions" element={<QuestionForm />}  />
               <Route path="/add" element={<AdditionForm />}  />
             </Routes>
           </div>

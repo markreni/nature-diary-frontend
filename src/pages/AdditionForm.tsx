@@ -5,7 +5,7 @@ import { Row, Col } from 'react-bootstrap';
 const AdditionForm = () => {
   return (
     <div>
-      <h2>Add new observation</h2>
+      <h2>Add observation</h2>
       <Form>
         <Row>
             <Col> 
