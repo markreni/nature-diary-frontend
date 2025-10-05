@@ -1,11 +1,11 @@
-type Observation_type = {
+type ObservationType = {
     id: number;
     scientific_name: string;
     common_name: string;
     description: string;
     date: string;
     location: string;
-    image_url?: string;
+    image?: string;
 };
 
-export type { Observation_type };
+export type { ObservationType };

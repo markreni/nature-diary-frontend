@@ -1,6 +1,6 @@
-import type { Observation } from './types/types'
+import type { ObservationType } from './types/types'
 
-const observations: Observation[] = [
+const observations: ObservationType[] = [
   {
     id: 1,
     common_name: 'Cat',

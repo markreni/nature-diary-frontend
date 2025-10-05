@@ -1,8 +1,8 @@
 import { Card } from "react-bootstrap";
-import type { Observation_type } from '../types/types';
+import type { ObservationType } from '../types/types';
 import '../assets/styles/global.css'
 
-const Observation = ({ obs }: { obs: Observation_type }) => {
+const Observation = ({ obs }: { obs: ObservationType }) => {
     return(
         <div>
             <Card className="observation-card shadow-sm border-0">
