@@ -16,19 +16,19 @@ import {
   //useNavigate,
   //useMatch
 } from "react-router-dom"
-//import type { ObservationType } from './types/types.ts'
+import type { ObservationType } from './types/types.ts'
 
 
 const App = () => {
   //const [observations, setObservations] = useState(observation_data)
   const queryClient = useQueryClient()
 
-  /*
-  const newObservationMutation = useMutation({
+  const newObservationMutation = useMutation<ObservationType, Error, ObservationType>({
     mutationFn: createObservation,
     onSuccess: (newObservation) => {
-      const observations: ObservationType[] = queryClient.getQueryData('observations')!
-      queryClient.setQueryData('observations', observations.concat(newObservation))
+      const observations: ObservationType[] = queryClient.getQueryData(['observations'])!
+      
+      queryClient.setQueryData(['observations'], observations.concat(newObservation))
   
     },
     onError: () => {
@@ -39,11 +39,9 @@ const App = () => {
     }
   })
     
-
-   const addObservation = async (content: ObservationType) => {
-    newObservationMutation.mutate(content)
+   const addObservation = async (observation: ObservationType) => {
+    newObservationMutation.mutate(observation)
   }
-    */
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['observations'],
@@ -63,9 +61,9 @@ const App = () => {
           <div className="routes-margin">
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/observations" element={<Observations observations={observations}/>} />
+              <Route path="/observations" element={<Observations observations={observations} />} />
               <Route path="/questions" element={<QuestionForm />}  />
-              <Route path="/add" element={<AdditionForm />}  />
+              <Route path="/add" element={<AdditionForm addObservation={addObservation} />}  />
             </Routes>
           </div>
       </div>
