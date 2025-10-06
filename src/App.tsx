@@ -27,7 +27,7 @@ const App = () => {
     mutationFn: createObservation,
     onSuccess: (newObservation) => {
       const observations: ObservationType[] = queryClient.getQueryData(['observations'])!
-      
+
       queryClient.setQueryData(['observations'], observations.concat(newObservation))
   
     },
@@ -45,7 +45,8 @@ const App = () => {
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['observations'],
-    queryFn: getObservations
+    queryFn: getObservations,
+    refetchOnWindowFocus: false
   })
 
   if (isLoading) return <div>Loading...</div>
@@ -55,18 +56,17 @@ const App = () => {
 
   return (
     <ThemeProvider>  
-      <div>
-        <NavBar />
-
-          <div className="routes-margin">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/observations" element={<Observations observations={observations} />} />
-              <Route path="/questions" element={<QuestionForm />}  />
-              <Route path="/add" element={<AdditionForm addObservation={addObservation} />}  />
-            </Routes>
-          </div>
-      </div>
+        <div>
+          <NavBar />
+            <div className="routes-margin">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/observations" element={<Observations observations={observations} />} />
+                <Route path="/questions" element={<QuestionForm />}  />
+                <Route path="/add" element={<AdditionForm addObservation={addObservation} />}  />
+              </Routes>
+            </div>
+        </div>
      </ThemeProvider>
   )
 }

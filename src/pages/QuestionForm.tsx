@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Row, Col, ToggleButton, ButtonGroup } from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom'
+import {useQuestionDispatch} from '../FormContext.tsx'
 
 const questions = [
   "Is the observation domestic?",
@@ -13,6 +14,7 @@ const questions = [
 const QuestionForm = () => {
   const [answers, setAnswers] = useState<(boolean)[]>([true, true, true]);
   const navigate = useNavigate()
+  const dispatch = useQuestionDispatch()
 
   const handleToggle = (index: number, value: boolean) => {
     const updated: boolean[] = [...answers];
@@ -22,6 +24,14 @@ const QuestionForm = () => {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+
+    dispatch({
+      payload: {
+        'domestic': answers[0],
+        'public': answers[1],
+        'identification': answers[2]  
+    }})
+
     navigate('/add')
   }
 

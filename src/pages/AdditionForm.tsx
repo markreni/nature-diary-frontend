@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Form, Button, Card, Alert, Row, Col } from 'react-bootstrap';
+import { Form, Button, Card, Row, Col } from 'react-bootstrap';
 import type { ObservationType } from '../types/types';
 import { useNavigate } from 'react-router-dom';
+import {useQuestionValues, type QuestionState} from '../FormContext.tsx'
 
 interface AdditionFormProps {
   addObservation: (content: ObservationType) => Promise<void>;
@@ -20,22 +21,19 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
 
   const [validated, setValidated] = useState(false);
   const navigate = useNavigate()
+  const questionAnswers: QuestionState = useQuestionValues()
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
     
     if (form.checkValidity() === false) {
-      event.stopPropagation();
-      setValidated(true);
+      event.stopPropagation()
+      setValidated(true)
     } else {
       // Form is valid - handle submission
-      //console.log('Observation data:', observation);
-      //  Send data to backend here
-      addObservation(observation);
+      addObservation(observation)
 
-      //alert('Observation submitted successfully!');
-      
       // Reset form
       setObservation({
         id: 0,
@@ -47,7 +45,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
         image: ''
       });
 
-      setValidated(false);
+      setValidated(false)
 
       navigate('/')
     }
@@ -65,9 +63,10 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
     <Card className="p-4">
       <Card.Body>
         <Card.Title className="mb-4">Add New Observation</Card.Title>
-        
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
-          <Row>
+
+          {!questionAnswers.identification &&
+            <Row>
             <Col md={6}>
               <Form.Group className="mb-3">
                 <Form.Label>Scientific Name *</Form.Label>
@@ -100,6 +99,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
               </Form.Group>
             </Col>
           </Row>
+          }
 
           <Form.Group className="mb-3">
             <Form.Label>Description *</Form.Label>
@@ -132,6 +132,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
               </Form.Group>
             </Col>
             
+            {!questionAnswers.domestic &&
             <Col md={6}>
               <Form.Group className="mb-3">
                 <Form.Label>Location *</Form.Label>
@@ -147,6 +148,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
+    }
           </Row>
 
           <Form.Group className="mb-4">
