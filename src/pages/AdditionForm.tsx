@@ -16,7 +16,8 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
     description: '',
     date: '',
     location: '',
-    image: ''
+    image: '',
+    identified: false
   });
 
   const [validated, setValidated] = useState(false);
@@ -32,7 +33,8 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
       setValidated(true)
     } else {
       // Form is valid - handle submission
-      addObservation(observation)
+      const observationToSubmit = {...observation, identified: questionAnswers.identification? false : true}
+      addObservation(observationToSubmit)
 
       // Reset form
       setObservation({
@@ -42,7 +44,8 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
         description: '',
         date: '',
         location: '',
-        image: ''
+        image: '',
+        identified: false
       });
 
       setValidated(false)

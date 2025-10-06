@@ -6,6 +6,7 @@ type ObservationType = {
     date: string;
     location: string;
     image?: string;
+    identified: boolean;
 };
 
 export type { ObservationType };

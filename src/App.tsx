@@ -4,6 +4,7 @@ import { getObservations, createObservation } from './services/requests.ts'
 import AdditionForm from './pages/AdditionForm.tsx'
 import QuestionForm from './pages/QuestionForm.tsx'
 import Observations from './pages/Observations.tsx'
+import Unidentified from './pages/Unidentified.tsx'
 import NavBar from './components/NavBar.tsx'
 import ThemeProvider from 'react-bootstrap/ThemeProvider'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
@@ -17,6 +18,7 @@ import {
   //useMatch
 } from "react-router-dom"
 import type { ObservationType } from './types/types.ts'
+
 
 
 const App = () => {
@@ -39,7 +41,7 @@ const App = () => {
     }
   })
     
-   const addObservation = async (observation: ObservationType) => {
+  const addObservation = async (observation: ObservationType) => {
     newObservationMutation.mutate(observation)
   }
 
@@ -50,9 +52,10 @@ const App = () => {
   })
 
   if (isLoading) return <div>Loading...</div>
-  if(error) return <div>anecdote service not available due to problems in server</div>
+  if(error) return <div>nature diary is not available due to problems in server</div>
   
-  const observations = data!
+  const identified = data!.filter(obs => obs.identified === true)
+  const unidentified = data!.filter(obs => obs.identified === false)
 
   return (
     <ThemeProvider>  
@@ -61,7 +64,9 @@ const App = () => {
             <div className="routes-margin">
               <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/observations" element={<Observations observations={observations} />} />
+                <Route path="/observations" element={<Observations observations={identified} />} />
+                <Route path="/unidentified" element={<Unidentified observations={unidentified} />} />
+                <Route path="/map" element={<div></div>} />
                 <Route path="/questions" element={<QuestionForm />}  />
                 <Route path="/add" element={<AdditionForm addObservation={addObservation} />}  />
               </Routes>

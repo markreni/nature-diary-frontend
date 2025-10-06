@@ -20,6 +20,9 @@ const NavBar = () => {
                   <LinkContainer to="/map" className="nav-bar-link">
                     <Nav.Link>Map</Nav.Link>
                   </LinkContainer>
+                  <LinkContainer to="/unidentified" className="nav-bar-link">
+                    <Nav.Link>Unidentified</Nav.Link>
+                  </LinkContainer>
                 </Nav>
                 <Nav className="nav-bar-add-link">
                   <LinkContainer to="/questions">
