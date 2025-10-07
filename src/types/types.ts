@@ -1,4 +1,5 @@
-type CategoryType = 'Fauna' | 'Flora' | 'Funga';
+type CategoryType = 'fauna' | 'flora' | 'funga';
+type DiscoveryType = 'domestic' | 'wildlife';
 
 type ObservationType = {
     id: number;
@@ -10,6 +11,7 @@ type ObservationType = {
     image?: string;
     identified: boolean;
     category: CategoryType;
+    discovery: DiscoveryType
 };
 
-export type { ObservationType, CategoryType };
+export type { ObservationType, CategoryType, DiscoveryType };

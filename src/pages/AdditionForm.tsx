@@ -18,7 +18,8 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
     location: '',
     image: '',
     identified: false,
-    category: 'Fauna'
+    category: 'fauna',
+    discovery: 'domestic'
   });
 
   const [validated, setValidated] = useState(false);
@@ -47,7 +48,8 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
         location: '',
         image: '',
         identified: false,
-        category: 'Fauna'
+        category: 'fauna',
+        discovery: 'domestic'
       });
 
       setValidated(false)
@@ -78,9 +80,9 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
                     onChange={(e) => handleInputChange('category', e.target.value)}
                     required
                     >
-                    <option value="Fauna">Fauna</option>
-                    <option value="Flora">Flora</option>
-                    <option value="Funga">Funga</option>
+                    <option value="fauna">Fauna</option>
+                    <option value="flora">Flora</option>
+                    <option value="funga">Funga</option>
                 </Form.Select>
                 <Form.Control.Feedback type="invalid">  
                   Please select a category.
@@ -200,7 +202,8 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
                   location: '',
                   image: '',
                   identified: false,
-                  category: 'Fauna'
+                  category: 'fauna',
+                  discovery: 'domestic'
                 });
                 setValidated(false);
               }}

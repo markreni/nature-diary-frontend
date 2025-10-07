@@ -19,7 +19,7 @@ const Observation = ({ obs }: { obs: ObservationType }) => {
                             {obs.date}
                         </span>
                         <span className="badge bg-light text-secondary px-3 py-2">
-                            {obs.location}
+                            {obs.discovery}
                         </span>
                     </div>
                 </Card.Body>
