@@ -3,6 +3,7 @@ import { Form, Button, Card, Row, Col } from 'react-bootstrap';
 import type { ObservationType, DiscoveryType} from '../types/types';
 import { useNavigate } from 'react-router-dom';
 import {useQuestionValues, type QuestionState} from '../FormContext.tsx'
+import helperFunctions from '../utils/helperFunctions.ts'
 
 interface AdditionFormProps {
   addObservation: (content: ObservationType) => Promise<void>;
@@ -14,7 +15,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
     scientific_name: '',
     common_name: '',
     description: '',
-    date: '',
+    date: helperFunctions.getTodayDate(),
     location: '',
     image: '',
     public: false,
@@ -41,6 +42,8 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
         public: questionAnswers.public? true : false, 
         discovery: questionAnswers.domestic? 'domestic' : 'wildlife' as DiscoveryType
       }
+
+      console.log('Prepared observation for submission:', observationToSubmit);
       
       addObservation(observationToSubmit)
 

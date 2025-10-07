@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import Home from './pages/Home.tsx'
 import { getObservations, createObservation } from './services/requests.ts'
 import AdditionForm from './pages/AdditionForm.tsx'
@@ -22,23 +21,22 @@ import type { ObservationType } from './types/types.ts'
 
 
 const App = () => {
-  //const [observations, setObservations] = useState(observation_data)
   const queryClient = useQueryClient()
 
   const newObservationMutation = useMutation<ObservationType, Error, ObservationType>({
     mutationFn: createObservation,
     onSuccess: (newObservation) => {
-      //console.log('Submitting observation:', newObservation);
+      console.log('Submitting observation:', newObservation);
       const observations: ObservationType[] = queryClient.getQueryData(['observations'])!
 
       queryClient.setQueryData(['observations'], observations.concat(newObservation))
   
     },
     onError: () => {
-    
+      
     },
     onSettled: () => {
-   
+      
     }
   })
     

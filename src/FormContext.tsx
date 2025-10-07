@@ -29,7 +29,7 @@ interface FormProviderProps {
 }
 
 const questionReducer = (state: QuestionState, action: QuestionAction ): QuestionState => {
-  return action.payload
+  return {...state, ...action.payload}
 }
 
 export const FormContextProvider: React.FC<FormProviderProps> = (props) => {
