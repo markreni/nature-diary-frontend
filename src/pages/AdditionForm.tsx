@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Button, Card, Row, Col } from 'react-bootstrap';
+import { Form, Button, Card, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import type { ObservationType, DiscoveryType} from '../types/types';
 import { useNavigate } from 'react-router-dom';
 import {useQuestionValues, type QuestionState} from '../FormContext.tsx'
@@ -84,9 +84,43 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
       <Card.Body>
         <Card.Title className="mb-3">Add Observation</Card.Title>
         <Row className="mb-5 g-1"> 
-          {questionAnswers.domestic ? <Col xs="auto" className="pe-2"> <IoIosAddCircle /> domestic </Col> : <Col xs="auto" className="pe-2"> <IoIosAddCircle /> wildlife </Col>}
-          {questionAnswers.public ? <Col xs="auto" className="pe-3"> <IoIosAddCircle /> public </Col> : <Col xs="auto" className="pe-3"> <IoIosAddCircle /> private </Col>}
-          {questionAnswers.identification ? <Col xs="auto" className="pe-2"> <FiAlertCircle /> </Col> : <Col xs="auto" className="pe-2">  </Col>}
+          {questionAnswers.domestic ? 
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>This is a domestic observation</Tooltip>}
+            >
+              <Col xs="auto" className="pe-2"> <IoIosAddCircle /> domestic </Col>
+            </OverlayTrigger> : 
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>This is a wildlife observation</Tooltip>}
+            >
+              <Col xs="auto" className="pe-2"> <IoIosAddCircle /> wildlife </Col>
+            </OverlayTrigger>
+          }
+          {questionAnswers.public ? 
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>This is a public observation</Tooltip>}
+            >
+              <Col xs="auto" className="pe-3"> <IoIosAddCircle /> public </Col> 
+            </OverlayTrigger> : 
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>This is a private observation</Tooltip>}
+            >
+              <Col xs="auto" className="pe-3"> <IoIosAddCircle /> private </Col>
+            </OverlayTrigger>
+            }
+          {questionAnswers.identification ? 
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip>Identification help requested</Tooltip>}
+            >
+              <Col xs="auto" className="pe-2"> <FiAlertCircle /> </Col> 
+            </OverlayTrigger> : 
+            <Col xs="auto" className="pe-2">  </Col>
+          }
         </Row>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Row>
@@ -159,7 +193,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
           }
 
           <Form.Group className="mb-3">
-            <Form.Label>Description *</Form.Label>
+            <Form.Label>Description (Optional)</Form.Label>
             <Form.Control
               as="textarea"
               rows={3}
@@ -180,7 +214,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
                 <Form.Label>Location *</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter location"
+                  placeholder="Enter coordinates"
                   value={observation.location}
                   onChange={(e) => handleInputChange('location', e.target.value)}
                   required
@@ -194,7 +228,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
           </Row>
 
           <Form.Group className="mb-4">
-            <Form.Label>Image URL (Optional)</Form.Label>
+            <Form.Label>Image URL *</Form.Label>
             <Form.Control
               type="url"
               placeholder="https://example.com/image.jpg"
