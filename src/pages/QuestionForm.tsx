@@ -37,7 +37,7 @@ const QuestionForm = () => {
 
   return (
     <div>
-      <h2>Add observation</h2>
+      <h2 className="mb-4">Add observation</h2>
       <Form onSubmit={onSubmit}>
         {questions.map((question, index) => (
           <Form.Group as={Row} className="mb-4" key={index}>
@@ -70,7 +70,7 @@ const QuestionForm = () => {
             </Col>
           </Form.Group>
         ))}
-        <Button type="submit">Submit</Button>
+        <Button className="mt-4" type="submit">Submit</Button>
       </Form>
     </div>
   );

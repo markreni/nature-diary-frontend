@@ -4,7 +4,7 @@ import '../assets/styles/global.css'
 
 const NavBar = () => {
     return(
-        <Navbar data-bs-theme="dark"fixed="top" className="light-green-navbar" expand="lg">
+        <Navbar data-bs-theme="dark" fixed="top" className="light-green-navbar" expand="lg">
             <Container>
               <Navbar.Brand className="nav-bar-logo">  
                 <LinkContainer to="/">
