@@ -12,7 +12,7 @@ const Observation = ({ obs }: { obs: ObservationType }) => {
                         {obs.scientific_name}
                     </Card.Text>
                     <Card.Text>
-                        {obs.description}
+                        {obs.category}
                     </Card.Text>
                     <div className="d-flex justify-content-between align-items-center mt-3">
                         <span className="badge bg-success bg-opacity-25 text-success px-3 py-2">

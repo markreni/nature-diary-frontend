@@ -17,7 +17,8 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
     date: '',
     location: '',
     image: '',
-    identified: false
+    identified: false,
+    category: 'Fauna'
   });
 
   const [validated, setValidated] = useState(false);
@@ -45,7 +46,8 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
         date: '',
         location: '',
         image: '',
-        identified: false
+        identified: false,
+        category: 'Fauna'
       });
 
       setValidated(false)
@@ -67,7 +69,39 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
       <Card.Body>
         <Card.Title className="mb-4">Add New Observation</Card.Title>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
-
+          <Row>
+            <Col md={6}>
+              <Form.Group className="mb-3">
+                <Form.Label>Category of Observation *</Form.Label>
+                  <Form.Select
+                    value={observation.category}
+                    onChange={(e) => handleInputChange('category', e.target.value)}
+                    required
+                    >
+                    <option value="Fauna">Fauna</option>
+                    <option value="Flora">Flora</option>
+                    <option value="Funga">Funga</option>
+                </Form.Select>
+                <Form.Control.Feedback type="invalid">  
+                  Please select a category.
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Col>   
+            <Col md={6}>
+              <Form.Group className="mb-3">
+                <Form.Label>Date of Observation *</Form.Label>
+                <Form.Control
+                  type="date"
+                  value={observation.date}
+                  onChange={(e) => handleInputChange('date', e.target.value)}
+                  required
+                />
+                <Form.Control.Feedback type="invalid">
+                  Please select a date.
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Col> 
+          </Row>
           {!questionAnswers.identification &&
             <Row>
             <Col md={6}>
@@ -120,21 +154,6 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
           </Form.Group>
 
           <Row>
-            <Col md={6}>
-              <Form.Group className="mb-3">
-                <Form.Label>Date of Observation *</Form.Label>
-                <Form.Control
-                  type="date"
-                  value={observation.date}
-                  onChange={(e) => handleInputChange('date', e.target.value)}
-                  required
-                />
-                <Form.Control.Feedback type="invalid">
-                  Please select a date.
-                </Form.Control.Feedback>
-              </Form.Group>
-            </Col>
-            
             {!questionAnswers.domestic &&
             <Col md={6}>
               <Form.Group className="mb-3">
@@ -151,7 +170,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
-    }
+          }
           </Row>
 
           <Form.Group className="mb-4">
@@ -179,7 +198,9 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
                   description: '',
                   date: '',
                   location: '',
-                  image: ''
+                  image: '',
+                  identified: false,
+                  category: 'Fauna'
                 });
                 setValidated(false);
               }}
