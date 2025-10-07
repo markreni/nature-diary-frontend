@@ -9,6 +9,7 @@ const observations: ObservationType[] = [
     date: '2025-10-05',
     location: 'Home',
     image: 'https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=400&q=80',
+    public: true,
     identified: false,
     category: 'fauna',
     discovery: 'wildlife'
@@ -21,6 +22,7 @@ const observations: ObservationType[] = [
     date: '2025-10-04',
     location: 'Park',
     image: 'https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=400&q=80',
+    public: true,
     identified: true,
     category: 'fauna',
     discovery: 'domestic'
@@ -33,6 +35,7 @@ const observations: ObservationType[] = [
     date: '2025-10-03',
     location: 'Safari',
     image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
+    public: true,
     identified: true,
     category: 'fauna',
     discovery: 'wildlife'
@@ -45,6 +48,7 @@ const observations: ObservationType[] = [
     date: '2025-10-02',
     location: 'Zoo',
     image: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80',
+    public: true,
     identified: false,
     category: 'fauna',
     discovery: 'wildlife'
@@ -57,6 +61,7 @@ const observations: ObservationType[] = [
     date: '2025-10-01',
     location: 'Forest',
     image: 'https://images.unsplash.com/photo-1468421870903-4df1664ac249?auto=format&fit=crop&w=400&q=80',
+    public: true,
     identified: true,
     category: 'flora',
     discovery: 'wildlife'
@@ -69,6 +74,7 @@ const observations: ObservationType[] = [
     date: '2025-10-03',
     location: 'Safari',
     image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
+    public: true,
     identified: true,
     category: 'fauna',
     discovery: 'wildlife'
@@ -81,6 +87,7 @@ const observations: ObservationType[] = [
     date: '2025-10-03',
     location: 'Safari',
     image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
+    public: true,
     identified: true,
     category: 'fauna',
     discovery: 'domestic'

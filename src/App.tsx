@@ -28,6 +28,7 @@ const App = () => {
   const newObservationMutation = useMutation<ObservationType, Error, ObservationType>({
     mutationFn: createObservation,
     onSuccess: (newObservation) => {
+      //console.log('Submitting observation:', newObservation);
       const observations: ObservationType[] = queryClient.getQueryData(['observations'])!
 
       queryClient.setQueryData(['observations'], observations.concat(newObservation))
@@ -54,7 +55,11 @@ const App = () => {
   if (isLoading) return <div>Loading...</div>
   if(error) return <div>nature diary is not available due to problems in server</div>
   
-  const identified = data!.filter(obs => obs.identified === true)
+  // filter identified and unidentified observations
+  // identified observations are also filtered by public=true because only those are shown in the public catalogue
+  // all unidentified observations are shown in the unidentified page
+  // after identification the observation should be moved to public catalogue if public=true
+  const identified = data!.filter(obs => obs.identified === true && obs.public === true)
   const unidentified = data!.filter(obs => obs.identified === false)
 
   return (

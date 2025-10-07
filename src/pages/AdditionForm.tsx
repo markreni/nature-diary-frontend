@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Card, Row, Col } from 'react-bootstrap';
-import type { ObservationType } from '../types/types';
+import type { ObservationType, DiscoveryType} from '../types/types';
 import { useNavigate } from 'react-router-dom';
 import {useQuestionValues, type QuestionState} from '../FormContext.tsx'
 
@@ -17,6 +17,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
     date: '',
     location: '',
     image: '',
+    public: false,
     identified: false,
     category: 'fauna',
     discovery: 'domestic'
@@ -35,7 +36,12 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
       setValidated(true)
     } else {
       // Form is valid - handle submission
-      const observationToSubmit = {...observation, identified: questionAnswers.identification? false : true}
+      const observationToSubmit = {...observation, 
+        identified: questionAnswers.identification? false : true, 
+        public: questionAnswers.public? true : false, 
+        discovery: questionAnswers.domestic? 'domestic' : 'wildlife' as DiscoveryType
+      }
+      
       addObservation(observationToSubmit)
 
       // Reset form
@@ -47,6 +53,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
         date: '',
         location: '',
         image: '',
+        public: false,
         identified: false,
         category: 'fauna',
         discovery: 'domestic'
@@ -201,6 +208,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
                   date: '',
                   location: '',
                   image: '',
+                  public: false,
                   identified: false,
                   category: 'fauna',
                   discovery: 'domestic'

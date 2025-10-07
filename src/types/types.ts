@@ -9,6 +9,7 @@ type ObservationType = {
     date: string;
     location: string;
     image?: string;
+    public: boolean;
     identified: boolean;
     category: CategoryType;
     discovery: DiscoveryType

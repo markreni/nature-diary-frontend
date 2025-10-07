@@ -12,7 +12,7 @@ import type { ObservationType } from '../types/types.ts'
         console.log('This can be cancelled');
     }, 1000);
   
-    return newObservation
+    return {...newObservation, id: Math.floor(Math.random() * 10000)}
   }
 
   export { getObservations, createObservation }
