@@ -2,7 +2,8 @@ import { Card } from "react-bootstrap";
 import type { ObservationType } from '../types/types';
 import '../assets/styles/global.css'
 
-const Observation = ({ obs }: { obs: ObservationType }) => {
+const Observation = ({ obs, singlePage }: { obs: ObservationType, singlePage: boolean }) => {
+    if (!singlePage) {
     return(
         <div>
             <Card className="observation-card shadow-sm border-0">
@@ -25,6 +26,30 @@ const Observation = ({ obs }: { obs: ObservationType }) => {
                 </Card.Body>
             </Card>
         </div>);
+    } else {
+        return (
+            <Card>
+                <Card>  <b>This is single page! please continue coding </b></Card>
+                <Card.Body>
+                    <Card.Title className="fw-bold text-success">{obs.common_name}</Card.Title>
+                    <Card.Text className="text-muted" style={{ fontSize: '0.95rem' }}>
+                        {obs.scientific_name}
+                    </Card.Text>
+                    <Card.Text>
+                        {obs.category}
+                    </Card.Text>
+                    <div className="d-flex justify-content-between align-items-center mt-3">
+                        <span className="badge bg-success bg-opacity-25 text-success px-3 py-2">
+                            {obs.date}
+                        </span>
+                        <span className="badge bg-light text-secondary px-3 py-2">
+                            {obs.discovery}
+                        </span>
+                    </div>
+                </Card.Body>
+            </Card>
+        );
+    }
 }
 
 export default Observation

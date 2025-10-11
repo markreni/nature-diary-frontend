@@ -14,15 +14,17 @@ import {
   //Navigate,
   //useParams,
   //useNavigate,
-  //useMatch
+  useMatch
 } from "react-router-dom"
 import type { ObservationType } from './types/types.ts'
+import Observation from './components/Observation.tsx'
+import observations from './observations.ts'
 
 
 
 const App = () => {
   const queryClient = useQueryClient()
-
+  const match = useMatch('/observations/:id')
   const newObservationMutation = useMutation<ObservationType, Error, ObservationType>({
     mutationFn: createObservation,
     onSuccess: (newObservation) => {
@@ -59,6 +61,11 @@ const App = () => {
   // after identification the observation should be moved to public catalogue if public=true
   const identified = data!.filter(obs => obs.identified === true && obs.public === true)
   const unidentified = data!.filter(obs => obs.identified === false)
+  // get the observation for the single observation page if the url matches /observations/:id
+  
+  const observation = match 
+    ? observations.find(obs => obs.id === Number(match.params.id))
+    : null
 
   return (
     <ThemeProvider>  
@@ -66,6 +73,7 @@ const App = () => {
           <NavBar />
             <div className="routes-margin">
               <Routes>
+                <Route path="/observations/:id" element={<Observation obs={observation!} singlePage={true}/>} />
                 <Route path="/" element={<Home />} />
                 <Route path="/observations" element={<Observations observations={identified} />} />
                 <Route path="/unidentified" element={<Unidentified observations={unidentified} />} />
