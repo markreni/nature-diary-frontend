@@ -20,13 +20,13 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
     description: '',
     date: helperFunctions.getTodayDate(),
     location: '',
-    image: '',
+    images: [],
     public: false,
     identified: false,
     category: 'fauna',
     discovery: 'domestic'
   });
-
+  const [imagePreviews, setImagePreviews] = useState<string[]>(observation.images);
   const [validated, setValidated] = useState(false);
   const navigate = useNavigate()
   const questionAnswers: QuestionState = useQuestionValues()
@@ -46,9 +46,11 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
         discovery: questionAnswers.domestic? 'domestic' : 'wildlife' as DiscoveryType
       }
 
-      console.log('Prepared observation for submission:', observationToSubmit);
+      //console.log('Prepared observation for submission:', observationToSubmit);
       
       addObservation(observationToSubmit)
+
+      clearAllPreviews();
 
       // Reset form
       setObservation({
@@ -58,7 +60,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
         description: '',
         date: '',
         location: '',
-        image: '',
+        images: [],
         public: false,
         identified: false,
         category: 'fauna',
@@ -77,6 +79,37 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
       ...prev,
       [field]: value
     }));
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    // revoke previous previews
+    imagePreviews.forEach(url => URL.revokeObjectURL(url));
+    
+    const urls: string[] = Array.from(files).map(f => URL.createObjectURL(f));
+
+    setImagePreviews(urls);
+
+    // store preview url
+    setObservation(prev => ({ ...prev, images: urls }));
+  };
+
+  const handleRemovePreview = (index: number) => {
+    const urlToRemove = imagePreviews[index];
+    if (urlToRemove) {
+      URL.revokeObjectURL(urlToRemove);
+    }
+    const newPreviews = imagePreviews.filter((_, i) => i !== index);
+    setImagePreviews(newPreviews);
+    setObservation(prev => ({ ...prev, image: newPreviews }));
+  };
+
+  const clearAllPreviews = () => {
+    imagePreviews.forEach(url => URL.revokeObjectURL(url));
+    setImagePreviews([]);
+    setObservation(prev => ({ ...prev, image: [] }));
   };
 
   return (
@@ -226,7 +259,57 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
             </Col>
           }
           </Row>
+           <Form.Group className="mb-4">
+            <Form.Label>Images</Form.Label>
+            <Form.Control
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleFileChange}
+            />
+            <Form.Text className="text-muted">
+              Upload one or more images (previews will show below).
+            </Form.Text>
 
+            {imagePreviews.length > 0 && (
+              <div className="mt-3 d-flex flex-wrap gap-2">
+                {imagePreviews.map((src, idx) => (
+                  <div key={src} style={{ position: 'relative' }}>
+                    <img
+                      src={src}
+                      alt={`preview-${idx}`}
+                      className="img-thumbnail"
+                      style={{ width: 160, height: 100, objectFit: 'cover', borderRadius: 8 }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleRemovePreview(idx)}
+                      style={{
+                        position: 'absolute',
+                        top: 4,
+                        right: 4,
+                        background: 'rgba(0,0,0,0.6)',
+                        border: 'none',
+                        color: 'white',
+                        borderRadius: 12,
+                        width: 24,
+                        height: 24,
+                        lineHeight: 0,
+                        cursor: 'pointer'
+                      }}
+                      aria-label={`Remove image ${idx + 1}`}
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </Form.Group>
+
+
+
+        {/*
           <Form.Group className="mb-4">
             <Form.Label>Image URL *</Form.Label>
             <Form.Control
@@ -239,7 +322,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
               Provide a URL to an image of your observation
             </Form.Text>
           </Form.Group>
-
+        */}
           <div className="d-grid gap-2 d-md-flex justify-content-md-end">
             <Button 
               variant="outline-secondary" 
@@ -252,7 +335,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
                   description: '',
                   date: '',
                   location: '',
-                  image: '',
+                  images: [],
                   public: false,
                   identified: false,
                   category: 'fauna',

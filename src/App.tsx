@@ -34,12 +34,8 @@ const App = () => {
       queryClient.setQueryData(['observations'], observations.concat(newObservation))
   
     },
-    onError: () => {
-      
-    },
-    onSettled: () => {
-      
-    }
+    onError: () => {},
+    onSettled: () => {}
   })
     
   const addObservation = async (observation: ObservationType) => {

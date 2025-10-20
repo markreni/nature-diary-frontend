@@ -14,7 +14,7 @@ const Observations = ({ observations }: { observations: ObservationType[] }) => 
 
     const handleSearch = (query: string) => {
         searchTextQuery(query);
-    }
+    }   
 
      const handleCategoryToggle = (category: CategoryType) => {
         if (selectedCategories.includes(category)) {
