@@ -8,7 +8,7 @@ type ObservationType = {
     description: string;
     date: string;
     location: string;
-    image?: string;
+    images: string[];
     public: boolean;
     identified: boolean;
     category: CategoryType;
