@@ -19,6 +19,8 @@ import {
 import type { ObservationType } from './types/types.ts'
 import Observation from './components/Observation.tsx'
 import observations from './observations.ts'
+import SignUp from './pages/SignUpForm.tsx'
+import Login from './pages/Login.tsx'
 
 
 
@@ -76,6 +78,8 @@ const App = () => {
                 <Route path="/map" element={<div></div>} />
                 <Route path="/questions" element={<QuestionForm />}  />
                 <Route path="/add" element={<AdditionForm addObservation={addObservation} />}  />
+                <Route path="/signup" element={<SignUp />}  />
+                <Route path="/login" element={<Login />}  />
               </Routes>
             </div>
         </div>
