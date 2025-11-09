@@ -22,7 +22,7 @@ interface IsignUp {
   password: string;
 }
 
-interface IResponse {
+interface ILogInResponse {
   accessToken: string;
   email: string;
   firstName: string;
@@ -30,9 +30,19 @@ interface IResponse {
   msg: string;
 }
 
+interface IResponse {
+  success: boolean;
+  message: string;
+}
+
 interface Icredentials {
   email: string;
   password: string;
+}
+
+interface IError {
+  message: string[];
+  type: string;
 }
 
 export type {
@@ -42,4 +52,6 @@ export type {
   IsignUp,
   IResponse,
   Icredentials,
+  IError,
+  ILogInResponse,
 };
