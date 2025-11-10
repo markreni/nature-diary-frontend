@@ -1,6 +1,7 @@
 import { Col, Row } from 'react-bootstrap';
 import type { ObservationType } from '../types/types';
-import Observation from '../components/Observation';
+//import Observation from '../components/Observation';
+import SingleObservation from '../pages/SingleObservation';
 
 const Unidentified = ({ observations }: { observations: ObservationType[] }) => {
     return(
@@ -8,7 +9,7 @@ const Unidentified = ({ observations }: { observations: ObservationType[] }) => 
             <Row xs={1} sm={2} md={3} lg={4} className="g-3">
                 {observations.map(obs => (
                     <Col key={obs.id}>
-                        <Observation obs={obs} singlePage={false} />
+                        <SingleObservation obs={obs} />
                     </Col>
                 ))}
             </Row>

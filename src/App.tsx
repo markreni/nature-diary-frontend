@@ -17,9 +17,10 @@ import {
   useMatch
 } from "react-router-dom"
 import type { ObservationType } from './types/types.ts'
-import Observation from './components/Observation.tsx'
+//import Observation from './components/Observation.tsx'
 import observations from './observations.ts'
-
+import ObservationPage from './pages/ObservationPage.tsx'
+import ObservationsMap from './pages/ObservationsMap.tsx'
 
 
 const App = () => {
@@ -58,6 +59,8 @@ const App = () => {
   const identified = data!.filter(obs => obs.identified === true && obs.public === true)
   const unidentified = data!.filter(obs => obs.identified === false)
   // get the observation for the single observation page if the url matches /observations/:id
+  const publicObservations = data!.filter(obs => obs.public === true)
+
   
   const observation = match 
     ? observations.find(obs => obs.id === Number(match.params.id))
@@ -69,11 +72,11 @@ const App = () => {
           <NavBar />
             <div className="routes-margin">
               <Routes>
-                <Route path="/observations/:id" element={<Observation obs={observation!} singlePage={true}/>} />
+                <Route path="/observations/:id" element={<ObservationPage obs={observation!} isOwner={true}/>} />
                 <Route path="/" element={<Home />} />
                 <Route path="/observations" element={<Observations observations={identified} />} />
                 <Route path="/unidentified" element={<Unidentified observations={unidentified} />} />
-                <Route path="/map" element={<div></div>} />
+                <Route path="/map" element={<ObservationsMap observations={publicObservations} />} />
                 <Route path="/questions" element={<QuestionForm />}  />
                 <Route path="/add" element={<AdditionForm addObservation={addObservation} />}  />
               </Routes>

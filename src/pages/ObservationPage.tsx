@@ -1,41 +1,23 @@
 import { Card, Image, Carousel, Row, Col } from "react-bootstrap";
 import type { ObservationType } from '../types/types';
 import '../assets/styles/global.css'
+import ObservationMap from '../components/ObservationMap';
 
-const Observation = ({ obs, singlePage }: { obs: ObservationType, singlePage: boolean }) => {
-    if (!singlePage) {
-    return(
-        <div>
-            <Card className="observation-card shadow-sm border-0">
-                <Card.Body>
-                    <Card.Title className="fw-bold text-success">{obs.common_name}</Card.Title>
-                    <Card.Text className="text-muted" style={{ fontSize: '0.95rem' }}>
-                        {obs.scientific_name}
-                    </Card.Text>
-                    <Card.Text>
-                        {obs.category}
-                    </Card.Text>
-                    <div className="d-flex justify-content-between align-items-center mt-3">
-                        <span className="badge bg-success bg-opacity-25 text-success px-3 py-2">
-                            {obs.date}
-                        </span>
-                        <span className="badge bg-light text-secondary px-3 py-2">
-                            {obs.discovery}
-                        </span>
-                    </div>
-                </Card.Body>
-            </Card>
-        </div>);
-    } else {
-        return (
+const ObservationPage = ({obs, isOwner}: {obs: ObservationType, isOwner: boolean}) => {
+
+
+
+
+    return (
             <Card>
                 <Card.Header>
                     <b>{obs.common_name}</b>
                 </Card.Header>
-                    <Carousel>
-                        <Carousel.Item>
+                    <Carousel controls={true}>
+                        {obs.images.map((imgUrl, idx) => (
+                            <Carousel.Item key={idx}>
                             <Image
-                                src={obs.image}
+                                src={imgUrl}
                                 className="d-block w-100"
                                 style={{
                                     height: '400px',
@@ -45,6 +27,7 @@ const Observation = ({ obs, singlePage }: { obs: ObservationType, singlePage: bo
                                 }}
                             />
                         </Carousel.Item>
+                        ))}
                     </Carousel>
                 <Card.Body className="border-bottom">
                     <Row>
@@ -69,28 +52,23 @@ const Observation = ({ obs, singlePage }: { obs: ObservationType, singlePage: bo
                             </Row>
                             <Row className="mt-2">
                                 <Col className="ps-0">
-                                    <p>Placeholder map image</p>
-                                <Image
-                                    src="https://gisgeography.com/wp-content/uploads/2023/03/Helsinki-Map-Finland.jpg"
-                                    style={{
-                                    height: '400px',
-                                    objectFit: 'contain',
-                                    borderRadius: '8px',
-                                    padding: '1rem'
-                                }}
+                                <ObservationMap 
+                                    obs={obs}
                                 />
                                 </Col>
                             </Row>
                         </Col>
                         <Col md={5}>
                             <p>Conditionally rendered content</p>
+                            {isOwner ? (<p>Owner controls</p>) : (<p>Visitor controls</p>)}
                         </Col>
                     </Row>
                     
                 </Card.Body>
             </Card>
         );
-    }
+    
+    
 }
 
-export default Observation
+export default ObservationPage;

@@ -8,6 +8,10 @@ type ObservationType = {
     description: string;
     date: string;
     location: string;
+    coordinates?: {
+        lat: number;
+        lng: number;
+    };
     images: string[];
     public: boolean;
     identified: boolean;
