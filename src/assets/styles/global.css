@@ -97,6 +97,20 @@
   height: 180px;
 }
 
+.single-observation-img{
+  display: block;
+  width: 100%;
+  height: 320px;          /* fixed visual box height */
+  object-fit: contain;    /* shows the whole image, no crop */
+  object-position: center;
+  border-radius: 8px;
+  background: #f7f8fa;    /* visible "letterbox" color where image doesn't fill */
+}
+
+.carousel-control-next,
+.carousel-control-prev /*, .carousel-indicators */ {
+    filter: invert(100%);
+}
 
 /* Reset & Global Styles 
 

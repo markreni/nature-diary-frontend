@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Col, Row, Form, InputGroup, Dropdown } from 'react-bootstrap';
 import type { CategoryType, DiscoveryType, ObservationType } from '../types/types';
-import Observation from '../components/Observation';
+//import Observation from '../components/Observation';
+import SingleObservation from '../pages/SingleObservation';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
 import { IoSearch } from "react-icons/io5";
@@ -118,7 +119,7 @@ const Observations = ({ observations }: { observations: ObservationType[] }) => 
                 {filteredObservations.map(obs => (
                     <Col key={obs.id}>
                         <LinkContainer to={`/observations/${obs.id}`}  style={{ textDecoration: 'none' }} >
-                           <Link to={``}><Observation obs={obs} singlePage={false}/></Link>
+                           <Link to={``}><SingleObservation obs={obs} /></Link>
                         </LinkContainer>
                     </Col>
                 ))}
