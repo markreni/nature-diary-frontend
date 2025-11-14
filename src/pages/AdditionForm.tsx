@@ -6,6 +6,7 @@ import {useQuestionValues, type QuestionState} from '../FormContext.tsx'
 import helperFunctions from '../utils/helperFunctions.ts'
 import { IoIosAddCircle } from "react-icons/io";
 import { FiAlertCircle } from "react-icons/fi";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 interface AdditionFormProps {
   addObservation: (content: ObservationType) => Promise<void>;
@@ -111,11 +112,25 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
     setImagePreviews([]);
     setObservation(prev => ({ ...prev, image: [] }));
   };
-
   return (
     <Card className="p-4">
       <Card.Body>
-        <Card.Title className="mb-3">Add Observation</Card.Title>
+        <Row className="mb-3 align-items-center">
+          <Col>
+            <Card.Title className="mb-0">Add Observation</Card.Title>
+          </Col>
+          <Col xs="auto">
+            <Button
+              variant="link"
+              onClick={() => navigate(-1)}
+              aria-label="Go back"
+              title="Go back"
+              className="p-0"
+            >
+              <IoMdArrowRoundBack size={25} />
+            </Button>
+          </Col>
+        </Row>
         <Row className="mb-5 g-1"> 
           {questionAnswers.domestic ? 
             <OverlayTrigger
