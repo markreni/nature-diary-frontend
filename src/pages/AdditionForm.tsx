@@ -94,11 +94,12 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
     imagePreviews.forEach(url => URL.revokeObjectURL(url));
     
     const urls: string[] = Array.from(files).map(f => URL.createObjectURL(f));
+    const string_files = Array.from(files).map(f => f.name); // just filenames for now
 
     setImagePreviews(urls);
 
     // store preview url
-    setObservation(prev => ({ ...prev, images: urls }));
+    setObservation(prev => ({ ...prev, images: string_files }));
   };
 
   // Mini map marker component for draggable marker
@@ -270,7 +271,6 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
               placeholder="Enter detailed description"
               value={observation.description}
               onChange={(e) => handleInputChange('description', e.target.value)}
-              required
             />
             <Form.Control.Feedback type="invalid">
               Please provide a description.
@@ -325,7 +325,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
                       src={src}
                       alt={`preview-${idx}`}
                       className="img-thumbnail"
-                      style={{ width: 160, height: 100, objectFit: 'cover', borderRadius: 8 }}
+                      style={{ width: 260, height: 260, objectFit: 'cover', borderRadius: 8 }}
                     />
                     <button
                       type="button"

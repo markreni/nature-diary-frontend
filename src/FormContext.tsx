@@ -1,4 +1,4 @@
-import { createContext, useReducer, useContext, type Dispatch, type ReactNode} from 'react'
+import { createContext, useReducer, useContext, useEffect, type Dispatch, type ReactNode} from 'react'
 
 export type QuestionState = {
   'domestic': boolean,
@@ -16,10 +16,12 @@ export interface QuestionContextValue {
 }
 
 const initialState: QuestionState = {
-  'domestic': true,
-  'public': true,
-  'identification': true
+  domestic: true,
+  public: true,
+  identification: true,
 };
+
+const STORAGE_KEY = 'questionState_v1';
 
 const FormContext = createContext<QuestionContextValue | undefined>(undefined)
 
@@ -32,8 +34,26 @@ const questionReducer = (state: QuestionState, action: QuestionAction ): Questio
   return {...state, ...action.payload}
 }
 
+// lazy initializer reads from localStorage if present
+const initState = (init: QuestionState) => {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as QuestionState) : init;
+  } catch {
+    return init;
+  }
+}
+
 export const FormContextProvider: React.FC<FormProviderProps> = (props) => {
-  const [state, dispatch] = useReducer(questionReducer, initialState)
+  const [state, dispatch] = useReducer(questionReducer, initState(initialState))
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch {
+      // ignore write errors
+    }
+  }, [state]);
   
   return (
     <FormContext.Provider value={{ state, dispatch }}>
@@ -43,13 +63,17 @@ export const FormContextProvider: React.FC<FormProviderProps> = (props) => {
 }
 
 export const useQuestionValues = () => {
-  const counterAndDispatch: QuestionContextValue = useContext(FormContext)!
-  return counterAndDispatch.state
+  const ctx = useContext(FormContext)!;
+  return ctx.state
+  //const counterAndDispatch: QuestionContextValue = useContext(FormContext)!
+  //return counterAndDispatch.state
 }
 
 export const useQuestionDispatch = () => {
-  const counterAndDispatch: QuestionContextValue  = useContext(FormContext)!
-  return counterAndDispatch.dispatch
+  const ctx = useContext(FormContext)!;
+  return ctx.dispatch
+  //const counterAndDispatch: QuestionContextValue  = useContext(FormContext)!
+  //return counterAndDispatch.dispatch
 }
 
 export default FormContext
