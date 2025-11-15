@@ -31,6 +31,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
     discovery: 'domestic'
   });
   const [imagePreviews, setImagePreviews] = useState<string[]>(observation.images);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);  // TODO: needed to upload actual files later
   const [validated, setValidated] = useState(false);
   const navigate = useNavigate()
   const questionAnswers: QuestionState = useQuestionValues()
@@ -93,13 +94,14 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
     // revoke previous previews
     imagePreviews.forEach(url => URL.revokeObjectURL(url));
     
-    const urls: string[] = Array.from(files).map(f => URL.createObjectURL(f));
-    const string_files = Array.from(files).map(f => f.name); // just filenames for now
+    const fileArray = Array.from(files);
+    const urls: string[] = fileArray.map(f => URL.createObjectURL(f));
 
     setImagePreviews(urls);
+    setSelectedFiles(fileArray);
 
-    // store preview url
-    setObservation(prev => ({ ...prev, images: string_files }));
+    // store preview urls in observation so other components can render them
+    setObservation(prev => ({ ...prev, images: urls }));  //TODO: check this
   };
 
   // Mini map marker component for draggable marker
@@ -126,13 +128,16 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
     }
     const newPreviews = imagePreviews.filter((_, i) => i !== index);
     setImagePreviews(newPreviews);
-    setObservation(prev => ({ ...prev, image: newPreviews }));
+    // remove corresponding file from selectedFiles as well
+    setSelectedFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
+    setObservation(prev => ({ ...prev, images: newPreviews }));
   };
 
   const clearAllPreviews = () => {
     imagePreviews.forEach(url => URL.revokeObjectURL(url));
     setImagePreviews([]);
-    setObservation(prev => ({ ...prev, image: [] }));
+    setSelectedFiles([]);
+    setObservation(prev => ({ ...prev, images: [] }));
   };
   const miniMapCenter: [number, number] = [60.184230669318474, 24.83009157017735];
   return (
