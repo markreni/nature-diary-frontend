@@ -7,7 +7,11 @@ const SingleObservation = ({ obs }: { obs: ObservationType }) => {
         <div>
             <Card className="observation-card shadow-sm border-0">
                 <Card.Body>
-                    <Card.Title className="fw-bold text-success">{obs.common_name}</Card.Title>
+                    {
+                      obs.common_name != "" ?  <Card.Title className="fw-bold text-success">{obs.common_name}</Card.Title> : 
+                      <Card.Title className="fw-bold text-success">I am unidentified :(</Card.Title> 
+                    }
+                   
                     <Card.Text className="text-muted" style={{ fontSize: '0.95rem' }}>
                         {obs.scientific_name}
                     </Card.Text>

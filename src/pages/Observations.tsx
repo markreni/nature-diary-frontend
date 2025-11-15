@@ -3,7 +3,6 @@ import { Col, Row, Form, InputGroup, Dropdown } from 'react-bootstrap';
 import type { CategoryType, DiscoveryType, ObservationType } from '../types/types';
 //import Observation from '../components/Observation';
 import SingleObservation from '../components/SingleObservation';
-import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
 import { IoSearch } from "react-icons/io5";
 import { FaFilter } from "react-icons/fa6";
