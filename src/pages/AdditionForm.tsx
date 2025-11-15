@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Card, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
 import type { ObservationType, DiscoveryType} from '../types/types';
 import { useNavigate } from 'react-router-dom';
 import {useQuestionValues, type QuestionState} from '../FormContext.tsx'
@@ -21,6 +23,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
     description: '',
     date: helperFunctions.getTodayDate(),
     location: '',
+    coordinates: undefined,
     images: [],
     public: false,
     identified: false,
@@ -61,6 +64,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
         description: '',
         date: '',
         location: '',
+        coordinates: undefined,
         images: [],
         public: false,
         identified: false,
@@ -97,6 +101,23 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
     setObservation(prev => ({ ...prev, images: urls }));
   };
 
+  // Mini map marker component for draggable marker
+  const DraggableMarker: React.FC<{ position: [number, number] | null }> = ({ position }) => {
+    if (!position) return null;
+
+    const eventHandlers = {
+      dragend(e: any) {
+        const marker = e.target;
+        const latLng = marker.getLatLng();
+        const lat = Number(latLng.lat);
+        const lng = Number(latLng.lng);
+        setObservation(prev => ({ ...prev, coordinates: { lat, lng }, location: `${lat.toFixed(6)}, ${lng.toFixed(6)}` }));
+      }
+    };
+
+    return <Marker position={position} draggable eventHandlers={eventHandlers} />;
+  };
+
   const handleRemovePreview = (index: number) => {
     const urlToRemove = imagePreviews[index];
     if (urlToRemove) {
@@ -112,6 +133,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
     setImagePreviews([]);
     setObservation(prev => ({ ...prev, image: [] }));
   };
+  const miniMapCenter: [number, number] = [60.184230669318474, 24.83009157017735];
   return (
     <Card className="p-4">
       <Card.Body>
@@ -270,6 +292,15 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
                 <Form.Control.Feedback type="invalid">
                   Please provide a location.
                 </Form.Control.Feedback>
+                <div className="mt-2" style={{ height: 300 }}>
+                  <MapContainer center={miniMapCenter} zoom={13} style={{ height: '100%', width: '100%', borderRadius: 8 }}>
+                    <TileLayer
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <DraggableMarker position={observation.coordinates ? [observation.coordinates.lat, observation.coordinates.lng] : miniMapCenter} />
+                  </MapContainer>
+                </div>
               </Form.Group>
             </Col>
           }
