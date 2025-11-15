@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Form, Button, Card, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
 import type { ObservationType, DiscoveryType} from '../types/types';
 import { useNavigate } from 'react-router-dom';
 import {useQuestionValues, type QuestionState} from '../FormContext.tsx'
 import helperFunctions from '../utils/helperFunctions.ts'
 import { IoIosAddCircle } from "react-icons/io";
 import { FiAlertCircle } from "react-icons/fi";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 interface AdditionFormProps {
   addObservation: (content: ObservationType) => Promise<void>;
@@ -20,6 +23,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
     description: '',
     date: helperFunctions.getTodayDate(),
     location: '',
+    coordinates: undefined,
     images: [],
     public: false,
     identified: false,
@@ -60,6 +64,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
         description: '',
         date: '',
         location: '',
+        coordinates: undefined,
         images: [],
         public: false,
         identified: false,
@@ -89,11 +94,29 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
     imagePreviews.forEach(url => URL.revokeObjectURL(url));
     
     const urls: string[] = Array.from(files).map(f => URL.createObjectURL(f));
+    const string_files = Array.from(files).map(f => f.name); // just filenames for now
 
     setImagePreviews(urls);
 
     // store preview url
-    setObservation(prev => ({ ...prev, images: urls }));
+    setObservation(prev => ({ ...prev, images: string_files }));
+  };
+
+  // Mini map marker component for draggable marker
+  const DraggableMarker: React.FC<{ position: [number, number] | null }> = ({ position }) => {
+    if (!position) return null;
+
+    const eventHandlers = {
+      dragend(e: any) {
+        const marker = e.target;
+        const latLng = marker.getLatLng();
+        const lat = Number(latLng.lat);
+        const lng = Number(latLng.lng);
+        setObservation(prev => ({ ...prev, coordinates: { lat, lng }, location: `${lat.toFixed(6)}, ${lng.toFixed(6)}` }));
+      }
+    };
+
+    return <Marker position={position} draggable eventHandlers={eventHandlers} />;
   };
 
   const handleRemovePreview = (index: number) => {
@@ -111,11 +134,26 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
     setImagePreviews([]);
     setObservation(prev => ({ ...prev, image: [] }));
   };
-
+  const miniMapCenter: [number, number] = [60.184230669318474, 24.83009157017735];
   return (
     <Card className="p-4">
       <Card.Body>
-        <Card.Title className="mb-3">Add Observation</Card.Title>
+        <Row className="mb-3 align-items-center">
+          <Col>
+            <Card.Title className="mb-0">Add Observation</Card.Title>
+          </Col>
+          <Col xs="auto">
+            <Button
+              variant="link"
+              onClick={() => navigate(-1)}
+              aria-label="Go back"
+              title="Go back"
+              className="p-0"
+            >
+              <IoMdArrowRoundBack size={25} />
+            </Button>
+          </Col>
+        </Row>
         <Row className="mb-5 g-1"> 
           {questionAnswers.domestic ? 
             <OverlayTrigger
@@ -233,7 +271,6 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
               placeholder="Enter detailed description"
               value={observation.description}
               onChange={(e) => handleInputChange('description', e.target.value)}
-              required
             />
             <Form.Control.Feedback type="invalid">
               Please provide a description.
@@ -255,6 +292,15 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
                 <Form.Control.Feedback type="invalid">
                   Please provide a location.
                 </Form.Control.Feedback>
+                <div className="mt-2" style={{ height: 300 }}>
+                  <MapContainer center={miniMapCenter} zoom={13} style={{ height: '100%', width: '100%', borderRadius: 8 }}>
+                    <TileLayer
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <DraggableMarker position={observation.coordinates ? [observation.coordinates.lat, observation.coordinates.lng] : miniMapCenter} />
+                  </MapContainer>
+                </div>
               </Form.Group>
             </Col>
           }
@@ -279,7 +325,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
                       src={src}
                       alt={`preview-${idx}`}
                       className="img-thumbnail"
-                      style={{ width: 160, height: 100, objectFit: 'cover', borderRadius: 8 }}
+                      style={{ width: 260, height: 260, objectFit: 'cover', borderRadius: 8 }}
                     />
                     <button
                       type="button"
