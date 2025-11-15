@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Col, Row, Form, InputGroup, Dropdown } from 'react-bootstrap';
 import type { CategoryType, DiscoveryType, ObservationType } from '../types/types';
 //import Observation from '../components/Observation';
-import SingleObservation from '../pages/SingleObservation';
+import SingleObservation from '../components/SingleObservation';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
 import { IoSearch } from "react-icons/io5";
@@ -44,6 +44,7 @@ const Observations = ({ observations }: { observations: ObservationType[] }) => 
         <div>
             <Row>
                 <Col>
+                {/* Empty column for spacing */}
                 </Col>
                 <Col>
                     <Form className="mb-4">
@@ -60,6 +61,7 @@ const Observations = ({ observations }: { observations: ObservationType[] }) => 
                          </InputGroup>
                     </Form>
                 </Col>
+                {/* Empty column for spacing */}
                 <Col>
                     <Dropdown>
                         <Dropdown.Toggle variant="success" id="category-dropdown">
@@ -118,9 +120,9 @@ const Observations = ({ observations }: { observations: ObservationType[] }) => 
             <Row xs={1} sm={2} md={3} lg={4} className="g-3">
                 {filteredObservations.map(obs => (
                     <Col key={obs.id}>
-                        <LinkContainer to={`/observations/${obs.id}`}  style={{ textDecoration: 'none' }} >
-                           <Link to={``}><SingleObservation obs={obs} /></Link>
-                        </LinkContainer>
+                        <Link to={`/observations/${obs.id}`} style={{ textDecoration: 'none' }}>
+                            <SingleObservation obs={obs} />
+                        </Link>
                     </Col>
                 ))}
             </Row>  

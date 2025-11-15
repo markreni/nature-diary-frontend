@@ -11,9 +11,17 @@ const SingleObservation = ({ obs }: { obs: ObservationType }) => {
                     <Card.Text className="text-muted" style={{ fontSize: '0.95rem' }}>
                         {obs.scientific_name}
                     </Card.Text>
-                    <Card.Text>
-                        {obs.category}
-                    </Card.Text>
+
+                    {obs.images && obs.images.length > 0 && (
+                        <div className="my-2">
+                            <img
+                                src={obs.images[0]}
+                                alt={`${obs.common_name} preview`}
+                                style={{ width: '100%', height: 160, objectFit: 'cover', borderRadius: 8 }}
+                            />
+                        </div>
+                    )}
+
                     <div className="d-flex justify-content-between align-items-center mt-3">
                         <span className="badge bg-success bg-opacity-25 text-success px-3 py-2">
                             {obs.date}

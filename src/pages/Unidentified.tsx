@@ -1,7 +1,7 @@
 import { Col, Row } from 'react-bootstrap';
 import type { ObservationType } from '../types/types';
 //import Observation from '../components/Observation';
-import SingleObservation from '../pages/SingleObservation';
+import SingleObservation from '../components/SingleObservation';
 
 const Unidentified = ({ observations }: { observations: ObservationType[] }) => {
     return(
