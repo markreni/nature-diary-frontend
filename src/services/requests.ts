@@ -1,18 +1,18 @@
- import observation_data from '../observations.ts'
-import type { ObservationType } from '../types/types.ts'
- 
- const getObservations = (): ObservationType[] => {
-  
-    return observation_data
-  }
+import observation_data from "../observations.ts";
+import type { ObservationType } from "../types/types.ts";
 
-  const createObservation = async (newObservation: ObservationType): Promise<ObservationType> => {
+const getObservations = (): ObservationType[] => {
+  return observation_data;
+};
 
-    setTimeout(() => {
-        console.log('This can be cancelled');
-    }, 1000);
-  
-    return {...newObservation, id: Math.floor(Math.random() * 10000)}
-  }
+const createObservation = async (
+  newObservation: ObservationType
+): Promise<ObservationType> => {
+  setTimeout(() => {
+    console.log("This can be cancelled");
+  }, 1000);
 
-  export { getObservations, createObservation }
+  return { ...newObservation, id: Math.floor(Math.random() * 10000) };
+};
+
+export { getObservations, createObservation };
