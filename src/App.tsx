@@ -41,7 +41,7 @@ const App = () => {
   >({
     mutationFn: observationService.create, // this now accepts FormData
     onSuccess: (response) => {
-      console.log("Saved observation:", response.data);
+      console.log("Observation saved with ID:", response.data.observationId);
 
       // Update cache with the saved observation from backend
       const currentObservations =
@@ -49,7 +49,12 @@ const App = () => {
 
       queryClient.setQueryData(
         ["observations"],
-        [...currentObservations, response.data.savedObservation]
+        [
+          ...currentObservations,
+          {
+            id: response.data.observationId,
+          },
+        ]
       );
     },
     onError: (error) => {
@@ -60,10 +65,15 @@ const App = () => {
   const addObservation = async (formData: FormData) => {
     const token = localStorage.getItem("token");
     if (token) {
-      observationService.setToken(token); // set token before sending
+      observationService.setToken(token);
     }
 
-    newObservationMutation.mutate(formData); // then call mutation
+    return new Promise((resolve, reject) => {
+      newObservationMutation.mutate(formData, {
+        onSuccess: (response) => resolve(response.data),
+        onError: (error) => reject(error),
+      });
+    });
   };
 
   const { data, isLoading, error } = useQuery({

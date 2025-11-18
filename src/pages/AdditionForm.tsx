@@ -14,6 +14,7 @@ import type {
   ObservationType,
   DiscoveryType,
   ObservationPayload,
+  IObservationSavedResponse,
 } from "../types/types";
 import { useNavigate } from "react-router-dom";
 import { useQuestionValues, type QuestionState } from "../FormContext.tsx";
@@ -21,9 +22,10 @@ import helperFunctions from "../utils/helperFunctions.ts";
 import { IoIosAddCircle } from "react-icons/io";
 import { FiAlertCircle } from "react-icons/fi";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import CustomAlert from "../components/CustomAlert.tsx";
 
 interface AdditionFormProps {
-  addObservation: (content: FormData) => Promise<void>;
+  addObservation: (content: FormData) => Promise<IObservationSavedResponse>;
 }
 
 const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
@@ -45,10 +47,11 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [validated, setValidated] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const navigate = useNavigate();
   const questionAnswers: QuestionState = useQuestionValues();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
 
@@ -88,9 +91,17 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
         console.log(key, value);
       }*/
 
-      addObservation(formData);
+      try {
+        const result = await addObservation(formData);
 
-      //clearAllPreviews();
+        if (result.success) {
+          setSuccessMessage("Observation saved successfully!");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+
+      clearAllPreviews();
 
       // Reset form
       setObservation({
@@ -487,6 +498,9 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
             </Button>
           </div>
         </Form>
+        {successMessage && (
+          <CustomAlert errorMsg={[successMessage]} type="success" />
+        )}
       </Card.Body>
     </Card>
   );
