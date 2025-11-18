@@ -2,7 +2,7 @@ import type {
   ObservationType,
   IObservationSavedResponse,
 } from "../types/types.ts";
-import api from "../services/api";
+import api from "./api.ts";
 import type { AxiosResponse } from "axios";
 
 const baseUrl = "/api/v1/observations";
@@ -14,17 +14,14 @@ const setToken = (newToken: string) => {
 };
 
 const create = async (
-  newObject: ObservationType
+  formData: FormData
 ): Promise<AxiosResponse<IObservationSavedResponse>> => {
-  const config = {
-    headers: { Authorization: token },
-  };
-
-  const response: AxiosResponse<IObservationSavedResponse> = await api.post(
-    `${baseUrl}`,
-    newObject,
-    config
-  );
+  const response = await api.post(baseUrl, formData, {
+    headers: {
+      Authorization: token,
+      "Content-Type": "multipart/form-data",
+    },
+  });
 
   return response;
 };

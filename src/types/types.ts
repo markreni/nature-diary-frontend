@@ -12,7 +12,7 @@ type ObservationType = {
     lat: number;
     lng: number;
   };
-  images: string[];
+  images: File[] | string[];
   public: boolean;
   identified: boolean;
   category: CategoryType;
@@ -55,6 +55,19 @@ interface IError {
   type: string;
 }
 
+interface ObservationPayload {
+  discovery: string;
+  description: string;
+  date: string;
+  category: string;
+  public: boolean;
+  identified: boolean;
+  scientific_name: string;
+  common_name: string;
+  lat?: number;
+  lng?: number;
+}
+
 export type {
   ObservationType,
   CategoryType,
@@ -65,4 +78,5 @@ export type {
   IError,
   ILogInResponse,
   IObservationSavedResponse,
+  ObservationPayload,
 };
