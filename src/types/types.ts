@@ -2,22 +2,28 @@ type CategoryType = "fauna" | "flora" | "funga";
 type DiscoveryType = "domestic" | "wildlife";
 
 type ObservationType = {
-    id: number;
-    scientific_name: string;
-    common_name: string;
-    description: string;
-    date: string;
-    location: string;
-    coordinates?: {
-        lat: number;
-        lng: number;
-    };
-    images: string[];
-    public: boolean;
-    identified: boolean;
-    category: CategoryType;
-    discovery: DiscoveryType
+  id: number;
+  scientific_name: string;
+  common_name: string;
+  description: string;
+  date: string;
+  location?: string;
+  coordinates?: {
+    lat: number;
+    lng: number;
+  };
+  images: File[] | string[];
+  public: boolean;
+  identified: boolean;
+  category: CategoryType;
+  discovery: DiscoveryType;
 };
+
+interface IObservationSavedResponse {
+  success: boolean;
+  message: string;
+  observationId: number;
+}
 
 interface IsignUp {
   firstName: string;
@@ -49,6 +55,19 @@ interface IError {
   type: string;
 }
 
+interface ObservationPayload {
+  discovery: string;
+  description: string;
+  date: string;
+  category: string;
+  public: boolean;
+  identified: boolean;
+  scientific_name: string;
+  common_name: string;
+  lat?: number;
+  lng?: number;
+}
+
 export type {
   ObservationType,
   CategoryType,
@@ -58,4 +77,6 @@ export type {
   Icredentials,
   IError,
   ILogInResponse,
+  IObservationSavedResponse,
+  ObservationPayload,
 };
