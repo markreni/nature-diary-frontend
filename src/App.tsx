@@ -4,6 +4,7 @@ import AdditionForm from "./pages/AdditionForm.tsx";
 import QuestionForm from "./pages/QuestionForm.tsx";
 import Observations from "./pages/Observations.tsx";
 import Unidentified from "./pages/Unidentified.tsx";
+import MyAccount from "./pages/MyAccount.tsx";
 import NavBar from "./components/NavBar.tsx";
 import ThemeProvider from "react-bootstrap/ThemeProvider";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -62,7 +63,7 @@ const App = () => {
     },
   });
 
-  const addObservation = async (formData: FormData) => {
+  const addObservation = async (formData: FormData): Promise<IObservationSavedResponse> => {
     const token = localStorage.getItem("token");
     if (token) {
       observationService.setToken(token);
@@ -97,9 +98,11 @@ const App = () => {
   // get the observation for the single observation page if the url matches /observations/:id
   const publicObservations = data!.filter((obs) => obs.public === true);
 
+  /*
   const observation = match
     ? observations.find((obs) => obs.id === Number(match.params.id))
     : null;
+  */
 
   return (
     <ThemeProvider>
@@ -109,12 +112,12 @@ const App = () => {
           <Routes>
             <Route
               path="/observations/:id"
-              element={<ObservationPage obs={observation!} isOwner={true} />}
+              element={<ObservationPage isOwner={true} />}
             />
             <Route path="/" element={<Home />} />
             <Route
               path="/observations"
-              element={<Observations observations={identified} />}
+              element={<Observations />}
             />
             <Route
               path="/unidentified"
@@ -128,6 +131,10 @@ const App = () => {
             <Route
               path="/add"
               element={<AdditionForm addObservation={addObservation} />}
+            />
+            <Route
+              path="/myaccount"
+              element={<MyAccount observations={identified} />}
             />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
