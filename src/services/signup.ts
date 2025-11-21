@@ -1,4 +1,4 @@
-import api from "../services/api";
+import api from "./config";
 import type { AxiosResponse } from "axios";
 import type { IsignUp, IResponse } from "../types/types";
 
