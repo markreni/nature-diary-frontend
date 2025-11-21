@@ -4,8 +4,8 @@ import type {
   CategoryType,
   DiscoveryType,
   ObservationType,
-} from "../types/types";
-import SingleObservation from "../components/SingleObservation";
+} from "../types/types.ts";
+import SingleObservation from "../components/SingleObservation.tsx";
 import { Link } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
 import { FaFilter } from "react-icons/fa6";
@@ -34,7 +34,7 @@ const Observations = () => {
     try {
       setLoading(true);
 
-      const data = await observationsService.getAll(page, limit, false);
+      const data = await observationsService.getAll(page, limit);
 
       setObservations(data.observations);
       setTotalPages(data.totalPages);
