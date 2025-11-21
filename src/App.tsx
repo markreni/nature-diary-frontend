@@ -3,7 +3,7 @@ import { getObservations, createObservation } from "./services/requests.ts";
 import AdditionForm from "./pages/AdditionForm.tsx";
 import QuestionForm from "./pages/QuestionForm.tsx";
 import Observations from "./pages/Observations.tsx";
-import Unidentified from "./pages/Unidentified.tsx";
+import UnidentifiedObservations from "./pages/UnidentifiedObservations.tsx";
 import NavBar from "./components/NavBar.tsx";
 import ThemeProvider from "react-bootstrap/ThemeProvider";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -118,7 +118,7 @@ const App = () => {
             />
             <Route
               path="/unidentified"
-              element={<Unidentified observations={unidentified} />}
+              element={<UnidentifiedObservations observations={unidentified} />}
             />
             <Route
               path="/map"
