@@ -81,6 +81,20 @@ interface IObservationListResponse {
   totalPages: number;
 }
 
+interface LocationType {
+  id: number;
+  lat: number;
+  lng: number;
+  addedDate?: string;
+  updatedDate?: string;
+}
+
+interface ObservationWithLocation
+  extends Omit<ObservationType, "location" | "images"> {
+  location?: LocationType;
+  images?: ObservationImage[] | string[];
+}
+
 export type {
   ObservationType,
   CategoryType,
@@ -93,4 +107,6 @@ export type {
   IObservationSavedResponse,
   ObservationPayload,
   IObservationListResponse,
+  LocationType,
+  ObservationWithLocation,
 };

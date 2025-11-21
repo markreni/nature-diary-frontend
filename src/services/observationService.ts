@@ -41,4 +41,12 @@ const getAll = async (
   };
 };
 
-export default { create, setToken, getAll };
+const getById = async (id: number) => {
+  const response = await axios.get(
+    `${baseURL}api/v1/public/observations/${id}`
+  );
+  console.log("Response data in getById:", response.data);
+  return response.data;
+};
+
+export default { create, setToken, getAll, getById };
