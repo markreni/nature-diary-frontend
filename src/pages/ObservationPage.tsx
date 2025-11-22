@@ -4,7 +4,6 @@ import { Card, Image, Carousel, Row, Col } from "react-bootstrap";
 import type { ObservationType } from '../types/types';
 import '../assets/styles/global.css'
 import ObservationMap from '../components/ObservationMap';
-import { useState, useEffect} from 'react';
 import  suggestionService  from "../services/suggestionService";
 import { jwtDecode } from "jwt-decode";
 import IdentificationSuggestions from "../components/IdentificationSuggestions";
