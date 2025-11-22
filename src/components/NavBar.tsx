@@ -60,6 +60,9 @@ const NavBar = () => {
               <LinkContainer to="/questions">
                 <Nav.Link>Add observation</Nav.Link>
               </LinkContainer>
+               <LinkContainer to="/myaccount">
+                <Nav.Link>MyAccount</Nav.Link>
+              </LinkContainer>
             </Nav>
           )}
         </Navbar.Collapse>
