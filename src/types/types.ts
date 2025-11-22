@@ -3,6 +3,7 @@ type DiscoveryType = "domestic" | "wildlife";
 
 type ObservationType = {
   id: number;
+  userId: number;
   scientific_name: string;
   common_name: string;
   description: string;
@@ -17,6 +18,7 @@ type ObservationType = {
   identified: boolean;
   category: CategoryType;
   discovery: DiscoveryType;
+  suggestions?: SuggestionType[]; 
 };
 
 interface IObservationSavedResponse {
@@ -68,6 +70,17 @@ interface ObservationPayload {
   lng?: number;
 }
 
+interface SuggestionType {
+  id: number;
+  suggested_name: string;
+  date: string;
+  user: {
+    id: number;
+    firstName: string;
+    lastName: string;
+  };
+}
+
 export type {
   ObservationType,
   CategoryType,
@@ -79,4 +92,5 @@ export type {
   ILogInResponse,
   IObservationSavedResponse,
   ObservationPayload,
+  SuggestionType,
 };
