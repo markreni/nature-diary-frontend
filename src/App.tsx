@@ -122,7 +122,7 @@ const App = () => {
             />
             <Route
               path="/unidentified"
-              element={<UnidentifiedObservations observations={unidentified} />}
+              element={<UnidentifiedObservations />}
             />
             <Route
               path="/map"
@@ -135,7 +135,7 @@ const App = () => {
             />
             <Route
               path="/myaccount"
-              element={<MyAccount observations={identified} />}
+              element={<MyAccount />}
             />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
