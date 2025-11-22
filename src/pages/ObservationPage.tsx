@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Card, Image, Carousel, Row, Col } from "react-bootstrap";
 import type { ObservationType } from '../types/types';
 import '../assets/styles/global.css'

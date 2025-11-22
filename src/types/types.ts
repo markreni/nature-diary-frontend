@@ -13,13 +13,19 @@ type ObservationType = {
     lat: number;
     lng: number;
   };
-  images: File[] | string[];
+  images: ObservationImage[];
   public: boolean;
   identified: boolean;
   category: CategoryType;
   discovery: DiscoveryType;
   suggestions?: SuggestionType[]; 
 };
+
+export interface ObservationImage {
+  id: number;
+  imageName: string;
+  addedDate: string;
+}
 
 interface IObservationSavedResponse {
   success: boolean;
@@ -70,6 +76,27 @@ interface ObservationPayload {
   lng?: number;
 }
 
+interface IObservationListResponse {
+  observations: ObservationType[];
+  total: number;
+  page: number;
+  totalPages: number;
+}
+
+interface LocationType {
+  id: number;
+  lat: number;
+  lng: number;
+  addedDate?: string;
+  updatedDate?: string;
+}
+
+interface ObservationWithLocation
+  extends Omit<ObservationType, "location" | "images"> {
+  location?: LocationType;
+  images?: ObservationImage[] | string[];
+}
+
 interface SuggestionType {
   id: number;
   suggested_name: string;
@@ -92,5 +119,8 @@ export type {
   ILogInResponse,
   IObservationSavedResponse,
   ObservationPayload,
+  IObservationListResponse,
+  LocationType,
+  ObservationWithLocation,
   SuggestionType,
 };
