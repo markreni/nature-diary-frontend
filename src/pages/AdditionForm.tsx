@@ -51,6 +51,11 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
   const navigate = useNavigate();
   const questionAnswers: QuestionState = useQuestionValues();
 
+  console.log(
+    "Question answers in AdditionForm:",
+    questionAnswers.identification
+  );
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -67,8 +72,8 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
         description: observation.description,
         date: observation.date,
         category: observation.category,
-        public: observation.public, // boolean
-        identified: observation.identified, // boolean
+        public: questionAnswers.public, // boolean
+        identified: questionAnswers.identification,
         scientific_name: observation.scientific_name,
         common_name: observation.common_name,
       };
@@ -90,7 +95,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
       for (const [key, value] of formData.entries()) {
         console.log(key, value);
       }*/
-
+      console.log("observation.identified", observation.identified);
       try {
         const result = await addObservation(formData);
 

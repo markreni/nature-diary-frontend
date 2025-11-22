@@ -27,12 +27,13 @@ const create = async (
 
 const getAll = async (
   page = 1,
-  limit = 10
+  limit = 10,
+  identified?: boolean
 ): Promise<IObservationListResponse> => {
   const response = await axios.get(
-    `${baseURL}api/v1/public/observations?page=${page}&limit=${limit}`
+    `${baseURL}api/v1/public/observations?page=${page}&limit=${limit}&identified=${identified}`
   );
-
+  console.log("Response data in getAll:", response.data);
   return {
     observations: response.data.data,
     total: response.data.pagination.total,
@@ -45,7 +46,7 @@ const getById = async (id: number) => {
   const response = await axios.get(
     `${baseURL}api/v1/public/observations/${id}`
   );
-  console.log("Response data in getById:", response.data);
+  //console.log("Response data in getById:", response.data);
   return response.data;
 };
 

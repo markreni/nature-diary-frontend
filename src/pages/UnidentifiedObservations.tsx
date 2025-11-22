@@ -11,7 +11,7 @@ import { IoSearch } from "react-icons/io5";
 import { FaFilter } from "react-icons/fa6";
 import observationsService from "../services/observationService.ts";
 
-const Observations = () => {
+const UnidentifiedObservations = () => {
   const [observations, setObservations] = useState<ObservationType[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -34,7 +34,7 @@ const Observations = () => {
     try {
       setLoading(true);
 
-      const data = await observationsService.getAll(page, limit, false);
+      const data = await observationsService.getAll(page, limit, true);
 
       setObservations(data.observations);
       setTotalPages(data.totalPages);
@@ -86,70 +86,6 @@ const Observations = () => {
   return (
     <div>
       {/* Filters + Search */}
-      <Row className="mb-3">
-        <Col></Col>
-
-        <Col>
-          <Form>
-            <InputGroup>
-              <InputGroup.Text>
-                <IoSearch />
-              </InputGroup.Text>
-              <Form.Control
-                type="search"
-                placeholder="Search observations..."
-                onChange={(e) => handleSearch(e.target.value)}
-              />
-            </InputGroup>
-          </Form>
-        </Col>
-
-        <Col>
-          <Dropdown>
-            <Dropdown.Toggle variant="success" id="filter-dropdown">
-              <FaFilter />
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu>
-              {/* Category Filters */}
-              {["fauna", "flora", "funga"].map((cat) => (
-                <Dropdown.Item
-                  key={cat}
-                  as="div"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <Form.Check
-                    type="checkbox"
-                    label={cat}
-                    checked={selectedCategories.includes(cat as CategoryType)}
-                    onChange={() => handleCategoryToggle(cat as CategoryType)}
-                  />
-                </Dropdown.Item>
-              ))}
-
-              {/* Discovery Filters */}
-              {["domestic", "wildlife"].map((disc) => (
-                <Dropdown.Item
-                  key={disc}
-                  as="div"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <Form.Check
-                    type="checkbox"
-                    label={disc}
-                    checked={selectedDiscoveries.includes(
-                      disc as DiscoveryType
-                    )}
-                    onChange={() =>
-                      handleDiscoveryToggle(disc as DiscoveryType)
-                    }
-                  />
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
-        </Col>
-      </Row>
 
       {/* Observations Grid */}
       {loading ? (
@@ -201,4 +137,4 @@ const Observations = () => {
   );
 };
 
-export default Observations;
+export default UnidentifiedObservations;
