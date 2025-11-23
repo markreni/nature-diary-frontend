@@ -1,9 +1,15 @@
 type CategoryType = "fauna" | "flora" | "funga";
 type DiscoveryType = "domestic" | "wildlife";
 
+export interface PublicUser {
+  id: number;
+  firstName: string;
+  lastName: string;
+}
+
 type ObservationType = {
   id: number;
-  userId: number;
+  user?: PublicUser;
   scientific_name: string;
   common_name: string;
   description: string;
@@ -101,11 +107,7 @@ interface SuggestionType {
   id: number;
   suggested_name: string;
   date: string;
-  user: {
-    id: number;
-    firstName: string;
-    lastName: string;
-  };
+  user: PublicUser;
 }
 
 export type {

@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Card, Image, Carousel, Row, Col } from "react-bootstrap";
-import type { ObservationType } from '../types/types';
+import type { ObservationWithLocation, ObservationImage } from '../types/types';
 import '../assets/styles/global.css'
 import ObservationMap from '../components/ObservationMap';
 import  suggestionService  from "../services/suggestionService";
 import { jwtDecode } from "jwt-decode";
 import IdentificationSuggestions from "../components/IdentificationSuggestions";
+import observationsService from "../services/observationService";
+import baseURL from "../services/config";
 
 interface TokenPayload {
   id: number;
@@ -14,19 +16,60 @@ interface TokenPayload {
 }
 
 
-const ObservationPage = ({obs: initialObs}: {obs: ObservationType}) => {
-    const [obs, setObs] = useState<ObservationType>(initialObs);
+const ObservationPage = () => {
+    const { id } = useParams<{id: string}>();
+    const [obs, setObs] = useState<ObservationWithLocation | null>(null);
     const [isOwner, setIsOwner] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+
+    useEffect(() => {
+        const storedToken = localStorage.getItem("token");
+        if (storedToken) {
+            suggestionService.setToken(storedToken);
+            setIsLoggedIn(true);
+        }else{
+            setIsLoggedIn(false);
+        }
+    }, []);
+
+    useEffect(() => {
+    const fetchObservation = async () => {
+      try {
+        if (id) {
+          const data = await observationsService.getById(Number(id));
+          setObs(data.observation);
+        }
+      } catch (err) {
+        console.error("Failed to fetch observation:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchObservation();
+  }, [id]);
+
+  const getImageUrl = (img: ObservationImage | string) => {
+    if (!img) return "/placeholder.jpg";
+    if (typeof img === "string") return img;
+    if ("imageName" in img && img.imageName)
+      return `${baseURL}images/${img.imageName}`;
+    return "/placeholder.jpg";
+  };
+
+  
     // check if the current user is the owner
     useEffect(() => {
         const storedToken = localStorage.getItem("token");
         
-        if (storedToken) {
+        
+        if (storedToken && obs?.user) {
             suggestionService.setToken(storedToken);
             try {
                 const decoded = jwtDecode<TokenPayload>(storedToken);
-                if (decoded.id === initialObs.userId) {
+                if (decoded.id === obs.user.id) {
                     setIsOwner(true);
                 } else {
                     setIsOwner(false);
@@ -35,43 +78,47 @@ const ObservationPage = ({obs: initialObs}: {obs: ObservationType}) => {
                 console.error("Invalid token");
                 setIsOwner(false);
             }
+        } else{
+            setIsOwner(false);
         }
-    }, [initialObs.userId]); 
-
-
-    useEffect(() => {
-        setObs(initialObs);
-    }, [initialObs]);
+    }, [obs?.user?.id]); 
 
 
 
+    if (loading) return <p>Loading observation...</p>;
+    if (!obs) return <p>Observation not found.</p>;
     return (
             <Card>
                 <Card.Header>
                     <b>{obs.common_name || "Unidentified species"}</b>
                 </Card.Header>
+
+                {obs.images && obs.images.length > 0 ? (
                     <Carousel controls={true}>
-                        {obs.images.map((imgUrl, idx) => (
+                        {obs.images.map((img, idx) => (
                             <Carousel.Item key={idx}>
-                            <Image
-                                src={typeof imgUrl === 'string' ? imgUrl : URL.createObjectURL(imgUrl as unknown as Blob)}
-                                className="d-block w-100"
-                                style={{
-                                    height: '400px',
-                                    objectFit: 'contain',
-                                    borderRadius: '8px',
-                                    padding: '1rem'
-                                }}
-                            />
-                        </Carousel.Item>
+                                <Image
+                                    src={getImageUrl(img)}
+                                    className="d-block w-100"
+                                    style={{
+                                        height: "400px",
+                                        objectFit: "contain",
+                                        borderRadius: "8px",
+                                        padding: "1rem",
+                                    }}
+                                />
+                            </Carousel.Item>
                         ))}
                     </Carousel>
+                ) : (
+                    <div className="text-center p-4">No images available</div>
+                )}
                 <Card.Body className="border-bottom">
                     <Row>
                         <Col md={7} className="border-end">
                             <Row>
                                 <Col sm={3} className="fw-bold">Scientific name</Col>
-                        <       Col>{obs.scientific_name || <i>Identification needed</i>}</Col>
+                        <       Col>{obs.scientific_name || <i>Scientific name missing</i>}</Col>
                             </Row>
                             <Row className="mt-2">
                                 <Col sm={3} className="fw-bold">Observed date</Col>
@@ -79,7 +126,10 @@ const ObservationPage = ({obs: initialObs}: {obs: ObservationType}) => {
                             </Row>
                             <Row className="mt-2">
                                 <Col sm={3} className="fw-bold">Location</Col>
-                                <Col>{obs.location}</Col>
+                                <Col>{obs.location
+                                        ? `Lat: ${obs.location.lat}, Lng: ${obs.location.lng}`
+                                        : "Unknown"}
+                                </Col>
                             </Row>
                             <Row className="mt-2">           
                                 <Col sm={3} className="fw-bold">Description</Col>
@@ -99,9 +149,10 @@ const ObservationPage = ({obs: initialObs}: {obs: ObservationType}) => {
                             <IdentificationSuggestions
                                 observationId={obs.id}
                                 isOwner={isOwner}
-                                isIdentified={obs.identified}
+                                isIdentified={!obs.identified}
                                 acceptedName={obs.common_name}
                                 onUpdate={(updatedObs) => setObs(updatedObs)}
+                                isLoggedIn={isLoggedIn}
 
                             />
                         </Col>

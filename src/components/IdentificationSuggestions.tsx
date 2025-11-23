@@ -1,19 +1,21 @@
 import { useState, useEffect } from 'react';
 import { Card, Form, Button, ListGroup, Alert, Badge, Spinner } from 'react-bootstrap';
-import type { ObservationType, SuggestionType } from '../types/types';
+import type { ObservationWithLocation, SuggestionType } from '../types/types';
 import '../assets/styles/global.css'
 import suggestionService from "../services/suggestionService";
-
+import { Link } from 'react-router-dom';
+// Important: database identified=true means unidentified species, but I reverse the isIdentified in the parent component
 
 interface Props {
     observationId: number;
     isOwner: boolean;
     isIdentified: boolean;
-    acceptedName?: string
-    onUpdate: (updatedObs: ObservationType) => void;
+    acceptedName?: string;
+    isLoggedIn: boolean
+    onUpdate: (updatedObs: ObservationWithLocation) => void;
 }
 
-const IdentificationSuggestions = ({observationId, isOwner, isIdentified, acceptedName, onUpdate}: Props) => {
+const IdentificationSuggestions = ({observationId, isOwner, isIdentified, acceptedName, isLoggedIn, onUpdate}: Props) => {
     const [suggestions, setSuggestions] = useState<SuggestionType[]>([]);
     const [newSuggestion, setNewSuggestion] = useState('');
     const [loading, setLoading] = useState(false);
@@ -49,7 +51,7 @@ const IdentificationSuggestions = ({observationId, isOwner, isIdentified, accept
         }
     }
     const handleAccept = async (suggestionId: number) => {
-        if (!confirm("Are you sure this is the correct species? This will update the observation.")) return;
+        if (!confirm("Are you sure this is the correct species common name? This will update the observation.")) return;
 
         try {
             const response = await suggestionService.acceptSuggestion(suggestionId);
@@ -57,66 +59,109 @@ const IdentificationSuggestions = ({observationId, isOwner, isIdentified, accept
         } catch (err) {
             setError('Failed to accept suggestion.');
         }
-  };
+    };
 
-
+    const matchingSuggestion = suggestions.find(s => s.suggested_name === acceptedName); //community member accepted suggestion
     return (
-    <Card className="mt-3 shadow-sm">
-      <Card.Header className="bg-light fw-bold">Identification Suggestions</Card.Header>
-      <Card.Body>
-        {error && <Alert variant="danger">{error}</Alert>}
-        
-        {loading && suggestions.length === 0 ? (
-            <div className="text-center p-3"><Spinner animation="border" size="sm" /></div>
-        ) : (
-            <ListGroup variant="flush" className="mb-3">
-            {suggestions.map((s) => (
-                <ListGroup.Item key={s.id} className="d-flex justify-content-between align-items-start">
-                <div className="ms-2 me-auto">
-                    <div className="fw-bold">{s.suggested_name}</div>
-                    <small className="text-muted">
-                    By {s.user.firstName} • {new Date(s.date).toLocaleDateString()}
-                    </small>
-                </div>
+        <Card className="mt-3 shadow-sm">
+            <Card.Header className="bg-light fw-bold">Identification Suggestions</Card.Header>
+            <Card.Body>
+                {error && <Alert variant="danger">{error}</Alert>}
 
-                {/* If this is the accepted name, show green badge */}
-                {isIdentified && acceptedName === s.suggested_name && (
-                    <Badge bg="success" pill>Accepted Identity</Badge>
+                {/* Observation identified?*/}
+                {isIdentified ? (
+                    <div className="text-center p-4">
+                        {/* If no suggestions, then observer must have had it already identified when uploading*/}
+                        {suggestions.length === 0 ? (
+                            <>
+                                <h5 className="text-primary">Already identified</h5>
+                                <p className="mb-2">
+                                    The observer identified this as <strong>{acceptedName}</strong>.
+                                </p>
+                                <Badge bg="secondary">Original ID</Badge>
+                            </>
+                        /* Matching suggestion, observation identified via identification feature*/
+                        ) : matchingSuggestion ? (
+                            <>
+                                <h5 className="text-success">Identified via identification suggestions</h5>
+                                <p className="mb-1">
+                                    Identified as <strong>{acceptedName}</strong>.
+                                </p>
+                                <small className="text-muted">
+                                    Credit: {matchingSuggestion.user.firstName} • {new Date(matchingSuggestion.date).toLocaleDateString()}
+                                </small>
+                            </>
+                        ) : (
+                            /* Identified in some other way by the observer */
+                            <>
+                                <h5 className="text-primary">Observer Identified</h5>
+                                <p className="mb-2">
+                                    The observer selected: <strong>{acceptedName}</strong>.
+                                </p>
+                                <Badge bg="secondary">Original ID</Badge>
+                            </>
+                        )}
+                    </div>
+                ) : (
+                    /* Not identified state */
+                    <>
+                        {loading && suggestions.length === 0 ? (
+                            <div className="text-center p-3"><Spinner animation="border" size="sm" /></div>
+                        ) : (
+                            <ListGroup variant="flush" className="mb-3">
+                                {suggestions.map((s) => (
+                                    <ListGroup.Item key={s.id} className="d-flex justify-content-between align-items-start">
+                                        <div className="ms-2 me-auto">
+                                            <div className="fw-bold">{s.suggested_name}</div>
+                                            <small className="text-muted">
+                                                By {s.user.firstName} • {new Date(s.date).toLocaleDateString()}
+                                            </small>
+                                        </div>
+
+                                        {/* Show Accept button if owner */}
+                                        {isLoggedIn && isOwner && !isIdentified && (
+                                            <Button
+                                                variant="outline-success"
+                                                size="sm"
+                                                onClick={() => handleAccept(s.id)}
+                                            >
+                                                Accept
+                                            </Button>
+                                        )}
+                                    </ListGroup.Item>
+                                ))}
+                                {suggestions.length === 0 && <div className="text-muted text-center">No suggestions yet.</div>}
+                            </ListGroup>
+                        )}
+
+                        {/* Input Form */}
+                        {isLoggedIn && (
+                            <Form onSubmit={handleAddSuggestion} className="border-top pt-3">
+                                <Form.Group className="d-flex gap-2">
+                                    <Form.Control
+                                        type="text"
+                                        value={newSuggestion}
+                                        onChange={(e) => setNewSuggestion(e.target.value)}
+                                        placeholder={isOwner ? "I think this might be..." : "Do you know the common name of this species?"}
+                                    />
+                                    <Button variant="primary" type="submit">Suggest</Button>
+                                </Form.Group>
+                            </Form>
+                        )}
+
+                        {/* Login Prompt */}
+                        {!isLoggedIn && (
+                            <Alert variant="info" className="text-center m-0 p-2">
+                                <small>
+                                    Know this species? <Link to="/login">Log in</Link> to suggest an ID.
+                                </small>
+                            </Alert>
+                        )}
+                    </>
                 )}
-
-                {/* If not identified yet and user is the owner, give possibility to accept */}
-                {isOwner && !isIdentified && (
-                    <Button 
-                        variant="outline-success" 
-                        size="sm" 
-                        onClick={() => handleAccept(s.id)}
-                    >
-                    Accept
-                    </Button>
-                )}
-                </ListGroup.Item>
-            ))}
-            {suggestions.length === 0 && <div className="text-muted text-center">No suggestions yet.</div>}
-            </ListGroup>
-        )}
-
-        {/* Input form if not identified, both owner and other users can suggest*/}
-        {!isIdentified && (
-          <Form onSubmit={handleAddSuggestion}>
-            <Form.Group className="d-flex gap-2">
-              <Form.Control
-                type="text"
-                value={newSuggestion}
-                onChange={(e) => setNewSuggestion(e.target.value)}
-                placeholder={isOwner ? "I think this might be..." : "Do you know this species?"}
-              />
-              <Button variant="primary" type="submit">Suggest</Button>
-            </Form.Group>
-          </Form>
-        )}
-      </Card.Body>
-    </Card>
-  );
+            </Card.Body>
+        </Card>
+    );
     
 }
 
