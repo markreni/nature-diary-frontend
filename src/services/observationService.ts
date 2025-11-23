@@ -33,7 +33,7 @@ const getAll = async (
   const response = await axios.get(
     `${baseURL}api/v1/public/observations?page=${page}&limit=${limit}&identified=${identified}`
   );
-  console.log("Response data in getAll:", response.data);
+
   return {
     observations: response.data.data,
     total: response.data.pagination.total,
@@ -46,8 +46,36 @@ const getById = async (id: number) => {
   const response = await axios.get(
     `${baseURL}api/v1/public/observations/${id}`
   );
-  //console.log("Response data in getById:", response.data);
+
   return response.data;
 };
 
-export default { create, setToken, getAll, getById };
+const getByUser = async (
+  page = 1,
+  limit = 10
+): Promise<IObservationListResponse> => {
+  const response = await axios.get(
+    `${baseURL}api/v1/observations?page=${page}&limit=${limit}`,
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+
+  return {
+    observations: response.data.data,
+    total: response.data.pagination.total,
+    page: response.data.pagination.page,
+    totalPages: response.data.pagination.totalPages,
+  };
+};
+
+const remove = async (id: number) => {
+  const response = await axios.delete(`${baseURL}api/v1/observations/${id}`, {
+    headers: { Authorization: token },
+  });
+  return response.data;
+};
+
+export default { create, setToken, getAll, getById, getByUser, remove };
