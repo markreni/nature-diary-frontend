@@ -95,7 +95,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
       for (const [key, value] of formData.entries()) {
         console.log(key, value);
       }*/
-      console.log("observation.identified", observation.identified);
+
       try {
         const result = await addObservation(formData);
 

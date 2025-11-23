@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
 import { FaFilter } from "react-icons/fa6";
 import observationsService from "../services/observationService.ts";
+import CustomAlert from "../components/CustomAlert.tsx";
 
 const MyAccount = () => {
   const [observations, setObservations] = useState<ObservationType[]>([]);
@@ -26,6 +27,7 @@ const MyAccount = () => {
   const [selectedDiscoveries, setSelectedDiscoveries] = useState<
     DiscoveryType[]
   >(["domestic", "wildlife"]);
+  const [deleteMessage, setDeleteMessage] = useState<string[] | null>(null);
 
   const limit = 10; // backend items per page
 
@@ -34,7 +36,11 @@ const MyAccount = () => {
     try {
       setLoading(true);
 
-      const data = await observationsService.getAll(page, limit, false);
+      const token = localStorage.getItem("token");
+      if (token) {
+        observationsService.setToken(token);
+      }
+      const data = await observationsService.getByUser(page, limit);
 
       setObservations(data.observations);
       setTotalPages(data.totalPages);
@@ -86,6 +92,7 @@ const MyAccount = () => {
   return (
     <div>
       {/* Filters + Search */}
+      {deleteMessage && <CustomAlert errorMsg={deleteMessage} type="success" />}
       <Row className="mb-3">
         <Col></Col>
 
@@ -162,7 +169,18 @@ const MyAccount = () => {
                 to={`/observations/${obs.id}`}
                 style={{ textDecoration: "none" }}
               >
-                <MyObservation obs={obs} />
+                <MyObservation
+                  obs={obs}
+                  onDelete={async () => {
+                    await loadObservations(); // refresh list
+
+                    // Show success alert
+                    setDeleteMessage(["Observation deleted successfully!"]);
+
+                    // Hide after 3 sec
+                    setTimeout(() => setDeleteMessage(null), 3000);
+                  }}
+                />
               </Link>
             </Col>
           ))}
