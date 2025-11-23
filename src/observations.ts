@@ -3,6 +3,7 @@ import type { ObservationType } from './types/types'
 const observations: ObservationType[] = [
   {
     id: 1,
+    userId: 2,
     common_name: '',
     scientific_name: '',
     description: 'A small, typically furry carnivorous mammal.',
@@ -16,6 +17,7 @@ const observations: ObservationType[] = [
   },
   {
     id: 2,
+    userId: 1,
     common_name: 'Dog',
     scientific_name: 'Canis lupus familiaris',
     description: 'A domesticated descendant of the wolf.',
@@ -33,6 +35,7 @@ const observations: ObservationType[] = [
   },
    {
     id: 3,
+    userId: 1,
     common_name: 'Elephant',
     scientific_name: 'Loxodonta africana',
     description: 'The largest existing land animal.',
@@ -50,11 +53,16 @@ const observations: ObservationType[] = [
   },
   {
     id: 4,
+    userId: 1,
     common_name: '',
     scientific_name: '',
     description: 'Some elephant, smaller than its African cousin.',
     date: '2025-10-02',
     location: 'Zoo',
+    coordinates: {
+      lat:60.188285889812136, 
+      lng:24.832125091106953
+    },
     images: ['https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80'],
     public: true,
     identified: false,
@@ -63,11 +71,16 @@ const observations: ObservationType[] = [
   },
   {
     id: 5,
+    userId: 1,
     common_name: 'Palm tree',
     scientific_name: 'Arecaceae',
     description: 'A family of perennial flowering plants.',
     date: '2025-10-01',
     location: 'Forest',
+    coordinates: {
+      lat: 60.190020889596795,
+      lng: 24.82533594746241
+    },
     images: ['https://images.unsplash.com/photo-1468421870903-4df1664ac249?auto=format&fit=crop&w=400&q=80'],
     public: true,
     identified: true,
@@ -76,6 +89,7 @@ const observations: ObservationType[] = [
   },
   {
     id: 6,
+    userId: 1,
     common_name: 'Elephant',
     scientific_name: 'Loxodonta africana',
     description: 'The largest existing land animal.',
@@ -89,6 +103,7 @@ const observations: ObservationType[] = [
   },
   {
     id: 7,
+    userId: 1,
     common_name: 'Cat',
     scientific_name: 'Felix Gatus',
     description: 'The largest existing land animal.',

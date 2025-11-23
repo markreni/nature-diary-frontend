@@ -1,13 +1,13 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import type { ObservationType } from '../types/types';
+import type { ObservationWithLocation } from '../types/types';
 import '../assets/styles/global.css';
 import 'leaflet/dist/leaflet.css';
 
 
-const ObservationMap = ({obs}: {obs: ObservationType}) => {
+const ObservationMap = ({obs}: {obs: ObservationWithLocation}) => {
     //uses default position if coordinates missing
-    const position: [number, number] = obs.coordinates 
-        ? [obs.coordinates.lat, obs.coordinates.lng]
+    const position: [number, number] = obs.location 
+        ? [obs.location.lat, obs.location.lng]
         : [60.1699, 24.9384];
     
     return (
@@ -23,7 +23,7 @@ const ObservationMap = ({obs}: {obs: ObservationType}) => {
             <Marker position={position}>
                 <Popup>
                     <strong>{obs.common_name}</strong><br />
-                    {obs.location}
+                    {/*obs.location*/}
                 </Popup>
             </Marker>
         </MapContainer>

@@ -1,8 +1,15 @@
 type CategoryType = "fauna" | "flora" | "funga";
 type DiscoveryType = "domestic" | "wildlife";
 
+export interface PublicUser {
+  id: number;
+  firstName: string;
+  lastName: string;
+}
+
 type ObservationType = {
   id: number;
+  user?: PublicUser;
   scientific_name: string;
   common_name: string;
   description: string;
@@ -17,6 +24,7 @@ type ObservationType = {
   identified: boolean;
   category: CategoryType;
   discovery: DiscoveryType;
+  suggestions?: SuggestionType[]; 
 };
 
 export interface ObservationImage {
@@ -95,6 +103,13 @@ interface ObservationWithLocation
   images?: ObservationImage[] | string[];
 }
 
+interface SuggestionType {
+  id: number;
+  suggested_name: string;
+  date: string;
+  user: PublicUser;
+}
+
 export type {
   ObservationType,
   CategoryType,
@@ -109,4 +124,5 @@ export type {
   IObservationListResponse,
   LocationType,
   ObservationWithLocation,
+  SuggestionType,
 };

@@ -99,11 +99,7 @@ const App = () => {
   // get the observation for the single observation page if the url matches /observations/:id
   const publicObservations = data!.filter((obs) => obs.public === true);
 
-  /*
-  const observation = match
-    ? observations.find((obs) => obs.id === Number(match.params.id))
-    : null;
-  */
+ 
 
   return (
     <ThemeProvider>
@@ -113,7 +109,7 @@ const App = () => {
           <Routes>
             <Route
               path="/observations/:id"
-              element={<ObservationPage isOwner={true} />}
+              element={<ObservationPage/>}
             />
             <Route path="/" element={<Home />} />
             <Route
