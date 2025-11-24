@@ -64,11 +64,10 @@ const App = () => {
     },
   });
 
-  const addObservation = async (formData: FormData): Promise<IObservationSavedResponse> => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      observationService.setToken(token);
-    }
+  const addObservation = async (
+    formData: FormData
+  ): Promise<IObservationSavedResponse> => {
+    //const token = localStorage.getItem("token");
 
     return new Promise((resolve, reject) => {
       newObservationMutation.mutate(formData, {
@@ -99,23 +98,15 @@ const App = () => {
   // get the observation for the single observation page if the url matches /observations/:id
   const publicObservations = data!.filter((obs) => obs.public === true);
 
- 
-
   return (
     <ThemeProvider>
       <div>
         <NavBar />
         <div className="routes-margin">
           <Routes>
-            <Route
-              path="/observations/:id"
-              element={<ObservationPage/>}
-            />
+            <Route path="/observations/:id" element={<ObservationPage />} />
             <Route path="/" element={<Home />} />
-            <Route
-              path="/observations"
-              element={<Observations />}
-            />
+            <Route path="/observations" element={<Observations />} />
             <Route
               path="/unidentified"
               element={<UnidentifiedObservations />}
@@ -129,10 +120,7 @@ const App = () => {
               path="/add"
               element={<AdditionForm addObservation={addObservation} />}
             />
-            <Route
-              path="/myaccount"
-              element={<MyAccount />}
-            />
+            <Route path="/myaccount" element={<MyAccount />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
           </Routes>
