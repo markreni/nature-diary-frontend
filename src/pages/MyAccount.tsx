@@ -186,8 +186,8 @@ const MyAccount = () => {
           ))}
         </Row>
       )}
-
       {/* Pagination */}
+      { observations.length !== 0 && !loading && (
       <Row className="mt-4 text-center">
         <Col>
           <Button
@@ -215,6 +215,7 @@ const MyAccount = () => {
           </Button>
         </Col>
       </Row>
+      )}
     </div>
   );
 };
