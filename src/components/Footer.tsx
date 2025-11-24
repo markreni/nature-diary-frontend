@@ -37,7 +37,6 @@ const Footer = () => {
                 <FaGithub />
               </a>
             </div>
-            <div className="mt-2 small">mark.renssi@aalto.fi</div>
           </Col>
         </Row>
 

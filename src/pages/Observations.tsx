@@ -77,7 +77,7 @@ const Observations = () => {
     const search = searchText.toLowerCase();
 
     return (
-      obs.public && (sci.includes(search) || common.includes(search)) &&
+      (sci.includes(search) || common.includes(search)) &&
       selectedCategories.includes(obs.category) &&
       selectedDiscoveries.includes(obs.discovery)
     );
