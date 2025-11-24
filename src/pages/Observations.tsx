@@ -27,7 +27,7 @@ const Observations = () => {
     DiscoveryType[]
   >(["domestic", "wildlife"]);
 
-  const limit = 10; // backend items per page
+  const limit = 8; // backend items per page
 
   /** Load observations from backend */
   const loadObservations = async () => {
@@ -77,7 +77,7 @@ const Observations = () => {
     const search = searchText.toLowerCase();
 
     return (
-      (sci.includes(search) || common.includes(search)) &&
+      obs.public && (sci.includes(search) || common.includes(search)) &&
       selectedCategories.includes(obs.category) &&
       selectedDiscoveries.includes(obs.discovery)
     );
