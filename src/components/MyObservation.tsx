@@ -33,9 +33,13 @@ const MyObservation = ({
                 </Card.Title>
               )}
 
-              <Card.Text className="text-muted" style={{ fontSize: "0.95rem" }}>
-                {obs.scientific_name}
-              </Card.Text>
+             {obs.scientific_name != "" ? (
+            <Card.Text className="text-muted" style={{ fontSize: "0.95rem" }}>
+            {obs.scientific_name}
+          </Card.Text>
+          ) : (
+          <p>{":("}</p>
+          )}
 
               {obs.images && obs.images.length > 0 && (
                 <div className="my-2">

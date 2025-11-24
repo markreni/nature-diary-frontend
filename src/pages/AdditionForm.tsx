@@ -405,8 +405,9 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
             )}
           </Row>
           <Form.Group className="mb-4">
-            <Form.Label>Images</Form.Label>
+            <Form.Label>Images *</Form.Label>
             <Form.Control
+              required
               type="file"
               accept="image/*"
               multiple
