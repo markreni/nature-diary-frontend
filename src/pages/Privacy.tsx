@@ -1,9 +1,24 @@
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const Privacy = () => {
+  const navigate = useNavigate();
+
   return (
     <Container className="py-5">
       <Row className="justify-content-center">
+        <Col xs="auto">
+                <Button
+                variant="link"
+                onClick={() => navigate(-1)}
+                aria-label="Go back"
+                title="Go back"
+                className="p-0"
+                >
+                <IoMdArrowRoundBack size={25} />
+                </Button>
+        </Col>
         <Col md={10} lg={8}>
           <div className="p-4 mb-4 bg-light rounded-3">
             <h1 className="display-6 mb-2">Privacy & Data Policy</h1>
