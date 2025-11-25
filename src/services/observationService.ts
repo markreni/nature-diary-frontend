@@ -85,4 +85,4 @@ const remove = async (id: number) => {
   return response.data;
 };
 
-export default { create, setToken, getAll, getById, getByUser, remove, getAllObservations };
+export default { create, getAll, getById, getByUser, remove, getAllObservations };
