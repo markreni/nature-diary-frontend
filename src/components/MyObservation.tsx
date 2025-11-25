@@ -73,7 +73,7 @@ const MyObservation = ({
                   // prevent the click from bubbling to parent links/handlers
                   e.stopPropagation();
                   e.preventDefault();
-                  if (window.confirm("Delete this observation?")) {
+                  if (window.confirm("Delete this observation?\nObservation will also be deleted from the public catalogue.")) {
                     console.log("delete confirmed", obs.id);
 
                     // TODO: call API handler to delete

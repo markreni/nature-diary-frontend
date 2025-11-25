@@ -6,19 +6,18 @@ const About = () => {
   const navigate = useNavigate();
 
   return (
-    <Container className="py-5">
-      <Row className="justify-content-center">
-        <Col xs="auto">
-                <Button
-                variant="link"
-                onClick={() => navigate(-1)}
-                aria-label="Go back"
-                title="Go back"
-                className="p-0"
-                >
-                <IoMdArrowRoundBack size={25} />
-                </Button>
-        </Col>
+    <Container className="py-5 position-relative">
+      <Button
+        variant="link"
+        onClick={() => navigate(-1)}
+        aria-label="Go back"
+        title="Go back"
+        className="p-0 page-back"
+      >
+        <IoMdArrowRoundBack size={25} />
+      </Button>
+
+      <Row className="justify-content-center" style={{ marginLeft: 10 }}>
         <Col md={10} lg={8}>
           <div className="p-4 mb-4 bg-light rounded-3">
             <h1 className="display-6 mb-2">About NatureDiary</h1>

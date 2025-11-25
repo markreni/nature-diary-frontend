@@ -97,32 +97,32 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
 
         if (result.success) {
           setSuccessMessage("Observation saved successfully!");
+          setTimeout(() => navigate("/myaccount"), 1000);
+          clearAllPreviews();
+
+          // Reset form
+          /*
+          setObservation({
+            id: 0,
+            scientific_name: "",
+            common_name: "",
+            description: "",
+            date: "",
+            location: "",
+            coordinates: undefined,
+            images: [],
+            public: false,
+            identified: false,
+            category: "fauna",
+            discovery: "domestic",
+          });
+          */
+
+          setValidated(false);
         }
       } catch (error) {
         console.error(error);
       }
-
-      clearAllPreviews();
-
-      // Reset form
-      setObservation({
-        id: 0,
-        scientific_name: "",
-        common_name: "",
-        description: "",
-        date: "",
-        location: "",
-        coordinates: undefined,
-        images: [],
-        public: false,
-        identified: false,
-        category: "fauna",
-        discovery: "domestic",
-      });
-
-      setValidated(false);
-
-      //navigate("/");
     }
   };
 
@@ -201,8 +201,8 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
               variant="link"
               onClick={() => navigate(-1)}
               aria-label="Go back"
-              title="Go back"
-              className="p-0"
+              title="Go back" 
+              className="p-0 page-back-form"
             >
               <IoMdArrowRoundBack size={25} />
             </Button>
@@ -368,8 +368,9 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
                 <Form.Group className="mb-3">
                   <Form.Label>Location *</Form.Label>
                   <Form.Control
+                    required
                     type="text"
-                    placeholder="Enter coordinates"
+                    placeholder="Move the marker on the map or enter coordinates"
                     value={observation.location}
                     onChange={(e) =>
                       handleInputChange("location", e.target.value)

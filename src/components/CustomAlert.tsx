@@ -14,9 +14,11 @@ const CustomAlert: React.FC<ErrorMsgProp> = ({ errorMsg, type }) => {
   return (
     <>
       <Alert key={errorType} variant={errorType}>
-        {errorMsg.map((error, index) => (
-          <li key={index}>{error}</li>
-        ))}
+        <ul className="mb-0 list-unstyled">
+          {errorMsg.map((error, index) => (
+            <li key={index}>{error}</li>
+          ))}
+        </ul>
       </Alert>
     </>
   );
