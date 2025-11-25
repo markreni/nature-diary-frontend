@@ -6,6 +6,7 @@ import type { IsignUp, IResponse, IError } from "../types/types";
 import authService from "../services/signup";
 import validator from "validator";
 import CustomAlert from "../components/CustomAlert";
+import { useNavigate } from "react-router-dom";
 
 function SignUpForm() {
   const [firstName, setFirstName] = useState("");
@@ -14,6 +15,8 @@ function SignUpForm() {
   const [password, setPassword] = useState("");
   const [retypePassword, setRetypePassword] = useState("");
   const [errors, setErrors] = useState<IError>({ message: [], type: "" });
+
+  const navigate = useNavigate();
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -59,11 +62,12 @@ function SignUpForm() {
         );
         console.log(response);
         if (response.data.success === true) {
-          setEmail("");
-          setPassword("");
-          setRetypePassword("");
+          //setEmail("");
+          //setPassword("");
+          //setRetypePassword("");
           newErrors.push("Registration is successful. Please login.");
           setErrors({ message: [...new Set(newErrors)], type: "success" });
+          setTimeout(() => navigate("/login"), 1000);
         } else if (response.data.success === false) {
           newErrors.push(response.data.message);
           setErrors({ message: [...new Set(newErrors)], type: "error" });
