@@ -4,7 +4,7 @@ import "../assets/styles/global.css";
 import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
-  const user: string | null = window.localStorage.getItem("user");
+  const token: string | null = window.localStorage.getItem("token");
   const navigate = useNavigate();
   return (
     <Navbar
@@ -32,7 +32,7 @@ const NavBar = () => {
               <Nav.Link>Unidentified</Nav.Link>
             </LinkContainer>
 
-            {!user && (
+            {!token && (
               <>
                 <LinkContainer to="/signup" className="nav-bar-link">
                   <Nav.Link>Sign Up</Nav.Link>
@@ -43,7 +43,7 @@ const NavBar = () => {
               </>
             )}
 
-            {user && (
+            {token && (
               <Nav.Link
                 onClick={() => {
                   localStorage.removeItem("token");
@@ -57,7 +57,7 @@ const NavBar = () => {
               </Nav.Link>
             )}
           </Nav>
-          {user && (
+          {token && (
             <Nav className="nav-bar-add-link">
               <LinkContainer to="/questions">
                 <Nav.Link>Add observation</Nav.Link>

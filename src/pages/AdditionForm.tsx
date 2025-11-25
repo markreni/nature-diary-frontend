@@ -51,11 +51,6 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
   const navigate = useNavigate();
   const questionAnswers: QuestionState = useQuestionValues();
 
-  console.log(
-    "Question answers in AdditionForm:",
-    questionAnswers.identification
-  );
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;

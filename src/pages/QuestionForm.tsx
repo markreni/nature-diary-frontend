@@ -32,7 +32,7 @@ const QuestionForm = () => {
         identification: answers[2],
       },
     });
-    console.log("Submitted answers:", answers);
+
     navigate("/add");
   };
 

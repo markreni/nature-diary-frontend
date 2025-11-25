@@ -28,10 +28,18 @@ api.interceptors.response.use(
 
       try {
         // Call refresh endpoint
-        const res = await axios.post(`${baseURL}api/v1/auth/refresh`, {
-          refreshToken,
-        });
+        const res = await axios.post(
+          `${baseURL}api/v1/auth/refresh`,
+          { refreshToken },
+          {
+            withCredentials: true, // important for refresh tokens
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
+        console.log("refresh response", res);
         // Save new access token
         const newToken = res.data.accessToken;
         localStorage.setItem("token", newToken);
@@ -41,8 +49,10 @@ api.interceptors.response.use(
         return api(originalRequest);
       } catch (err) {
         // Refresh token invalid or expired -> logout
+        console.error("REFRESH FAILED:", err);
         localStorage.removeItem("token");
         localStorage.removeItem("refreshToken");
+        localStorage.removeItem("user");
         window.location.href = "/login";
         return Promise.reject(err);
       }

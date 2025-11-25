@@ -9,6 +9,7 @@ import MyAccount from "./pages/MyAccount.tsx";
 import NavBar from "./components/NavBar.tsx";
 import ThemeProvider from "react-bootstrap/ThemeProvider";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import ProtectedRoute from "./components/ProtectedRoute";
 import {
   Routes,
   Route,
@@ -115,12 +116,30 @@ const App = () => {
               path="/map"
               element={<ObservationsMap observations={publicObservations} />}
             />
-            <Route path="/questions" element={<QuestionForm />} />
+            <Route
+              path="/questions"
+              element={
+                <ProtectedRoute>
+                  <QuestionForm />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/add"
-              element={<AdditionForm addObservation={addObservation} />}
+              element={
+                <ProtectedRoute>
+                  <AdditionForm addObservation={addObservation} />
+                </ProtectedRoute>
+              }
             />
-            <Route path="/myaccount" element={<MyAccount />} />
+            <Route
+              path="/myaccount"
+              element={
+                <ProtectedRoute>
+                  <MyAccount />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
           </Routes>
