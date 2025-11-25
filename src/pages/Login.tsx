@@ -52,7 +52,7 @@ function Login() {
           type: "success",
         });
 
-        setTimeout(() => navigate("/questions"), 1000);
+        setTimeout(() => navigate("/"), 1000);
       } else {
         setErrors({
           message: [response.data.msg || "Invalid email or password"],

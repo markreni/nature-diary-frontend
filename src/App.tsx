@@ -32,6 +32,8 @@ import ObservationPage from "./pages/ObservationPage.tsx";
 import ObservationsMap from "./pages/ObservationsMap.tsx";
 import observationService from "./services/observationService.ts";
 import type { AxiosResponse } from "axios";
+import About from "./pages/About.tsx";
+import Privacy from "./pages/Privacy.tsx";
 
 const App = () => {
   const queryClient = useQueryClient();
@@ -139,6 +141,14 @@ const App = () => {
                   <MyAccount />
                 </ProtectedRoute>
               }
+            />
+            <Route
+              path="/privacy"
+              element={<Privacy />}
+            />
+            <Route
+              path="/about"
+              element={<About />}
             />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />

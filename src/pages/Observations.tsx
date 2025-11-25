@@ -27,7 +27,7 @@ const Observations = () => {
     DiscoveryType[]
   >(["domestic", "wildlife"]);
 
-  const limit = 10; // backend items per page
+  const limit = 8; // backend items per page
 
   /** Load observations from backend */
   const loadObservations = async () => {
@@ -155,7 +155,7 @@ const Observations = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <Row xs={1} sm={2} md={3} lg={4} className="g-3">
+        <Row xs={1} sm={2} md={observations.length >= 3 ? 3 : 2} lg={observations.length >= 4 ? 4 :observations.length >= 3 ? 3 : 2} className="g-3">
           {filteredObservations.map((obs) => (
             <Col key={obs.id}>
               <Link
@@ -170,6 +170,7 @@ const Observations = () => {
       )}
 
       {/* Pagination */}
+      { observations.length !== 0 && !loading && (
       <Row className="mt-4 text-center">
         <Col>
           <Button
@@ -197,6 +198,7 @@ const Observations = () => {
           </Button>
         </Col>
       </Row>
+      )}
     </div>
   );
 };

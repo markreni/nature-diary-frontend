@@ -33,9 +33,13 @@ const MyObservation = ({
                 </Card.Title>
               )}
 
-              <Card.Text className="text-muted" style={{ fontSize: "0.95rem" }}>
-                {obs.scientific_name}
-              </Card.Text>
+             {obs.scientific_name != "" ? (
+            <Card.Text className="text-muted" style={{ fontSize: "0.95rem" }}>
+            {obs.scientific_name}
+          </Card.Text>
+          ) : (
+          <p>{":("}</p>
+          )}
 
               {obs.images && obs.images.length > 0 && (
                 <div className="my-2">
@@ -69,7 +73,7 @@ const MyObservation = ({
                   // prevent the click from bubbling to parent links/handlers
                   e.stopPropagation();
                   e.preventDefault();
-                  if (window.confirm("Delete this observation?")) {
+                  if (window.confirm("Delete this observation?\nObservation will also be deleted from the public catalogue.")) {
                     console.log("delete confirmed", obs.id);
 
                     // TODO: call API handler to delete

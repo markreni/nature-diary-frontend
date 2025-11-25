@@ -29,7 +29,7 @@ const MyAccount = () => {
   >(["domestic", "wildlife"]);
   const [deleteMessage, setDeleteMessage] = useState<string[] | null>(null);
 
-  const limit = 10; // backend items per page
+  const limit = 8; // backend items per page
 
   /** Load observations from backend */
   const loadObservations = async () => {
@@ -182,8 +182,8 @@ const MyAccount = () => {
           ))}
         </Row>
       )}
-
       {/* Pagination */}
+      { observations.length !== 0 && !loading && (
       <Row className="mt-4 text-center">
         <Col>
           <Button
@@ -211,6 +211,7 @@ const MyAccount = () => {
           </Button>
         </Col>
       </Row>
+      )}
     </div>
   );
 };
