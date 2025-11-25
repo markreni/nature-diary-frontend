@@ -46,6 +46,8 @@ const NavBar = () => {
             {user && (
               <Nav.Link
                 onClick={() => {
+                  localStorage.removeItem("token");
+                  localStorage.removeItem("refreshToken");
                   localStorage.removeItem("user");
                   navigate("/");
                 }}
@@ -60,7 +62,7 @@ const NavBar = () => {
               <LinkContainer to="/questions">
                 <Nav.Link>Add observation</Nav.Link>
               </LinkContainer>
-               <LinkContainer to="/myaccount">
+              <LinkContainer to="/myaccount">
                 <Nav.Link>MyAccount</Nav.Link>
               </LinkContainer>
             </Nav>
