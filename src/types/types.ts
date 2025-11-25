@@ -24,7 +24,7 @@ type ObservationType = {
   identified: boolean;
   category: CategoryType;
   discovery: DiscoveryType;
-  suggestions?: SuggestionType[]; 
+  suggestions?: SuggestionType[];
 };
 
 export interface ObservationImage {
@@ -48,6 +48,7 @@ interface IsignUp {
 
 interface ILogInResponse {
   accessToken: string;
+  refreshToken: string;
   email: string;
   firstName: string;
   status: number;

@@ -9,6 +9,7 @@ import MyAccount from "./pages/MyAccount.tsx";
 import NavBar from "./components/NavBar.tsx";
 import ThemeProvider from "react-bootstrap/ThemeProvider";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import ProtectedRoute from "./components/ProtectedRoute";
 import {
   Routes,
   Route,
@@ -66,11 +67,10 @@ const App = () => {
     },
   });
 
-  const addObservation = async (formData: FormData): Promise<IObservationSavedResponse> => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      observationService.setToken(token);
-    }
+  const addObservation = async (
+    formData: FormData
+  ): Promise<IObservationSavedResponse> => {
+    //const token = localStorage.getItem("token");
 
     return new Promise((resolve, reject) => {
       newObservationMutation.mutate(formData, {
@@ -101,23 +101,15 @@ const App = () => {
   // get the observation for the single observation page if the url matches /observations/:id
   const publicObservations = data!.filter((obs) => obs.public === true);
 
- 
-
   return (
     <ThemeProvider>
       <div>
         <NavBar />
         <div className="routes-margin">
           <Routes>
-            <Route
-              path="/observations/:id"
-              element={<ObservationPage/>}
-            />
+            <Route path="/observations/:id" element={<ObservationPage />} />
             <Route path="/" element={<Home />} />
-            <Route
-              path="/observations"
-              element={<Observations />}
-            />
+            <Route path="/observations" element={<Observations />} />
             <Route
               path="/unidentified"
               element={<UnidentifiedObservations />}
@@ -126,14 +118,29 @@ const App = () => {
               path="/map"
               element={<ObservationsMap observations={publicObservations} />}
             />
-            <Route path="/questions" element={<QuestionForm />} />
+            <Route
+              path="/questions"
+              element={
+                <ProtectedRoute>
+                  <QuestionForm />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/add"
-              element={<AdditionForm addObservation={addObservation} />}
+              element={
+                <ProtectedRoute>
+                  <AdditionForm addObservation={addObservation} />
+                </ProtectedRoute>
+              }
             />
             <Route
               path="/myaccount"
-              element={<MyAccount />}
+              element={
+                <ProtectedRoute>
+                  <MyAccount />
+                </ProtectedRoute>
+              }
             />
             <Route
               path="/privacy"

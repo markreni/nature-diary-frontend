@@ -36,10 +36,6 @@ const MyAccount = () => {
     try {
       setLoading(true);
 
-      const token = localStorage.getItem("token");
-      if (token) {
-        observationsService.setToken(token);
-      }
       const data = await observationsService.getByUser(page, limit);
 
       setObservations(data.observations);

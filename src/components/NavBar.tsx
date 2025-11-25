@@ -5,6 +5,7 @@ import "../assets/styles/global.css";
 import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
+  const token: string | null = window.localStorage.getItem("token");
   const [expanded, setExpanded] = useState(false);
   const navRef = useRef<HTMLElement | null>(null);
   const user: string | null = window.localStorage.getItem("user");
@@ -53,7 +54,7 @@ const NavBar = () => {
               <Nav.Link onClick={() => setExpanded(false)}>Unidentified</Nav.Link>
             </LinkContainer>
 
-            {!user && (
+            {!token && (
               <>
                 <LinkContainer to="/signup" className="nav-bar-link">
                   <Nav.Link onClick={() => setExpanded(false)}>Sign Up</Nav.Link>
@@ -64,20 +65,22 @@ const NavBar = () => {
               </>
             )}
 
-            {user && (
+            {token && (
               <Nav.Link
-                  onClick={() => {
-                    localStorage.removeItem("user");
-                    setExpanded(false);
-                    navigate("/");
-                  }}
-                  className="nav-bar-link"
-                >
-                  Logout
-                </Nav.Link>
+                onClick={() => {
+                  localStorage.removeItem("token");
+                  localStorage.removeItem("refreshToken");
+                  localStorage.removeItem("user");
+                  setExpanded(false);
+                  navigate("/");
+                }}
+                className="nav-bar-link"
+              >
+                Logout
+              </Nav.Link>
             )}
           </Nav>
-          {user && (
+          {token && (
             <Nav className="nav-bar-add-link">
               <LinkContainer to="/questions">
                   <Nav.Link onClick={() => setExpanded(false)}>Add observation</Nav.Link>
