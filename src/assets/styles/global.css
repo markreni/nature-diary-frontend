@@ -51,31 +51,6 @@
   }
 }
 
-/*
-  Show the collapsed navbar menu on hover for small screens, but only
-  for devices that actually support hover (non-touch mice). Touch devices
-  will keep the default click/tap behavior.
-*/
-@media (max-width: 991.98px) and (hover: hover) and (pointer: fine) {
-  /* When hovering the navbar, force the collapsed menu to display */
-  #header .navbar:hover .navbar-collapse.collapse {
-    display: block !important;
-  }
-
-  /* Ensure the collapsed state remains hidden when not hovered */
-  #header .navbar .navbar-collapse.collapse {
-    display: none;
-  }
-
-  /* Remove awkward transition for this hover behavior */
-  #header .navbar .navbar-collapse {
-    transition: none !important;
-    height: auto !important;
-    visibility: visible;
-    opacity: 1;
-  }
-}
-
 .nav-bar-add-link .nav-link {
   background-color: #90ee90;
   color: #2a7c3e !important;
