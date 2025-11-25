@@ -79,6 +79,26 @@
   padding-right: 16px;
 }
 
+.page-back-form {
+  color: #2a7c3e;
+}
+
+/* Back button shown in top-left under navbar for pages About and Privacy */
+.page-back {
+  position: fixed;
+  left: 16px;
+  top: 100px; /* sits under the fixed navbar */
+  z-index: 0;
+  color: #2a7c3e;
+}
+
+@media (max-width: 576px) {
+  .page-back {
+    left: 12px;
+    top: 96px;
+  }
+}
+
 .observation-card {
   border-radius: 1.2rem;
   transition: transform 0.18s, box-shadow 0.18s;

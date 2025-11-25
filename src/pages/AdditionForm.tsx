@@ -201,8 +201,8 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
               variant="link"
               onClick={() => navigate(-1)}
               aria-label="Go back"
-              title="Go back"
-              className="p-0"
+              title="Go back" 
+              className="p-0 page-back-form"
             >
               <IoMdArrowRoundBack size={25} />
             </Button>
