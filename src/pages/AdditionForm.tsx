@@ -20,8 +20,8 @@ import { useQuestionValues, type QuestionState } from "../FormContext.tsx";
 import helperFunctions from "../utils/helperFunctions.ts";
 import { IoIosAddCircle } from "react-icons/io";
 import { FiAlertCircle } from "react-icons/fi";
-import { IoMdArrowRoundBack } from "react-icons/io";
 import CustomAlert from "../components/CustomAlert.tsx";
+import BackArrow from "../components/BackArrow.tsx";
 
 interface AdditionFormProps {
   addObservation: (content: FormData) => Promise<IObservationSavedResponse>;
@@ -197,20 +197,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
             <Card.Title className="mb-0">Add Observation</Card.Title>
           </Col>
           <Col xs="auto">
-          <OverlayTrigger
-            placement="top"
-            overlay={<Tooltip>Go to the previous page</Tooltip>}
-            >
-              <Button
-                variant="link"
-                onClick={() => navigate(-1)}
-                aria-label="Go back"
-                title="Go back" 
-                className="p-0 page-back-form"
-              >
-                <IoMdArrowRoundBack size={25} />
-              </Button>
-            </OverlayTrigger>
+          <BackArrow formatting={"page-back-form"}/>
           </Col>
         </Row>
         <Row className="mb-5 g-1">
