@@ -20,14 +20,18 @@ const ObservationMap = ({obs}: {obs: ObservationWithLocation}) => {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Marker position={position}>
-                <Popup>
-                    {!obs.identified ?
-                        <strong>{obs.common_name}</strong> :
+            {obs.location &&( 
+                <Marker position={position}>
+                    <Popup>
+                        {!obs.identified ?
+                            <strong>{obs.common_name}</strong> :
                         <strong>Unidentified</strong>
-                    }
-                </Popup>
-            </Marker>
+                        }
+                    </Popup>
+                </Marker>
+    
+            )}
+            
         </MapContainer>
     );
     
