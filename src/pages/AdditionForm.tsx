@@ -197,15 +197,20 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
             <Card.Title className="mb-0">Add Observation</Card.Title>
           </Col>
           <Col xs="auto">
-            <Button
-              variant="link"
-              onClick={() => navigate(-1)}
-              aria-label="Go back"
-              title="Go back" 
-              className="p-0 page-back-form"
+          <OverlayTrigger
+            placement="top"
+            overlay={<Tooltip>Go to the previous page</Tooltip>}
             >
-              <IoMdArrowRoundBack size={25} />
-            </Button>
+              <Button
+                variant="link"
+                onClick={() => navigate(-1)}
+                aria-label="Go back"
+                title="Go back" 
+                className="p-0 page-back-form"
+              >
+                <IoMdArrowRoundBack size={25} />
+              </Button>
+            </OverlayTrigger>
           </Col>
         </Row>
         <Row className="mb-5 g-1">

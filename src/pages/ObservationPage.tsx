@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { Card, Image, Carousel, Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
+import { Card, Image, Carousel, Row, Col, OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import type { ObservationWithLocation, ObservationImage } from '../types/types';
 import '../assets/styles/global.css'
 import ObservationMap from '../components/ObservationMap';
@@ -9,6 +9,7 @@ import { jwtDecode } from "jwt-decode";
 import IdentificationSuggestions from "../components/IdentificationSuggestions";
 import observationsService from "../services/observationService";
 import baseURL from "../services/config";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 interface TokenPayload {
   id: number;
@@ -23,7 +24,8 @@ const ObservationPage = () => {
     const [loading, setLoading] = useState(true);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [currentUserId, setCurrentUserId] = useState<number | null>(null);
-
+    const navigate = useNavigate();
+    
     useEffect(() => {
         const storedToken = localStorage.getItem("token");
         if (storedToken) {
@@ -92,7 +94,27 @@ const ObservationPage = () => {
     return (
             <Card>
                 <Card.Header>
-                    <b>{obs.common_name || "Unidentified species"}</b>
+                    <Row className="align-items-center">
+                        <Col>
+                            <b>{obs.common_name || "Unidentified species"}</b>
+                        </Col>
+                        <Col xs="auto">
+                        <OverlayTrigger
+                                      placement="top"
+                                      overlay={<Tooltip>Go to the previous page</Tooltip>}
+                                    >
+                            <Button
+                                variant="link"
+                                onClick={() => navigate(-1)}
+                                aria-label="Go back"
+                                title="Go back" 
+                                className="p-0 page-back-form"
+                            >
+                                <IoMdArrowRoundBack size={25} />
+                            </Button>
+                        </OverlayTrigger>
+          </Col>
+                    </Row>
                 </Card.Header>
 
                 {obs.images && obs.images.length > 0 ? (

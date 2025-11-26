@@ -28,7 +28,7 @@ const SingleObservation = ({ obs }: { obs: ObservationType }) => {
             {obs.scientific_name}
           </Card.Text>
           ) : (
-          <p>{"No scientific name provided :("}</p>
+          <p>{"No scientific name provided"}</p>
           )}
 
           {obs.images && obs.images.length > 0 && (
