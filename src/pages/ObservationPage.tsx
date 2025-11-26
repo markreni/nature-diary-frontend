@@ -163,9 +163,11 @@ const ObservationPage = () => {
                             </Row>
                             <Row className="mt-2">
                                 <Col className="ps-0">
-                                <ObservationMap 
+                                {obs.location && (
+                                    <ObservationMap 
                                     obs={obs}
                                 />
+                                )}
                                 </Col>
                             </Row>
                         </Col>
