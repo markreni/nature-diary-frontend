@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Col, Row, Form, InputGroup, Dropdown, Button, ButtonGroup } from "react-bootstrap";
+import { Col, Row, Form, InputGroup, Dropdown, Button, ButtonGroup, ToggleButtonGroup, ToggleButton } from "react-bootstrap";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'; 
 import type {
   CategoryType,
@@ -18,6 +18,7 @@ const MyAccount = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [selectedIdentified, setSelectedIdentified] = useState<string[]>([]);
 
   const [searchText, setSearchText] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<CategoryType[]>([
@@ -74,6 +75,10 @@ const MyAccount = () => {
     );
   };
 
+  const handleIdentifiedChange = (values: string[]) => {
+        setSelectedIdentified(values);
+    };
+
   const initialPosition: [number, number] = [60.184230669318474, 24.83009157017735] //Otaniemi
 
   /** Client-side filtering (search, category, discovery) */
@@ -81,11 +86,13 @@ const MyAccount = () => {
     const sci = (obs.scientific_name ?? "").toLowerCase();
     const common = (obs.common_name ?? "").toLowerCase();
     const search = searchText.toLowerCase();
+    const identifiedStatus = obs.identified ? 'identified' : 'unidentified';
 
     return (
       (sci.includes(search) || common.includes(search)) &&
       selectedCategories.includes(obs.category) &&
-      selectedDiscoveries.includes(obs.discovery)
+      selectedDiscoveries.includes(obs.discovery) &&
+      (selectedIdentified.length === 0 || selectedIdentified.includes(identifiedStatus))
     );
   });
 
@@ -171,6 +178,24 @@ const MyAccount = () => {
             </Dropdown.Menu>
           </Dropdown>
         </Col>
+        <Col> 
+              <ToggleButtonGroup
+                type="checkbox"
+                value={selectedIdentified}
+                onChange={handleIdentifiedChange}
+                className="mb-2"
+                >
+                {/* Reverse logic here because of backend*/}
+                    <ToggleButton id="tbg-check-4" value={'unidentified'} variant="outline-success"> 
+                        Identified
+                    </ToggleButton>
+                    <ToggleButton id="tbg-check-5" value={'identified'} variant="outline-success">
+                        Unidentified
+                    </ToggleButton>
+
+            </ToggleButtonGroup>
+        </Col>
+
       </Row>
 
       {/* Observations Grid or Map depending on viewMode */}

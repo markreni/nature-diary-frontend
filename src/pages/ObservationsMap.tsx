@@ -90,19 +90,18 @@ const ObservationsMap = () => {
                     </ToggleButton>
                 </ToggleButtonGroup>
                 <ToggleButtonGroup
-                type="checkbox"
-                value={selectedIdentified}
-                onChange={handleIdentifiedChange}
-                className="mb-2"
-                >
-                {/* Reverse logic here because of backend*/}
+                    type="checkbox"
+                    value={selectedIdentified}
+                    onChange={handleIdentifiedChange}
+                    className="mb-2"
+                    >
+                    {/* Reverse logic here because of backend*/}
                     <ToggleButton id="tbg-check-4" value={'unidentified'} variant="outline-success"> 
                         Identified
                     </ToggleButton>
                     <ToggleButton id="tbg-check-5" value={'identified'} variant="outline-success">
                         Unidentified
                     </ToggleButton>
-
             </ToggleButtonGroup>
         </div>
         <MapContainer 
