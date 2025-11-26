@@ -22,7 +22,7 @@ const ObservationPage = () => {
     const [isOwner, setIsOwner] = useState(false);
     const [loading, setLoading] = useState(true);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+    const [currentUserId, setCurrentUserId] = useState<number | null>(null);
 
     useEffect(() => {
         const storedToken = localStorage.getItem("token");
@@ -40,6 +40,7 @@ const ObservationPage = () => {
         if (id) {
           const data = await observationsService.getById(Number(id));
           setObs(data.observation);
+          console.log(data.observation)
         }
       } catch (err) {
         console.error("Failed to fetch observation:", err);
@@ -69,6 +70,7 @@ const ObservationPage = () => {
             suggestionService.setToken(storedToken);
             try {
                 const decoded = jwtDecode<TokenPayload>(storedToken);
+                setCurrentUserId(decoded.id);
                 if (decoded.id === obs.user.id) {
                     setIsOwner(true);
                 } else {
@@ -125,9 +127,9 @@ const ObservationPage = () => {
                                 <Col>{obs.date}</Col>
                             </Row>
                             <Row className="mt-2">
-                                <Col sm={3} className="fw-bold">Location</Col>
-                                <Col>{obs.location
-                                        ? `Lat: ${obs.location.lat}, Lng: ${obs.location.lng}`
+                                <Col sm={3} className="fw-bold">Discovery type</Col>
+                                <Col>{obs.discovery
+                                        ? `${obs.discovery}`
                                         : "Unknown"}
                                 </Col>
                             </Row>
@@ -153,6 +155,7 @@ const ObservationPage = () => {
                                 acceptedName={obs.common_name}
                                 onUpdate={(updatedObs) => setObs(updatedObs)}
                                 isLoggedIn={isLoggedIn}
+                                currentUserId={currentUserId}
 
                             />
                         </Col>

@@ -12,10 +12,11 @@ interface Props {
     isIdentified: boolean;
     acceptedName?: string;
     isLoggedIn: boolean
+    currentUserId: number | null;
     onUpdate: (updatedObs: ObservationWithLocation) => void;
 }
 
-const IdentificationSuggestions = ({observationId, isOwner, isIdentified, acceptedName, isLoggedIn, onUpdate}: Props) => {
+const IdentificationSuggestions = ({observationId, isOwner, isIdentified, acceptedName, isLoggedIn, currentUserId, onUpdate}: Props) => {
     const [suggestions, setSuggestions] = useState<SuggestionType[]>([]);
     const [newSuggestion, setNewSuggestion] = useState('');
     const [loading, setLoading] = useState(false);
@@ -60,6 +61,10 @@ const IdentificationSuggestions = ({observationId, isOwner, isIdentified, accept
             setError('Failed to accept suggestion.');
         }
     };
+    // Making sure you can only suggest once
+    const hasUserSuggested = currentUserId 
+        ? suggestions.some(s=> s.user.id === currentUserId)
+        : false;
 
     const matchingSuggestion = suggestions.find(s => s.suggested_name === acceptedName); //community member accepted suggestion
     return (
@@ -74,7 +79,7 @@ const IdentificationSuggestions = ({observationId, isOwner, isIdentified, accept
                         {/* If no suggestions, then observer must have had it already identified when uploading*/}
                         {suggestions.length === 0 ? (
                             <>
-                                <h5 className="text-primary">Already identified</h5>
+                                <h5 className="text-success">Already identified</h5>
                                 <p className="mb-2">
                                     The observer identified this as <strong>{acceptedName}</strong>.
                                 </p>
@@ -134,22 +139,35 @@ const IdentificationSuggestions = ({observationId, isOwner, isIdentified, accept
                             </ListGroup>
                         )}
 
-                        {/* Input Form */}
-                        {isLoggedIn && (
+                        {/* Input Form: show only if the user isn't owner, hasn't suggested and is logged in */}
+                        {isLoggedIn && !isOwner && !hasUserSuggested && (
                             <Form onSubmit={handleAddSuggestion} className="border-top pt-3">
                                 <Form.Group className="d-flex gap-2">
                                     <Form.Control
                                         type="text"
                                         value={newSuggestion}
                                         onChange={(e) => setNewSuggestion(e.target.value)}
-                                        placeholder={isOwner ? "I think this might be..." : "Do you know the common name of this species?"}
+                                        placeholder="Do you know the common name of this species?"
                                     />
                                     <Button variant="primary" type="submit">Suggest</Button>
                                 </Form.Group>
                             </Form>
                         )}
+                        {/* Feedback if user is the Owner */}
+                        {isLoggedIn && isOwner && suggestions.length === 0 && (
+                            <Alert variant="secondary" className="text-center mt-3">
+                                <small>Wait for the community to help!</small>
+                            </Alert>
+                        )}
 
-                        {/* Login Prompt */}
+                        {/* Non-Owner who has already suggested */}
+                        {isLoggedIn && !isOwner && hasUserSuggested && (
+                            <Alert variant="success" className="text-center mt-3">
+                                <small>Thank you for suggesting an ID for this species!</small>
+                            </Alert>
+                        )}
+
+                        {/* Login Prompt, may be unnecessary if unidentified observations will be hidden from visitors */}
                         {!isLoggedIn && (
                             <Alert variant="info" className="text-center m-0 p-2">
                                 <small>
