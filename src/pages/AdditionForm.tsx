@@ -272,6 +272,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
           validated={validated}
           onSubmit={handleSubmit}
           encType="multipart/form-data"
+          className="mb-3"
         >
           <Row>
             <Col md={6}>

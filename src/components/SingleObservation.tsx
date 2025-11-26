@@ -19,7 +19,7 @@ const SingleObservation = ({ obs }: { obs: ObservationType }) => {
             </Card.Title>
           ) : (
             <Card.Title className="fw-bold text-success">
-              I am unidentified :(
+              I am still unidentified :/
             </Card.Title>
           )}
 
@@ -28,7 +28,7 @@ const SingleObservation = ({ obs }: { obs: ObservationType }) => {
             {obs.scientific_name}
           </Card.Text>
           ) : (
-          <p>{":("}</p>
+          <p>{"No scientific name provided :("}</p>
           )}
 
           {obs.images && obs.images.length > 0 && (

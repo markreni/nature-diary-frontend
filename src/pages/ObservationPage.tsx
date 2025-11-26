@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Card, Image, Carousel, Row, Col } from "react-bootstrap";
+import { Card, Image, Carousel, Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 import type { ObservationWithLocation, ObservationImage } from '../types/types';
 import '../assets/styles/global.css'
 import ObservationMap from '../components/ObservationMap';
@@ -96,7 +96,21 @@ const ObservationPage = () => {
                 </Card.Header>
 
                 {obs.images && obs.images.length > 0 ? (
-                    <Carousel controls={true}>
+                    <Carousel 
+                    controls={true}
+                    nextLabel="Next image"  
+                    prevLabel="Previous image"
+                    nextIcon={
+                        <OverlayTrigger placement="top" overlay={<Tooltip id="next-tooltip">{obs.images.length != 1 ? "Next image" : "This observation has only one image"}</Tooltip>}>
+                        <span className="carousel-control-next-icon" aria-hidden="true" />
+                        </OverlayTrigger>
+                    }
+                    prevIcon={
+                        <OverlayTrigger placement="top" overlay={<Tooltip id="prev-tooltip">{obs.images.length != 1 ? "Previous image" : "This observation has only one image"}</Tooltip>}>
+                        <span className="carousel-control-prev-icon" aria-hidden="true" />
+                        </OverlayTrigger>
+                    }
+                    >
                         {obs.images.map((img, idx) => (
                             <Carousel.Item key={idx}>
                                 <Image
