@@ -4,8 +4,9 @@ import type { ObservationType, ObservationWithLocation } from '../types/types';
 import '../assets/styles/global.css';
 import 'leaflet/dist/leaflet.css';
 import { Link } from 'react-router-dom';
-import { ToggleButtonGroup, ToggleButton, Form } from 'react-bootstrap';
+import { ToggleButtonGroup, ToggleButton, Form, InputGroup } from 'react-bootstrap';
 import observationsService  from '../services/observationService.ts';
+import { IoSearch } from "react-icons/io5";
 
 const ObservationsMap = () => {
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -32,9 +33,6 @@ const ObservationsMap = () => {
     useEffect(() =>{
         loadObservations();
     }, []);
-
-    
-
 
     const observationsWithCoords = observations.filter(obs => obs.location);
     
@@ -63,12 +61,17 @@ const ObservationsMap = () => {
             <>
             <div className="d-flex flex-wrap align-items-center gap-3 mb-2">
                 <div className="mb-2" style={{ maxWidth: '300px' }}>
+                    <InputGroup>
+                    <InputGroup.Text>
+                        <IoSearch />
+                    </InputGroup.Text>
                     <Form.Control 
                         type="text"
                         placeholder="Search by species name..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
+                    </InputGroup>
                 </div>
                 <ToggleButtonGroup 
                 type="checkbox" 
