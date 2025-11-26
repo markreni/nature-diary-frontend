@@ -116,7 +116,7 @@ const App = () => {
             />
             <Route
               path="/map"
-              element={<ObservationsMap observations={publicObservations} />}
+              element={<ObservationsMap />}
             />
             <Route
               path="/questions"
