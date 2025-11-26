@@ -163,7 +163,7 @@ const IdentificationSuggestions = ({observationId, isOwner, isIdentified, accept
                         {/* Non-Owner who has already suggested */}
                         {isLoggedIn && !isOwner && hasUserSuggested && (
                             <Alert variant="success" className="text-center mt-3">
-                                <small>Thank you! You have already suggested an ID for this species.</small>
+                                <small>Thank you for suggesting an ID for this species!</small>
                             </Alert>
                         )}
 
