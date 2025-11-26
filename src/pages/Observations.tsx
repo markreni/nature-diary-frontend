@@ -16,7 +16,6 @@ const Observations = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
-
   const [searchText, setSearchText] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<CategoryType[]>([
     "fauna",
@@ -86,7 +85,7 @@ const Observations = () => {
   return (
     <div>
       {/* Filters + Search */}
-      <Row className="mb-3">
+      <Row className="mb-4">
         <Col></Col>
 
         <Col>

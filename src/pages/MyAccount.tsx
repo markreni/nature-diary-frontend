@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Col, Row, Form, InputGroup, Dropdown, Button } from "react-bootstrap";
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'; 
 import type {
   CategoryType,
   DiscoveryType,
@@ -72,6 +73,8 @@ const MyAccount = () => {
     );
   };
 
+  const initialPosition: [number, number] = [60.184230669318474, 24.83009157017735] //Otaniemi
+
   /** Client-side filtering (search, category, discovery) */
   const filteredObservations = observations.filter((obs) => {
     const sci = (obs.scientific_name ?? "").toLowerCase();
@@ -89,7 +92,7 @@ const MyAccount = () => {
     <div>
       {/* Filters + Search */}
       {deleteMessage && <CustomAlert errorMsg={deleteMessage} type="success" />}
-      <Row className="mb-3">
+      <Row className="mb-4">
         <Col></Col>
 
         <Col>
@@ -212,6 +215,40 @@ const MyAccount = () => {
         </Col>
       </Row>
       )}
+      <Row>
+<MapContainer 
+            center={initialPosition} 
+            zoom={13} 
+            style={{ height: '80vh', width: '100%', borderRadius: '8px' }}
+        >
+            <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            {filteredObservations.map((obs) => (
+                <Marker 
+                    key={obs.id}
+                    position={[obs?.location?.lat, obs?.location?.lng]}
+                >
+                {/*Observation can be identified or unidentified*/}
+                {obs.identified ?
+                    <Popup>
+                        <strong>Unidentified</strong><br />
+                        Category: {obs.category}<br />
+                        <Link to={`/observations/${obs.id}`}>View details</Link>
+                    </Popup>
+                    :
+                    <Popup>
+                        <strong>{obs.common_name}</strong><br />
+                        Category: {obs.category}<br />
+                        <Link to={`/observations/${obs.id}`}>View details</Link>
+                    </Popup>
+
+                }
+                </Marker>
+            ))}
+        </MapContainer>
+      </Row>
     </div>
   );
 };
