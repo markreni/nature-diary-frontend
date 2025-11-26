@@ -100,24 +100,7 @@ const MyAccount = () => {
     <div>
       {/* Filters + Search */}
       {deleteMessage && <CustomAlert errorMsg={deleteMessage} type="success" />}
-      <Row className="mb-4 align-items-center">
-        <Col xs="auto">
-          <ButtonGroup aria-label="View toggle">
-            <Button
-              variant={viewMode === 'cards' ? 'primary' : 'outline-primary'}
-              onClick={() => setViewMode('cards')}
-            >
-              Cards
-            </Button>
-            <Button
-              variant={viewMode === 'map' ? 'primary' : 'outline-primary'}
-              onClick={() => setViewMode('map')}
-            >
-              Map
-            </Button>
-          </ButtonGroup>
-        </Col>
-
+      <Row className="mb-3">
         <Col>
           <Form>
             <InputGroup>
@@ -131,6 +114,23 @@ const MyAccount = () => {
               />
             </InputGroup>
           </Form>
+        </Col>
+
+        <Col> 
+           <ToggleButtonGroup
+              type="checkbox"
+                value={selectedIdentified}
+                onChange={handleIdentifiedChange}
+                className="mb-2"
+                >
+                {/* Reverse logic here because of backend*/}
+                <ToggleButton id="tbg-check-4" value={'unidentified'} variant="outline-success"> 
+                        Identified
+                    </ToggleButton>
+                    <ToggleButton id="tbg-check-5" value={'identified'} variant="outline-success">
+                        Unidentified
+                </ToggleButton>
+            </ToggleButtonGroup>
         </Col>
 
         <Col>
@@ -178,24 +178,26 @@ const MyAccount = () => {
             </Dropdown.Menu>
           </Dropdown>
         </Col>
-        <Col> 
-              <ToggleButtonGroup
-                type="checkbox"
-                value={selectedIdentified}
-                onChange={handleIdentifiedChange}
-                className="mb-2"
-                >
-                {/* Reverse logic here because of backend*/}
-                    <ToggleButton id="tbg-check-4" value={'unidentified'} variant="outline-success"> 
-                        Identified
-                    </ToggleButton>
-                    <ToggleButton id="tbg-check-5" value={'identified'} variant="outline-success">
-                        Unidentified
-                    </ToggleButton>
 
-            </ToggleButtonGroup>
-        </Col>
+      </Row>
 
+      <Row className="mb-4">
+        <Col><ButtonGroup aria-label="View toggle">
+            <Button
+              variant={viewMode === 'cards' ? 'primary' : 'outline-primary'}
+              onClick={() => setViewMode('cards')}
+            >
+              Cards
+            </Button>
+            <Button
+              variant={viewMode === 'map' ? 'primary' : 'outline-primary'}
+              onClick={() => setViewMode('map')}
+            >
+              Map
+            </Button>
+          </ButtonGroup>
+          </Col>
+          <Col> </Col>
       </Row>
 
       {/* Observations Grid or Map depending on viewMode */}
