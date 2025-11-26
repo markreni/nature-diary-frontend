@@ -24,7 +24,7 @@ const NavBar = () => {
     document.addEventListener("mousedown", handleDocClick);
     return () => document.removeEventListener("mousedown", handleDocClick);
   }, []);
-  
+
   return (
     <Navbar
       data-bs-theme="dark"
@@ -45,19 +45,26 @@ const NavBar = () => {
         <Navbar.Collapse id="basic-navbar-nav" className="navbar-right-align">
           <Nav>
             <LinkContainer to="/observations" className="nav-bar-link">
-              <Nav.Link onClick={() => setExpanded(false)}>Observations</Nav.Link>
+              <Nav.Link onClick={() => setExpanded(false)}>
+                Observations
+              </Nav.Link>
             </LinkContainer>
             <LinkContainer to="/map" className="nav-bar-link">
               <Nav.Link onClick={() => setExpanded(false)}>Map</Nav.Link>
             </LinkContainer>
-            <LinkContainer to="/unidentified" className="nav-bar-link">
-              <Nav.Link onClick={() => setExpanded(false)}>Unidentified</Nav.Link>
-            </LinkContainer>
-
+            {token && (
+              <LinkContainer to="/unidentified" className="nav-bar-link">
+                <Nav.Link onClick={() => setExpanded(false)}>
+                  Unidentified
+                </Nav.Link>
+              </LinkContainer>
+            )}
             {!token && (
               <>
                 <LinkContainer to="/signup" className="nav-bar-link">
-                  <Nav.Link onClick={() => setExpanded(false)}>Sign Up</Nav.Link>
+                  <Nav.Link onClick={() => setExpanded(false)}>
+                    Sign Up
+                  </Nav.Link>
                 </LinkContainer>
                 <LinkContainer to="/login" className="nav-bar-link">
                   <Nav.Link onClick={() => setExpanded(false)}>Login</Nav.Link>
@@ -83,11 +90,15 @@ const NavBar = () => {
           {token && (
             <Nav className="nav-bar-add-link">
               <LinkContainer to="/questions">
-                  <Nav.Link onClick={() => setExpanded(false)}>Add observation</Nav.Link>
-                </LinkContainer>
-                 <LinkContainer to="/myaccount">
-                  <Nav.Link onClick={() => setExpanded(false)}>MyAccount</Nav.Link>
-                </LinkContainer>
+                <Nav.Link onClick={() => setExpanded(false)}>
+                  Add observation
+                </Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/myaccount">
+                <Nav.Link onClick={() => setExpanded(false)}>
+                  MyAccount
+                </Nav.Link>
+              </LinkContainer>
             </Nav>
           )}
         </Navbar.Collapse>

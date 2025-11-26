@@ -28,10 +28,11 @@ const create = async (
 const getAll = async (
   page = 1,
   limit = 10,
+  publicOrPrivate?: boolean,
   identified?: boolean
 ): Promise<IObservationListResponse> => {
   const response = await api.get(
-    `api/v1/public/observations?page=${page}&limit=${limit}&identified=${identified}`
+    `api/v1/public/observations?page=${page}&limit=${limit}&publicOrPrivate=${publicOrPrivate}&identified=${identified}`
   );
 
   return {
@@ -44,7 +45,7 @@ const getAll = async (
 
 const getAllObservations = async (
   page = 1,
-  limit = 10,
+  limit = 10
 ): Promise<IObservationListResponse> => {
   const response = await axios.get(
     `${baseURL}api/v1/public/observations?page=${page}&limit=${limit}`
@@ -85,4 +86,11 @@ const remove = async (id: number) => {
   return response.data;
 };
 
-export default { create, getAll, getById, getByUser, remove, getAllObservations };
+export default {
+  create,
+  getAll,
+  getById,
+  getByUser,
+  remove,
+  getAllObservations,
+};
