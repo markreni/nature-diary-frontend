@@ -1,16 +1,42 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import { useState } from 'react';
-import type { ObservationType } from '../types/types';
+import { useState, useEffect } from 'react';
+import type { ObservationType, ObservationWithLocation } from '../types/types';
 import '../assets/styles/global.css';
 import 'leaflet/dist/leaflet.css';
 import { Link } from 'react-router-dom';
-import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
+import { ToggleButtonGroup, ToggleButton, Form } from 'react-bootstrap';
+import observationsService  from '../services/observationService.ts';
 
-const ObservationsMap = ({observations}: {observations: ObservationType[]}) => {
-    const [selectedCategories, setSelectedCategories] = useState<string[]>([])
-    const [selectedIdentified, setSelectedIdentified] = useState<string[]>([])
+const ObservationsMap = () => {
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [selectedIdentified, setSelectedIdentified] = useState<string[]>([]);
+    const [observations, setObservations] = useState<ObservationType[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [searchQuery, setSearchQuery] = useState<string>("");
 
-    const observationsWithCoords = observations.filter(obs => obs.coordinates);
+    const loadObservations = async () => {
+        try {
+          setLoading(true);
+          const data = await observationsService.getAllObservations(1, 1000); 
+          console.log(data);
+          setObservations(data.observations);
+          console.log(observations);
+          
+        } catch (err) {
+          console.error("Failed to fetch observations:", err);
+        } finally {
+          setLoading(false);
+        }
+    };
+    
+    useEffect(() =>{
+        loadObservations();
+    }, []);
+
+    
+
+
+    const observationsWithCoords = observations.filter(obs => obs.location);
     
     const initialPosition: [number, number] = [60.184230669318474, 24.83009157017735] //Otaniemi
 
@@ -24,44 +50,58 @@ const ObservationsMap = ({observations}: {observations: ObservationType[]}) => {
         const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(obs.category);
         const identifiedStatus = obs.identified ? 'identified' : 'unidentified';
         const identificationMatch = selectedIdentified.length === 0 || selectedIdentified.includes(identifiedStatus);
-        return categoryMatch && identificationMatch;
+        const nameMatch = searchQuery === "" ||
+            obs.common_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            obs.scientific_name?.toLowerCase().includes(searchQuery.toLowerCase());
+        return categoryMatch && identificationMatch && nameMatch;
         
     });
 
     return (
-        /* DEBUG*/
         <>
-            <ToggleButtonGroup 
-            type="checkbox" 
-            value={selectedCategories} 
-            onChange={handleCategoryChange}
-            className="mb-2"
-        >
-            <ToggleButton id="tbg-check-1" value={'flora'} variant="outline-primary">
-                Flora
-            </ToggleButton>
-            <ToggleButton id="tbg-check-2" value={'fauna'} variant="outline-primary">
-                Fauna
-            </ToggleButton>
-            <ToggleButton id="tbg-check-3" value={'funga'} variant="outline-primary">
-                Funga
-            </ToggleButton>
-        </ToggleButtonGroup>
-            <ToggleButtonGroup
-            type="checkbox"
-            value={selectedIdentified}
-            onChange={handleIdentifiedChange}
-            className="mb-2"
-        >
-            <ToggleButton id="tbg-check-4" value={'identified'} variant="outline-primary">
-                Identified
-            </ToggleButton>
-            <ToggleButton id="tbg-check-5" value={'unidentified'} variant="outline-primary">
-                Unidentified
-            </ToggleButton>
+        {loading ? <p>Loading...</p> :
+            <>
+            <div className="d-flex flex-wrap align-items-center gap-3 mb-2">
+                <div className="mb-2" style={{ maxWidth: '300px' }}>
+                    <Form.Control 
+                        type="text"
+                        placeholder="Search by species name..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                </div>
+                <ToggleButtonGroup 
+                type="checkbox" 
+                value={selectedCategories} 
+                onChange={handleCategoryChange}
+                className="mb-2 me-2"
+                >
+                    <ToggleButton id="tbg-check-1" value={'flora'} variant="outline-success">
+                        Flora
+                    </ToggleButton>
+                    <ToggleButton id="tbg-check-2" value={'fauna'} variant="outline-success">
+                        Fauna
+                    </ToggleButton>
+                    <ToggleButton id="tbg-check-3" value={'funga'} variant="outline-success">
+                        Funga
+                    </ToggleButton>
+                </ToggleButtonGroup>
+                <ToggleButtonGroup
+                type="checkbox"
+                value={selectedIdentified}
+                onChange={handleIdentifiedChange}
+                className="mb-2"
+                >
+                {/* Reverse logic here because of backend*/}
+                    <ToggleButton id="tbg-check-4" value={'unidentified'} variant="outline-success"> 
+                        Identified
+                    </ToggleButton>
+                    <ToggleButton id="tbg-check-5" value={'identified'} variant="outline-success">
+                        Unidentified
+                    </ToggleButton>
 
-        </ToggleButtonGroup>
-
+            </ToggleButtonGroup>
+        </div>
         <MapContainer 
             center={initialPosition} 
             zoom={13} 
@@ -74,20 +114,29 @@ const ObservationsMap = ({observations}: {observations: ObservationType[]}) => {
             {filteredObservations.map((obs) => (
                 <Marker 
                     key={obs.id}
-                    position={[obs.coordinates!.lat, obs.coordinates!.lng]}
+                    position={[obs?.location?.lat, obs?.location?.lng]}
                 >
+                {/*Observation can be identified or unidentified*/}
+                {obs.identified ?
                     <Popup>
-                        <strong>{obs.common_name}</strong><br />
-                        {obs.scientific_name}<br />
-                        {obs.location}<br />
+                        <strong>Unidentified</strong><br />
+                        Category: {obs.category}<br />
                         <Link to={`/observations/${obs.id}`}>View details</Link>
                     </Popup>
+                    :
+                    <Popup>
+                        <strong>{obs.common_name}</strong><br />
+                        Category: {obs.category}<br />
+                        <Link to={`/observations/${obs.id}`}>View details</Link>
+                    </Popup>
+
+                }
                 </Marker>
             ))}
         </MapContainer>
-        
         </>
-        
+        }
+        </>
     );
     
 }
