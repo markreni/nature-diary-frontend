@@ -131,7 +131,7 @@ const Home = () => {
                   </div>
                 </Col>
               </Row>
-              <Row xs={1} sm={2} md={2} lg={3} className="h5 mb-0 g-3">
+              <Row xs={1} sm={1} md={3} lg={3} className="h5 mb-0 g-3">
                 {getRandomThreeObservations(observations.filter(obs => obs.public && !obs.identified)).map((obs) => (
                   <Col key={obs.id}>
                     <Link

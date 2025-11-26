@@ -1,21 +1,11 @@
-import { Container, Row, Col, Button } from "react-bootstrap";
-import { IoMdArrowRoundBack } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { Container, Row, Col } from "react-bootstrap";
+import BackArrow from "../components/BackArrow";
 
 const About = () => {
-  const navigate = useNavigate();
 
   return (
     <Container className="py-5 position-relative">
-      <Button
-        variant="link"
-        onClick={() => navigate(-1)}
-        aria-label="Go back"
-        title="Go back"
-        className="p-0 page-back"
-      >
-        <IoMdArrowRoundBack size={25} />
-      </Button>
+      <BackArrow formatting={"page-back"}/>
 
       <Row className="justify-content-center" style={{ marginLeft: 10 }}>
         <Col md={10} lg={8}>

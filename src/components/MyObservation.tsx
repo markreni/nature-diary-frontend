@@ -29,7 +29,7 @@ const MyObservation = ({
                 </Card.Title>
               ) : (
                 <Card.Title className="fw-bold text-success">
-                  I am unidentified :(
+                  I am still unidentified :(
                 </Card.Title>
               )}
 
@@ -38,7 +38,7 @@ const MyObservation = ({
             {obs.scientific_name}
           </Card.Text>
           ) : (
-          <p>{":("}</p>
+          <p>{"No scientific name provided"}</p>
           )}
 
               {obs.images && obs.images.length > 0 && (

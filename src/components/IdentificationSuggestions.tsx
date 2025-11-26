@@ -38,7 +38,6 @@ const IdentificationSuggestions = ({observationId, isOwner, isIdentified, accept
         }
     };
 
-
     const handleAddSuggestion = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!newSuggestion.trim()) return;
@@ -57,6 +56,7 @@ const IdentificationSuggestions = ({observationId, isOwner, isIdentified, accept
         try {
             const response = await suggestionService.acceptSuggestion(suggestionId);
             onUpdate(response.data.observation);
+            
         } catch (err) {
             setError('Failed to accept suggestion.');
         }
