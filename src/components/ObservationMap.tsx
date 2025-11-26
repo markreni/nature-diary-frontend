@@ -22,8 +22,10 @@ const ObservationMap = ({obs}: {obs: ObservationWithLocation}) => {
             />
             <Marker position={position}>
                 <Popup>
-                    <strong>{obs.common_name}</strong><br />
-                    {/*obs.location*/}
+                    {!obs.identified ?
+                        <strong>{obs.common_name}</strong> :
+                        <strong>Unidentified</strong>
+                    }
                 </Popup>
             </Marker>
         </MapContainer>
