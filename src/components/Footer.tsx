@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
 
 const Footer = () => {
+  const token: string | null = window.localStorage.getItem("token");
+
   return (
-    <footer className="bg-light text-muted mt-5">
+    <footer className="footer-light-green text-muted mt-5">
       <Container className="py-4">
         <Row className="align-items-start">
           <Col md={4} className="mb-3">
@@ -18,7 +20,7 @@ const Footer = () => {
             <h6 className="fw-bold">Explore</h6>
             <ul className="list-unstyled small mb-0">
               <li><Link to="/observations">Observations</Link></li>
-              <li><Link to="/map">Map</Link></li>
+               {token && (<li><Link to="/map">Map</Link></li>)}
             </ul>
           </Col>
 

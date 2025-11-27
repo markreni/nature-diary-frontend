@@ -3,6 +3,17 @@
   height: 50px;
 }
 
+/* Footer: light green background */
+.footer-light-green {
+  background-color: #90ee90 !important; /* same as navbar light green */
+}
+
+/* Ensure footer text remains readable on light green */
+.footer-light-green .text-muted {
+  color: rgba(0,0,0,0.7) !important;
+}
+
+
 .nav-bar-logo {
   font-family: "Fascinate Inline", system-ui;
   font-weight: 5px;

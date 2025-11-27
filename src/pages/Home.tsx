@@ -41,7 +41,7 @@ const Home = () => {
               <div className="p-4 mb-4 bg-light rounded-3">
                 <h1 className="display-6 mb-2">Welcome to NatureDiary</h1>
                 <p className="lead text-muted mb-3">
-                  Record and explore observations of fauna, flora and funga.
+                  Record and explore observations of fauna, flora and funga.<br />
                   Add photos, pin locations on the map, request identifications,
                   and browse public discoveries contributed by the community.
                 </p>
@@ -60,7 +60,8 @@ const Home = () => {
                 {!user && (
                   <div className="mt-4 bg-light rounded-3">
                     <p className="lead text-muted">
-                      Sign up or log in now to start contributing your own observations!
+                      Sign up or log in now to start contributing your own observations!<br />
+                      And to view the map of observations!
                     </p>
                     <div className="d-flex flex-wrap gap-2">
                     <Link to="/signup">
@@ -131,6 +132,7 @@ const Home = () => {
                   </div>
                 </Col>
               </Row>
+              {observations.filter(obs => obs.public && !obs.identified).length != 0 ? (
               <Row xs={1} sm={1} md={3} lg={3} className="h5 mb-0 g-3">
                 {getRandomThreeObservations(observations.filter(obs => obs.public && !obs.identified)).map((obs) => (
                   <Col key={obs.id}>
@@ -143,6 +145,7 @@ const Home = () => {
                   </Col>
                 ))}
               </Row>
+              ) : ( <div>No public observations available yet.</div>)}
             </div>
           </div>
           <Footer />

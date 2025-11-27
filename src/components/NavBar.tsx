@@ -8,7 +8,7 @@ const NavBar = () => {
   const token: string | null = window.localStorage.getItem("token");
   const [expanded, setExpanded] = useState(false);
   const navRef = useRef<HTMLElement | null>(null);
-  const user: string | null = window.localStorage.getItem("user");
+  //const user: string | null = window.localStorage.getItem("user");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,9 +49,11 @@ const NavBar = () => {
                 Observations
               </Nav.Link>
             </LinkContainer>
+             {token && (
             <LinkContainer to="/map" className="nav-bar-link">
               <Nav.Link onClick={() => setExpanded(false)}>Map</Nav.Link>
             </LinkContainer>
+             )}
             {token && (
               <LinkContainer to="/unidentified" className="nav-bar-link">
                 <Nav.Link onClick={() => setExpanded(false)}>
