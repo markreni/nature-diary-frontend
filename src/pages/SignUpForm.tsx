@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import type { AxiosResponse } from "axios";
+import type { AxiosError, AxiosResponse } from "axios";
 import type { IsignUp, IResponse, IError } from "../types/types";
 import authService from "../services/signup";
 import validator from "validator";
@@ -72,8 +72,22 @@ function SignUpForm() {
           newErrors.push(response.data.message);
           setErrors({ message: [...new Set(newErrors)], type: "error" });
         }
-      } catch (error: unknown) {
+      } catch (err) {
+        const error = err as AxiosError<IResponse>;
+
         console.log(error);
+
+        if (error.response?.data?.message) {
+          setErrors({
+            message: [error.response.data.message],
+            type: "error",
+          });
+        } else {
+          setErrors({
+            message: ["Something went wrong. Please try again."],
+            type: "error",
+          });
+        }
       }
     }
     //
