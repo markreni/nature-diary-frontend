@@ -155,12 +155,14 @@ const ObservationPage = () => {
                                         : "Unknown"}
                                 </Col>
                             </Row>
-                            <Row className="mt-2">           
-                                <Col sm={3} className="fw-bold">Description</Col>
-                                <div className="border rounded p-3 bg-light"> 
-                                    <Card.Text>{obs.description}</Card.Text>
-                                </div>
-                            </Row>
+                                                        <Row className="mt-2">           
+                                                                <Col sm={3} className="fw-bold">Description</Col>
+                                                                <Col sm={9}>
+                                                                    <div className="border rounded py-3 px-4 bg-light">
+                                                                        <Card.Text>{obs.description}</Card.Text>
+                                                                    </div>
+                                                                </Col>
+                                                        </Row>
                             <Row className="mt-2">
                                 <Col className="ps-0">
                                 {obs.location && (
