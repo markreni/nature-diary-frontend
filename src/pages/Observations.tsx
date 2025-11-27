@@ -28,12 +28,12 @@ const Observations = () => {
 
   const limit = 8; // backend items per page
 
-  /** Load observations from backend */
+  /** Load observations from backend */ //
   const loadObservations = async () => {
     try {
       setLoading(true);
 
-      const data = await observationsService.getAll(page, limit, true, false);
+      const data = await observationsService.getAll(page, limit, false, true);
 
       setObservations(data.observations);
       setTotalPages(data.totalPages);
