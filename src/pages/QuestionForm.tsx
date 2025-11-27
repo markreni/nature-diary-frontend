@@ -66,7 +66,7 @@ const QuestionForm = () => {
                   id={`no-${index}`}
                   type="radio"
                   variant={
-                    answers[index] === false ? "danger" : "outline-danger"
+                    answers[index] === false ? "primary" : "outline-primary"
                   }
                   name={`question-${index}`}
                   value="no"
