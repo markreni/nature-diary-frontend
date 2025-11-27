@@ -33,7 +33,7 @@ const Observations = () => {
     try {
       setLoading(true);
 
-      const data = await observationsService.getAll(page, limit, false);
+      const data = await observationsService.getAll(page, limit, true, false);
 
       setObservations(data.observations);
       setTotalPages(data.totalPages);
@@ -154,7 +154,13 @@ const Observations = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <Row xs={1} sm={2} md={observations.length >= 3 ? 3 : 2} lg={observations.length >= 4 ? 4 :observations.length >= 3 ? 3 : 2} className="g-3">
+        <Row
+          xs={1}
+          sm={2}
+          md={observations.length >= 3 ? 3 : 2}
+          lg={observations.length >= 4 ? 4 : observations.length >= 3 ? 3 : 2}
+          className="g-3"
+        >
           {filteredObservations.map((obs) => (
             <Col key={obs.id}>
               <Link
@@ -169,34 +175,34 @@ const Observations = () => {
       )}
 
       {/* Pagination */}
-      { observations.length !== 0 && !loading && (
-      <Row className="mt-4 text-center">
-        <Col>
-          <Button
-            variant="secondary"
-            disabled={page === 1}
-            onClick={() => setPage(page - 1)}
-          >
-            Previous
-          </Button>
-        </Col>
+      {observations.length !== 0 && !loading && (
+        <Row className="mt-4 text-center">
+          <Col>
+            <Button
+              variant="secondary"
+              disabled={page === 1}
+              onClick={() => setPage(page - 1)}
+            >
+              Previous
+            </Button>
+          </Col>
 
-        <Col>
-          <strong>
-            Page {page} / {totalPages}
-          </strong>
-        </Col>
+          <Col>
+            <strong>
+              Page {page} / {totalPages}
+            </strong>
+          </Col>
 
-        <Col>
-          <Button
-            variant="secondary"
-            disabled={page === totalPages}
-            onClick={() => setPage(page + 1)}
-          >
-            Next
-          </Button>
-        </Col>
-      </Row>
+          <Col>
+            <Button
+              variant="secondary"
+              disabled={page === totalPages}
+              onClick={() => setPage(page + 1)}
+            >
+              Next
+            </Button>
+          </Col>
+        </Row>
       )}
     </div>
   );

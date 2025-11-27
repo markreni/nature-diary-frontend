@@ -16,6 +16,8 @@ const QuestionForm = () => {
   const navigate = useNavigate();
   const dispatch = useQuestionDispatch();
 
+  console.log("Answers:", answers);
+
   const handleToggle = (index: number, value: boolean) => {
     const updated: boolean[] = [...answers];
     updated[index] = value;
