@@ -7,6 +7,13 @@ import baseURL from "./config.ts";
 import axios from "axios";
 import type { AxiosResponse } from "axios";
 
+type ObservationQueryParams = {
+  page: number;
+  limit: number;
+  identified?: boolean;
+  publicOrPrivate?: boolean;
+};
+
 /*let token: string | null = null;
 
 const setToken = (newToken: string) => {
@@ -28,12 +35,17 @@ const create = async (
 const getAll = async (
   page = 1,
   limit = 10,
-  publicOrPrivate?: boolean,
-  identified?: boolean
+  identified?: boolean,
+  publicOrPrivate?: boolean
 ): Promise<IObservationListResponse> => {
-  const response = await api.get(
-    `api/v1/public/observations?page=${page}&limit=${limit}&publicOrPrivate=${publicOrPrivate}&identified=${identified}`
-  );
+  const params: ObservationQueryParams = { page, limit };
+
+  if (identified !== undefined) params.identified = identified;
+
+  // Only add publicOrPrivate if user explicitly passed it
+  if (publicOrPrivate !== undefined) params.publicOrPrivate = publicOrPrivate;
+
+  const response = await api.get(`api/v1/public/observations`, { params });
 
   return {
     observations: response.data.data,
