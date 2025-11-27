@@ -95,7 +95,10 @@ const ObservationPage = () => {
                 <Card.Header>
                     <Row className="align-items-center">
                         <Col>
-                            <b>{obs.common_name || "Unidentified species"}</b>
+                                                        <b>{obs.common_name || "Unidentified species"}</b>
+                                                        {!obs.public && (
+                                                            <span className="badge bg-secondary ms-2">Private</span>
+                                                        )}
                         </Col>
                         <Col xs="auto">
                         <BackArrow formatting={"page-back-form"}/>
@@ -155,14 +158,14 @@ const ObservationPage = () => {
                                         : "Unknown"}
                                 </Col>
                             </Row>
-                                                        <Row className="mt-2">           
-                                                                <Col sm={3} className="fw-bold">Description</Col>
-                                                                <Col sm={9}>
-                                                                    <div className="border rounded py-3 px-4 bg-light">
-                                                                        <Card.Text>{obs.description}</Card.Text>
-                                                                    </div>
-                                                                </Col>
-                                                        </Row>
+                             <Row className="mt-2">           
+                                <Col sm={3} className="fw-bold">Description</Col>
+                                    <Col sm={9}>
+                                        <div className="border rounded py-3 px-4 bg-light">
+                                            <Card.Text>{obs.description}</Card.Text>
+                                        </div>
+                                    </Col>
+                            </Row>
                             <Row className="mt-2">
                                 <Col className="ps-0">
                                 {obs.location && (
