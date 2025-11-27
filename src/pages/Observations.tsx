@@ -28,7 +28,7 @@ const Observations = () => {
 
   const limit = 8; // backend items per page
 
-  /** Load observations from backend */
+  /** Load observations from backend */ //
   const loadObservations = async () => {
     try {
       setLoading(true);

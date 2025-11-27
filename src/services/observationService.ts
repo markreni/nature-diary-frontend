@@ -42,7 +42,6 @@ const getAll = async (
 
   if (identified !== undefined) params.identified = identified;
 
-  // Only add publicOrPrivate if user explicitly passed it
   if (publicOrPrivate !== undefined) params.publicOrPrivate = publicOrPrivate;
 
   const response = await api.get(`api/v1/public/observations`, { params });

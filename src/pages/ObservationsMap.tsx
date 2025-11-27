@@ -23,7 +23,7 @@ const ObservationsMap = () => {
   const loadObservations = async () => {
     try {
       setLoading(true);
-      const data = await observationsService.getAll(1, 1000, true, false);
+      const data = await observationsService.getAll(1, 1000, undefined, true);
       console.log(data);
       setObservations(data.observations);
       console.log(observations);
