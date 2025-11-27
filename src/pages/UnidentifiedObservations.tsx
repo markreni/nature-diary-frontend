@@ -34,7 +34,7 @@ const UnidentifiedObservations = () => {
     try {
       setLoading(true);
 
-      const data = await observationsService.getAll(page, limit, true);
+      const data = await observationsService.getAll(page, limit, undefined, true);
 
       setObservations(data.observations);
       setTotalPages(data.totalPages);
