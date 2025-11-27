@@ -33,7 +33,7 @@ const Observations = () => {
     try {
       setLoading(true);
 
-      const data = await observationsService.getAll(page, limit, true, false);
+      const data = await observationsService.getAll(page, limit, false, true);
 
       setObservations(data.observations);
       setTotalPages(data.totalPages);
