@@ -346,7 +346,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
             <Form.Control
               as="textarea"
               rows={3}
-              placeholder="Enter detailed description"
+              placeholder="Tell your story"
               value={observation.description}
               onChange={(e) => handleInputChange("description", e.target.value)}
             />

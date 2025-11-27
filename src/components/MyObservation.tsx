@@ -23,15 +23,21 @@ const MyObservation = ({
         <Card.Body>
           <Row className="align-items-center">
             <Col>
-              {obs.common_name != "" ? (
-                <Card.Title className="fw-bold text-success">
-                  {obs.common_name}
-                </Card.Title>
-              ) : (
-                <Card.Title className="fw-bold text-success">
-                  I am still unidentified :(
-                </Card.Title>
-              )}
+              <div className="d-flex align-items-center">
+                {obs.common_name != "" ? (
+                  <Card.Title className="fw-bold text-success mb-0">
+                    {obs.common_name}
+                  </Card.Title>
+                ) : (
+                  <Card.Title className="fw-bold text-success mb-0">
+                    I am still unidentified :(
+                  </Card.Title>
+                )}
+
+                {!obs.public && (
+                  <span className="badge bg-secondary text-white ms-2">Private</span>
+                )}
+              </div>
 
              {obs.scientific_name != "" ? (
             <Card.Text className="text-muted" style={{ fontSize: "0.95rem" }}>
