@@ -14,15 +14,12 @@ type ObservationType = {
   common_name: string;
   description: string;
   date: string;
-  location: {
-    lat: number | string;
-    lng: number | string;
-  } | null;
+  location: { lat: number | string; lng: number | string } | string | null;
   coordinates?: {
     lat: number;
     lng: number;
   };
-  images: ObservationImage[];
+  images: ObservationImage[] | string[];
   public: boolean;
   identified: boolean;
   category: CategoryType;
