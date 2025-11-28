@@ -23,6 +23,25 @@ import { FiAlertCircle } from "react-icons/fi";
 import CustomAlert from "../components/CustomAlert.tsx";
 import BackArrow from "../components/BackArrow.tsx";
 
+import L from "leaflet";
+import type { LeafletEvent } from "leaflet";
+import "leaflet/dist/leaflet.css";
+import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
+
+interface IconDefaultWithGetIcon extends L.Icon.Default {
+  _getIconUrl?: string;
+}
+
+delete (L.Icon.Default.prototype as IconDefaultWithGetIcon)._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
+
 interface AdditionFormProps {
   addObservation: (content: FormData) => Promise<IObservationSavedResponse>;
 }
@@ -156,7 +175,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
     if (!position) return null;
 
     const eventHandlers = {
-      dragend(e: any) {
+      dragend(e: LeafletEvent) {
         const marker = e.target;
         const latLng = marker.getLatLng();
         const lat = Number(latLng.lat);
