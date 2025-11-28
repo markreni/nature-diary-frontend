@@ -12,10 +12,13 @@ const MyObservation = ({
   obs: ObservationType;
   onDelete: () => void;
 }) => {
-  const imgSrc =
-    obs.images && obs.images.length > 0
-      ? `${baseURL}images/${obs.images[0].imageName}`
-      : "/placeholder.jpg"; // fallback if no image
+  const firstImage = obs.images?.[0];
+  const imageName =
+    typeof firstImage === "string" ? firstImage : firstImage?.imageName;
+
+  const imgSrc = imageName
+    ? `${baseURL}images/${imageName}`
+    : "/placeholder.jpg";
 
   return (
     <div>
@@ -35,17 +38,22 @@ const MyObservation = ({
                 )}
 
                 {!obs.public && (
-                  <span className="badge bg-secondary text-white ms-2">Private</span>
+                  <span className="badge bg-secondary text-white ms-2">
+                    Private
+                  </span>
                 )}
               </div>
 
-             {obs.scientific_name != "" ? (
-            <Card.Text className="text-muted" style={{ fontSize: "0.95rem" }}>
-            {obs.scientific_name}
-          </Card.Text>
-          ) : (
-          <p>{"No scientific name provided"}</p>
-          )}
+              {obs.scientific_name != "" ? (
+                <Card.Text
+                  className="text-muted"
+                  style={{ fontSize: "0.95rem" }}
+                >
+                  {obs.scientific_name}
+                </Card.Text>
+              ) : (
+                <p>{"No scientific name provided"}</p>
+              )}
 
               {obs.images && obs.images.length > 0 && (
                 <div className="my-2">
@@ -79,7 +87,11 @@ const MyObservation = ({
                   // prevent the click from bubbling to parent links/handlers
                   e.stopPropagation();
                   e.preventDefault();
-                  if (window.confirm("Delete this observation?\nObservation will also be deleted from the public catalogue.")) {
+                  if (
+                    window.confirm(
+                      "Delete this observation?\nObservation will also be deleted from the public catalogue."
+                    )
+                  ) {
                     console.log("delete confirmed", obs.id);
 
                     // TODO: call API handler to delete
