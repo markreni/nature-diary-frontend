@@ -145,34 +145,35 @@ const ObservationsMap = () => {
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            {filteredObservations.map((obs) => (
-              <Marker
-                key={obs.id}
-                position={[
-                  Number(obs.location?.lat ?? 0),
-                  Number(obs.location?.lng ?? 0),
-                ]}
-              >
-                {/*Observation can be identified or unidentified*/}
-                {obs.identified ? (
+            {filteredObservations.map((obs) =>
+              obs.location && typeof obs.location !== "string" ? (
+                <Marker
+                  key={obs.id}
+                  position={[
+                    Number(obs.location.lat),
+                    Number(obs.location.lng),
+                  ]}
+                >
                   <Popup>
-                    <strong>Unidentified</strong>
-                    <br />
-                    Category: {obs.category}
+                    {obs.identified ? (
+                      <>
+                        <strong>Unidentified</strong>
+                        <br />
+                        Category: {obs.category}
+                      </>
+                    ) : (
+                      <>
+                        <strong>{obs.common_name}</strong>
+                        <br />
+                        Category: {obs.category}
+                      </>
+                    )}
                     <br />
                     <Link to={`/observations/${obs.id}`}>View details</Link>
                   </Popup>
-                ) : (
-                  <Popup>
-                    <strong>{obs.common_name}</strong>
-                    <br />
-                    Category: {obs.category}
-                    <br />
-                    <Link to={`/observations/${obs.id}`}>View details</Link>
-                  </Popup>
-                )}
-              </Marker>
-            ))}
+                </Marker>
+              ) : null
+            )}
           </MapContainer>
         </>
       )}

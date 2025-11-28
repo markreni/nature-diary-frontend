@@ -197,7 +197,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
             <Card.Title className="mb-0">Add Observation</Card.Title>
           </Col>
           <Col xs="auto">
-          <BackArrow formatting={"page-back-form"}/>
+            <BackArrow formatting={"page-back-form"} />
           </Col>
         </Row>
         <Row className="mb-5 g-1">
@@ -347,7 +347,13 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
               as="textarea"
               rows={3}
               placeholder="Tell your story"
-              value={observation.description}
+              value={
+                typeof observation.location === "string"
+                  ? observation.location
+                  : observation.location
+                  ? `${observation.location.lat}, ${observation.location.lng}`
+                  : ""
+              }
               onChange={(e) => handleInputChange("description", e.target.value)}
             />
             <Form.Control.Feedback type="invalid">
