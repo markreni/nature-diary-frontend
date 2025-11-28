@@ -4,10 +4,13 @@ import "../assets/styles/global.css";
 import baseURL from "../services/config";
 
 const SingleObservation = ({ obs }: { obs: ObservationType }) => {
-  const imgSrc =
-    obs.images && obs.images.length > 0
-      ? `${baseURL}images/${obs.images[0].imageName}`
-      : "/placeholder.jpg"; // fallback if no image
+  const firstImage = obs.images?.[0];
+  const imageName =
+    typeof firstImage === "string" ? firstImage : firstImage?.imageName;
+
+  const imgSrc = imageName
+    ? `${baseURL}images/${imageName}`
+    : "/placeholder.jpg";
 
   return (
     <div>
@@ -25,10 +28,10 @@ const SingleObservation = ({ obs }: { obs: ObservationType }) => {
 
           {obs.scientific_name != "" ? (
             <Card.Text className="text-muted" style={{ fontSize: "0.95rem" }}>
-            {obs.scientific_name}
-          </Card.Text>
+              {obs.scientific_name}
+            </Card.Text>
           ) : (
-          <p>{"No scientific name provided"}</p>
+            <p>{"No scientific name provided"}</p>
           )}
 
           {obs.images && obs.images.length > 0 && (
