@@ -1,6 +1,6 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useState, useEffect } from "react";
-import type { ObservationType, ObservationWithLocation } from "../types/types";
+import type { ObservationType } from "../types/types";
 import "../assets/styles/global.css";
 import "leaflet/dist/leaflet.css";
 import { Link } from "react-router-dom";
@@ -148,7 +148,10 @@ const ObservationsMap = () => {
             {filteredObservations.map((obs) => (
               <Marker
                 key={obs.id}
-                position={[obs?.location?.lat, obs?.location?.lng]}
+                position={[
+                  Number(obs.location?.lat ?? 0),
+                  Number(obs.location?.lng ?? 0),
+                ]}
               >
                 {/*Observation can be identified or unidentified*/}
                 {obs.identified ? (

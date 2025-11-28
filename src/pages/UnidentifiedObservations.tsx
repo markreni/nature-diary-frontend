@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Col, Row, Form, InputGroup, Dropdown, Button } from "react-bootstrap";
+import { Col, Row, Button } from "react-bootstrap";
 import type {
   CategoryType,
   DiscoveryType,
@@ -7,8 +7,7 @@ import type {
 } from "../types/types";
 import SingleObservation from "../components/SingleObservation";
 import { Link } from "react-router-dom";
-import { IoSearch } from "react-icons/io5";
-import { FaFilter } from "react-icons/fa6";
+
 import observationsService from "../services/observationService.ts";
 
 const UnidentifiedObservations = () => {
@@ -51,6 +50,7 @@ const UnidentifiedObservations = () => {
 
   /** Search handler */
   const handleSearch = (query: string) => setSearchText(query);
+  console.log("Search text:", handleSearch);
 
   /** Category filter */
   const handleCategoryToggle = (category: CategoryType) => {
@@ -60,6 +60,7 @@ const UnidentifiedObservations = () => {
         : [...prev, category]
     );
   };
+  console.log("Selected categories:", handleCategoryToggle);
 
   /** Discovery filter */
   const handleDiscoveryToggle = (discovery: DiscoveryType) => {
@@ -69,6 +70,7 @@ const UnidentifiedObservations = () => {
         : [...prev, discovery]
     );
   };
+  console.log("Selected discoveries:", handleDiscoveryToggle);
 
   /** Client-side filtering (search, category, discovery) */
   const filteredObservations = observations.filter((obs) => {

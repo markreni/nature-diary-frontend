@@ -1,6 +1,16 @@
 import { useState, useEffect } from "react";
-import { Col, Row, Form, InputGroup, Dropdown, Button, ButtonGroup, ToggleButtonGroup, ToggleButton } from "react-bootstrap";
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'; 
+import {
+  Col,
+  Row,
+  Form,
+  InputGroup,
+  Dropdown,
+  Button,
+  ButtonGroup,
+  ToggleButtonGroup,
+  ToggleButton,
+} from "react-bootstrap";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import type {
   CategoryType,
   DiscoveryType,
@@ -30,7 +40,7 @@ const MyAccount = () => {
     DiscoveryType[]
   >(["domestic", "wildlife"]);
   const [deleteMessage, setDeleteMessage] = useState<string[] | null>(null);
-  const [viewMode, setViewMode] = useState<'cards' | 'map'>('cards');
+  const [viewMode, setViewMode] = useState<"cards" | "map">("cards");
 
   const limit = 8; // backend items per page
 
@@ -76,23 +86,26 @@ const MyAccount = () => {
   };
 
   const handleIdentifiedChange = (values: string[]) => {
-        setSelectedIdentified(values);
-    };
+    setSelectedIdentified(values);
+  };
 
-  const initialPosition: [number, number] = [60.184230669318474, 24.83009157017735] //Otaniemi
+  const initialPosition: [number, number] = [
+    60.184230669318474, 24.83009157017735,
+  ]; //Otaniemi
 
   /** Client-side filtering (search, category, discovery) */
   const filteredObservations = observations.filter((obs) => {
     const sci = (obs.scientific_name ?? "").toLowerCase();
     const common = (obs.common_name ?? "").toLowerCase();
     const search = searchText.toLowerCase();
-    const identifiedStatus = obs.identified ? 'identified' : 'unidentified';
+    const identifiedStatus = obs.identified ? "identified" : "unidentified";
 
     return (
       (sci.includes(search) || common.includes(search)) &&
       selectedCategories.includes(obs.category) &&
       selectedDiscoveries.includes(obs.discovery) &&
-      (selectedIdentified.length === 0 || selectedIdentified.includes(identifiedStatus))
+      (selectedIdentified.length === 0 ||
+        selectedIdentified.includes(identifiedStatus))
     );
   });
 
@@ -116,21 +129,29 @@ const MyAccount = () => {
           </Form>
         </Col>
 
-        <Col> 
-           <ToggleButtonGroup
-              type="checkbox"
-                value={selectedIdentified}
-                onChange={handleIdentifiedChange}
-                className="mb-2"
-                >
-                {/* Reverse logic here because of backend*/}
-                <ToggleButton id="tbg-check-4" value={'unidentified'} variant="outline-success"> 
-                        Identified
-                    </ToggleButton>
-                    <ToggleButton id="tbg-check-5" value={'identified'} variant="outline-success">
-                        Unidentified
-                </ToggleButton>
-            </ToggleButtonGroup>
+        <Col>
+          <ToggleButtonGroup
+            type="checkbox"
+            value={selectedIdentified}
+            onChange={handleIdentifiedChange}
+            className="mb-2"
+          >
+            {/* Reverse logic here because of backend*/}
+            <ToggleButton
+              id="tbg-check-4"
+              value={"unidentified"}
+              variant="outline-success"
+            >
+              Identified
+            </ToggleButton>
+            <ToggleButton
+              id="tbg-check-5"
+              value={"identified"}
+              variant="outline-success"
+            >
+              Unidentified
+            </ToggleButton>
+          </ToggleButtonGroup>
         </Col>
 
         <Col>
@@ -178,30 +199,30 @@ const MyAccount = () => {
             </Dropdown.Menu>
           </Dropdown>
         </Col>
-
       </Row>
 
       <Row className="mb-4">
-        <Col><ButtonGroup aria-label="View toggle">
+        <Col>
+          <ButtonGroup aria-label="View toggle">
             <Button
-              variant={viewMode === 'cards' ? 'primary' : 'outline-primary'}
-              onClick={() => setViewMode('cards')}
+              variant={viewMode === "cards" ? "primary" : "outline-primary"}
+              onClick={() => setViewMode("cards")}
             >
               Cards
             </Button>
             <Button
-              variant={viewMode === 'map' ? 'primary' : 'outline-primary'}
-              onClick={() => setViewMode('map')}
+              variant={viewMode === "map" ? "primary" : "outline-primary"}
+              onClick={() => setViewMode("map")}
             >
               Map
             </Button>
           </ButtonGroup>
-          </Col>
-          <Col> </Col>
+        </Col>
+        <Col> </Col>
       </Row>
 
       {/* Observations Grid or Map depending on viewMode */}
-      {viewMode === 'cards' ? (
+      {viewMode === "cards" ? (
         loading ? (
           <p>Loading...</p>
         ) : (
@@ -268,14 +289,20 @@ const MyAccount = () => {
             <MapContainer
               center={initialPosition}
               zoom={13}
-              style={{ height: '80vh', width: '100%', borderRadius: '8px' }}
+              style={{ height: "80vh", width: "100%", borderRadius: "8px" }}
             >
               <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
               {filteredObservations.map((obs) => (
-                <Marker key={obs.id} position={[Number(obs?.location?.lat ?? 0), Number(obs?.location?.lng ?? 0)]}>
+                <Marker
+                  key={obs.id}
+                  position={[
+                    Number(obs?.location?.lat ?? 0),
+                    Number(obs?.location?.lng ?? 0),
+                  ]}
+                >
                   {obs.identified ? (
                     <Popup>
                       <strong>Unidentified</strong>

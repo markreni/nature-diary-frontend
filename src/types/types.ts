@@ -14,7 +14,10 @@ type ObservationType = {
   common_name: string;
   description: string;
   date: string;
-  location?: string;
+  location: {
+    lat: number | string;
+    lng: number | string;
+  } | null;
   coordinates?: {
     lat: number;
     lng: number;

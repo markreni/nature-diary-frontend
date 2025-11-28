@@ -1,9 +1,7 @@
 import axios from "axios";
 import type { AxiosResponse } from "axios";
-import type { SuggestionType, ObservationType, ObservationWithLocation } from "../types/types";
+import type { SuggestionType, ObservationWithLocation } from "../types/types";
 import baseURL from "./config";
-
-
 
 let token: string | null = null;
 
@@ -18,7 +16,10 @@ const getConfig = () => ({
 const getSuggestions = async (
   observationId: number
 ): Promise<AxiosResponse<SuggestionType[]>> => {
-  return await axios.get(`${baseURL}api/v1/observations/${observationId}/suggestions`, getConfig());
+  return await axios.get(
+    `${baseURL}api/v1/observations/${observationId}/suggestions`,
+    getConfig()
+  );
 };
 
 const addSuggestion = async (
@@ -34,7 +35,9 @@ const addSuggestion = async (
 
 const acceptSuggestion = async (
   suggestionId: number
-): Promise<AxiosResponse<{ message: string; observation: ObservationWithLocation }>> => {
+): Promise<
+  AxiosResponse<{ message: string; observation: ObservationWithLocation }>
+> => {
   return await axios.put(
     `${baseURL}api/v1/suggestions/${suggestionId}/accept`,
     {},
