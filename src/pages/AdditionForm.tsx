@@ -366,13 +366,7 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
               as="textarea"
               rows={3}
               placeholder="Tell your story"
-              value={
-                typeof observation.location === "string"
-                  ? observation.location
-                  : observation.location
-                  ? `${observation.location.lat}, ${observation.location.lng}`
-                  : ""
-              }
+              value={observation.description}
               onChange={(e) => handleInputChange("description", e.target.value)}
             />
             <Form.Control.Feedback type="invalid">
