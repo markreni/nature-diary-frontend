@@ -370,7 +370,13 @@ const AdditionForm: React.FC<AdditionFormProps> = ({ addObservation }) => {
                     required
                     type="text"
                     placeholder="Move the marker on the map or enter coordinates"
-                    value={observation.location}
+                    value={
+                      typeof observation.location === "string"
+                        ? observation.location
+                        : observation.location
+                        ? `${observation.location.lat}, ${observation.location.lng}`
+                        : ""
+                    }
                     onChange={(e) =>
                       handleInputChange("location", e.target.value)
                     }
