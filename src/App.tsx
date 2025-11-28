@@ -1,10 +1,10 @@
 import Home from "./pages/Home.tsx";
-import { getObservations, createObservation } from "./services/requests.ts";
+import { getObservations } from "./services/requests.ts";
 import AdditionForm from "./pages/AdditionForm.tsx";
 import QuestionForm from "./pages/QuestionForm.tsx";
 import Observations from "./pages/Observations.tsx";
 import UnidentifiedObservations from "./pages/UnidentifiedObservations.tsx";
-import Unidentified from "./pages/Unidentified.tsx";
+
 import MyAccount from "./pages/MyAccount.tsx";
 import NavBar from "./components/NavBar.tsx";
 import ThemeProvider from "react-bootstrap/ThemeProvider";
@@ -24,7 +24,7 @@ import type {
   ObservationType,
 } from "./types/types.ts";
 //import Observation from './components/Observation.tsx'
-import observations from "./observations.ts";
+
 import SignUp from "./pages/SignUpForm.tsx";
 import Login from "./pages/Login.tsx";
 
@@ -38,6 +38,7 @@ import Privacy from "./pages/Privacy.tsx";
 const App = () => {
   const queryClient = useQueryClient();
   const match = useMatch("/observations/:id");
+  console.log("Matched observation ID:", match?.params.id);
 
   const newObservationMutation = useMutation<
     AxiosResponse<IObservationSavedResponse>, // returned data
@@ -97,9 +98,12 @@ const App = () => {
   const identified = data!.filter(
     (obs) => obs.identified === true && obs.public === true
   );
+  console.log("Identified observations:", identified);
   const unidentified = data!.filter((obs) => obs.identified === false);
+  console.log("Unidentified observations:", unidentified);
   // get the observation for the single observation page if the url matches /observations/:id
   const publicObservations = data!.filter((obs) => obs.public === true);
+  console.log("Public observations:", publicObservations);
 
   return (
     <ThemeProvider>
@@ -114,10 +118,7 @@ const App = () => {
               path="/unidentified"
               element={<UnidentifiedObservations />}
             />
-            <Route
-              path="/map"
-              element={<ObservationsMap />}
-            />
+            <Route path="/map" element={<ObservationsMap />} />
             <Route
               path="/questions"
               element={
@@ -142,14 +143,8 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="/privacy"
-              element={<Privacy />}
-            />
-            <Route
-              path="/about"
-              element={<About />}
-            />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/about" element={<About />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
           </Routes>
