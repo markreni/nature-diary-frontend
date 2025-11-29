@@ -296,10 +296,12 @@ const MyAccount = () => {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
               {filteredObservations.map((obs) =>
-                obs.coordinates ? (
+                obs.location && typeof obs.location !== "string" ? (
                   <Marker
-                    key={obs.id}
-                    position={[obs.coordinates.lat, obs.coordinates.lng]}
+                    position={[
+                    Number(obs.location.lat),
+                    Number(obs.location.lng),
+                  ]}
                   >
                     <Popup>
                       {obs.identified ? (
