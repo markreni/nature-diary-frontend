@@ -87,12 +87,10 @@ const UnidentifiedObservations = () => {
 
   return (
     <div>
-      {/* Filters + Search */}
-
       {/* Observations Grid */}
       {loading ? (
         <p>Loading...</p>
-      ) : (
+      ) : observations.length !== 0 ? (
         <Row
           xs={1}
           sm={2}
@@ -111,6 +109,8 @@ const UnidentifiedObservations = () => {
             </Col>
           ))}
         </Row>
+      ) : (
+        <p>All observations are identified.</p>
       )}
 
       {/* Pagination */}

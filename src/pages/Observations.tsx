@@ -86,7 +86,7 @@ const Observations = () => {
     <div>
       {/* Filters + Search */}
       <Row className="mb-4">
-        <Col></Col>
+        
 
         <Col>
           <Form>
@@ -153,7 +153,7 @@ const Observations = () => {
       {/* Observations Grid */}
       {loading ? (
         <p>Loading...</p>
-      ) : (
+      ) : observations.length !== 0 ? (
         <Row
           xs={1}
           sm={2}
@@ -172,7 +172,7 @@ const Observations = () => {
             </Col>
           ))}
         </Row>
-      )}
+      ) : (<p>No public observations yet. Show our community how it is done!</p>)}
 
       {/* Pagination */}
       {observations.length !== 0 && !loading && (
